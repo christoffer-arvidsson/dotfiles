@@ -1,0 +1,5 @@
+* dotfiles
+Hello! These are my dotfiles.
+For installation, read up on stow!
+
+In short, put it all in =~/.dotfiles= and then stow

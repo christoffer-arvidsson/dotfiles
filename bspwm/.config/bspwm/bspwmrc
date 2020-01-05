@@ -1,0 +1,39 @@
+#! /bin/sh
+
+## Startup
+if [ ! -f /tmp/bspwm_startup ]
+then
+    touch /tmp/bspwm_startup
+    # Do startup stuff
+    compton --config ~/.config/compton/compton.conf &
+    polybar -r topbar &
+    polybar -r bottombar &
+    spotify --force-device-scale-factor=1.25 &
+    dunst &
+    blueman-applet &
+    mullvad-vpn &
+    # mullvad-tray &
+    redshift-gtk &
+    sxhkd &
+fi
+
+bspc monitor -d web code II IV V VI VII VIII msg music
+
+bspc config border_width         3
+bspc config window_gap          18
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config single_monocle       true
+
+bspc config focused_border_color "999999"
+
+bspc config focus_follows_pointer false
+
+bspc rule -a Emacs state=tiled
+bspc rule -a Screenkey manage=off
+bspc rule -a rocket.chat+ desktop=^9
+bspc rule -a spotify desktop=^music
+bspc rule -a Zathura state=tiled
+bspc rule -a termite state=tiled
+bspc rule -a steam desktop=^8

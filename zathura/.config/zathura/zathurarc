@@ -1,0 +1,41 @@
+# Base16 NeonRock
+# Author: NeonRock
+
+set default-bg                  "#111111"
+set default-fg                  "#ffffff"
+
+set statusbar-fg                "#dbdbdb"
+set statusbar-bg                "#000000"
+
+set inputbar-bg                 "#101010"
+set inputbar-fg                 "#bfbfbf"
+
+set notification-bg             "#101010"
+set notification-fg             "#bfbfbf"
+
+set notification-error-bg       "#101010"
+set notification-error-fg       "#f8706e"
+
+set notification-warning-bg     "#101010"
+set notification-warning-fg     "#f8706e"
+
+set highlight-color             "#f8706e"
+set highlight-active-color      "#f8706e"
+
+set completion-bg               "#1e1e1e"
+set completion-fg               "#dbdbdb"
+
+set completion-highlight-fg     "#000000"
+set completion-highlight-bg     "#f8706e"
+
+set index-fg                    "#dbdbdb"
+set index-bg                    "#111111"
+
+set index-active-fg             "#000000"
+set index-active-bg             "#f8706e"
+
+set recolor-lightcolor          "#000000"
+set recolor-darkcolor           "#ffffff"
+
+set recolor                     "false"
+set recolor-keephue             "false"

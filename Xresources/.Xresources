@@ -1,0 +1,47 @@
+Xft.dpi: 120
+
+! Base16 NeonRock
+! Scheme: NeonRock
+
+#define base00 #101010
+#define base01 #272727
+#define base02 #313131
+#define base03 #757575
+#define base04 #000000
+#define base05 #dbdbdb
+#define base06 #889ba0
+#define base07 #bfbfbf
+#define base08 #f8706e
+#define base09 #b59f87
+#define base0A #d7c1b9
+#define base0B #8cc994
+#define base0C #99b9ad
+#define base0D #809da1
+#define base0E #b785a1
+#define base0F #c27366
+
+*foreground:   base05
+#ifdef background_opacity
+*background:   [background_opacity]base00
+#else
+*background:   base00
+#endif
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base09
+*color10:      base01
+*color11:      base02
+*color12:      base04
+*color13:      base06
+*color14:      base0F
+*color15:      base07

@@ -1,0 +1,26 @@
+xset r rate 190 25
+xcet +fp /home/eethern/.fonts
+xset fp rehash
+xset -b
+
+source /usr/share/nvm/init-nvm.sh
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+WM=$GDMSESSION
+
+case $WM in
+    bspwm)
+        sh /etc/acpi/brightness.sh &
+        sh ~/.fehbg &
+        sxhkd &
+        ;;
+
+    qtile)
+        sh ~/.fehbg &
+        kitty &
+        ;;
+esac
+
+exec $GDMSESSION
