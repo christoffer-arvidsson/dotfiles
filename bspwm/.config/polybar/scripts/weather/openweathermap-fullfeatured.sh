@@ -36,7 +36,7 @@ get_duration() {
 }
 
 # Source key from file key, KEY =
-source ./key
+source /home/eethern/.dotfiles/bspwm/.config/polybar/scripts/weather/key
 CITY="Göteborg"
 UNITS="metric"
 SYMBOL="°"

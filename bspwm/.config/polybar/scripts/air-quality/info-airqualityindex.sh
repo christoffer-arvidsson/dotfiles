@@ -2,7 +2,7 @@
 
 # Fetch key from file key in same dir
 # TOKEN =
-source ./key
+source /home/eethern/.dotfiles/bspwm/.config/polybar/scripts/air-quality/key
 
 CITY=""
 
