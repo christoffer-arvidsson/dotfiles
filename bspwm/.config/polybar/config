@@ -92,7 +92,7 @@ wm-restack = bspwm
 [module/vpn-openvpn-status]
 type = custom/script
 exec = /home/eethern/.config/polybar/scripts/vpn/vpn-openvpn-status.sh
-interval = 1
+interval = 5
 
 [module/do-not-disturb]
 type = custom/script

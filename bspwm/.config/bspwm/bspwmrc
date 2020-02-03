@@ -24,7 +24,7 @@ bar_compensation=44
 
 bspc monitor -d web code II IV V VI VII VIII msg music
 
-bspc config border_width         0
+bspc config border_width         3
 
 bspc config window_gap           $inner_gap
 bspc config top_padding          $((-inner_gap+outer_gap_vert+bar_compensation))

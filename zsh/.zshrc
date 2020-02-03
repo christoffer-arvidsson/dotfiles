@@ -110,3 +110,6 @@ alias dotfiles="/home/eethern/.dotfiles/"
 alias lc='colorls --sd'
 
 eval $(thefuck --alias)
+
+# Load nvm
+[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
