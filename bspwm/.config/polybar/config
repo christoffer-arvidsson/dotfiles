@@ -8,10 +8,11 @@ bottom-foreground = #90ffffff
 primary = #ffb52a
 secondary = #e60053
 shaded = #15ffffff
-alert = #bd2c40
+alert = #eddd74
 highlight = #d9583c
 soft-highlight = #ff6b68
 positive = #4fb069
+inactive = #33ffffff
 
 [bar/topbar]
 monitor = ${env:MONITOR:eDP-1}
@@ -44,7 +45,7 @@ font-3 = Material\-Design\-Iconic\-Font:size=18;2
 
 modules-left = player-mpris-simple bluetooth bluetooth-menu
 ;modules-center =
-modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan eth battery date time
+modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
 
 tray-position = left
 tray-padding = 10
@@ -78,8 +79,8 @@ padding-right = 5
 module-margin-left = 2
 module-margin-right = 2
 
-font-0 = Weather Icons:size=14;1
-font-1 = Monaco for Powerline:size=12;2
+font-0 = Weather Icons:size=10;1
+font-1 = Monaco for Powerline:size=13;2
 font-2 = FontAwesome:size=14;2
 font-3 = Material\ Icons:size=12
 
@@ -156,22 +157,33 @@ reverse-scroll = false
 ; Default: false
 fuzzy-match = true
 
-format = <label-state>
-ws-icon-0 = code;♚
-ws-icon-1 = office;♛
-ws-icon-2 = graphics;♜
-ws-icon-3 = mail;♝
-ws-icon-4 = spotify;
-ws-icon-default = ♟
+format = | <label-state> |
+label-focused-font = 2
+label-occupied-font = 2
+label-empty-font = 2
+label-urgent-font = 2
+ws-icon-1 = web;
+ws-icon-2 = code;
+ws-icon-3 = opt1;
+ws-icon-4 = opt2;
+ws-icon-5 = opt3;
+ws-icon-6 = opt4;
+ws-icon-7 = opt5;
+ws-icon-8 = opt6;
+ws-icon-9 = msg;
+ws-icon-0 = music;
+ws-icon-default = 
 
-label-focused = "  "
+label-focused = %icon%
 label-focused-foreground = ${colors.soft-highlight}
-label-occupied ="  "
-label-urgent = "  "
-label-urgent-background = ${colors.highlight}
-label-empty = "  "
+label-occupied = %icon%
+label-urgent = %icon%
+label-urgent-foreground = ${colors.alert}
+label-empty = %icon%
+label-empty-foreground = ${colors.inactive}
 
-label-separator-padding = 5
+label-separator-padding = 1
+label-separator = "|"
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%

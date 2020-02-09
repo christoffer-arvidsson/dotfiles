@@ -22,7 +22,7 @@ outer_gap_vert=10
 outer_gap_hori=20
 bar_compensation=44
 
-bspc monitor -d web code II IV V VI VII VIII msg music
+bspc monitor -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
 
 bspc config border_width         3
 
