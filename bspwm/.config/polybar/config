@@ -43,7 +43,7 @@ font-1 = FontAwesome:size=14;2
 font-2 = Material Design Icons:size=14;2
 font-3 = Material\-Design\-Iconic\-Font:size=18;2
 
-modules-left = player-mpris-simple bluetooth bluetooth-menu
+modules-left = player-mpris-simp bluetooth-menu
 ;modules-center =
 modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
 
@@ -124,6 +124,7 @@ type = custom/script
 exec = ~/.config/polybar/scripts/spotify/player-mpris.sh
 interval = 3
 format-prefix = " "
+label-maxlen = 40
 click-left = playerctl play-pause
 
 [module/bspwm]
