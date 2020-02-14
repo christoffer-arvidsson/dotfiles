@@ -1,29 +1,29 @@
 html#main-window {
   --color-bg: #111111;
-    --toolbar-bgcolor: var(--color-bg) !important;
+  --toolbar-bgcolor: var(--color-bg) !important;
 
-    --gap-between-tabs: 5px;
-    --margin-after-tab-list: 8x;
-    --margin-before-tab-list: 8px;
-    --tab-font: "Monaco", sans-serif;
-    --tab-font-weight: 400;
-    --tab-height: 32px;
-    --tabs-container-height: 140px;
+  --gap-between-tabs: 5px;
+  --margin-after-tab-list: 8x;
+  --margin-before-tab-list: 8px;
+  --tab-font: "Monaco", sans-serif;
+  --tab-font-weight: 400;
+  --tab-height: 32px;
+  --tabs-container-height: 140px;
 
-    --urlbar-container-margin: 5px;
-    --urlbar-list-width: 60%;
-    --urlbar-text-font: "mononoki Nerd Font", sans-serif;
-    --urlbar-text-size: 14pt;
-    --urlbar-text-weight: 400;
+  --urlbar-container-margin: 5px;
+  --urlbar-list-width: 60%;
+  --urlbar-text-font: "mononoki Nerd Font", sans-serif;
+  --urlbar-text-size: 14pt;
+  --urlbar-text-weight: 400;
 
-    /* Firefox variables */
-    --lwt-toolbar-field-focus-color: #8cc994 !important;
-    --lwt-toolbar-field-color: #dbdbdb !important;
-    --lwt-toolbar-field-background-color: var(--color-bg) !important;
+  /* Firefox variables */
+  --lwt-toolbar-field-focus-color: #8cc994 !important;
+  --lwt-toolbar-field-color: #dbdbdb !important;
+  --lwt-toolbar-field-background-color: var(--color-bg) !important;
 
-    --arrowpanel-background: #101010 !important;
-    --arrowpanel-color: white !important;
-    --arrowpanel-border-color: transparent !important;
+  --arrowpanel-background: #101010 !important;
+  --arrowpanel-color: white !important;
+  --arrowpanel-border-color: transparent !important;
 }
 
 /* This positions the tabs under the navaigator container */
