@@ -1,0 +1,11 @@
+[Unit]
+Description=Doom Emacs: the extensible, self-documenting text editor
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --with-profile doom --daemon=doom_server
+ExecStop=/usr/bin/emacsclient --eval "(evil-save-and-quit)"
+Restart=always
+
+[Install]
+WantedBy=default.target

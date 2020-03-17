@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Spacemacs Emacs Client
+Name=Doom Emacs Client
 GenericName=Text Editor
-Comment=Spacemacs configuration for Emacs
+Comment="Doom configuration for Emacs
 Icon=emacs
-Exec=emacsclient -c
+Exec=emacsclient -s doom_server -c
 TryExec=emacs
 Terminal=false
 Type=Application
