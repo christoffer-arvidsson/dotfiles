@@ -162,6 +162,10 @@ super + ctrl + s
 super + ctrl + r
   tdrop -h 500 -w 1000 -x 1542 -y 42 -n 3 -a --name ranger -f '-e ranger' kitty
 
+# Bitwarden rofi
+super + shift + o
+  bwmenu
+
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
   xfce4-screenshooter {-c -r,-r}
