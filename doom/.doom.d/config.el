@@ -21,8 +21,8 @@
       "W s" '+workspace/save
       "W S" '+workspace/save-session
       "W ." '+workspace/switch-to
-      "W X" '+workspace/kill-session))
-      "W TAB" '+workspace/other
+      "W X" '+workspace/kill-session
+      "W TAB" '+workspace/other)
 
       ;; These bindings deal with new workspace switching
 
