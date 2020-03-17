@@ -9,32 +9,36 @@
 (setq user-full-name "Christoffer Arvidsson"
       user-mail-address "christoffer@arvidson.nu")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Keybindings
+(map! :leader
+      "TAB" 'evil-switch-to-windows-last-buffer ; Switch to last buffer
+      "v"   'er/expand-region ; Quick way to highlight blocks
+      ; Bindings for workspaces
+      "W n" '+workspace/new
+      "W W" '+workspace/display
+      "W l" '+workspace/load
+      "W L" '+workspace/load-session
+      "W s" '+workspace/save
+      "W S" '+workspace/save-session
+      "W ." '+workspace/switch-to
+      "W X" '+workspace/kill-session))
+      "W TAB" '+workspace/other
+
+      ;; These bindings deal with new workspace switching
+
+;; Configure treemacs
+(after! treemacs
+  (setq treemacs-use-follow-mode t
+        treemacs-use-filewatch-mode t
+        treemacs-use-collapsed-directories 3))
+(map! "S-<backspace>" 'treemacs)
+
+;; MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(load! "+ui")  ; Contains ui modifications
+(load! "+org")  ; Contains org modifications
+;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 14))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-horizon)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
-
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
