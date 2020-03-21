@@ -30,4 +30,5 @@
         centaur-tabs-set-icons t
         centaur-tabs-height 102
         centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-set-modified-marker t
         centaur-tabs-plain-icons t))
