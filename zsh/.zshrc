@@ -106,8 +106,10 @@ export KEYTIMEOUT=1
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# 
 alias dotfiles="/home/eethern/.dotfiles/"
 alias lc='colorls --sd'
+alias doom='/home/eethern/doom-emacs/bin/doom'
 
 eval $(thefuck --alias)
 
