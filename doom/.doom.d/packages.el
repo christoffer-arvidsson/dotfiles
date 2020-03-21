@@ -3,6 +3,8 @@
 
 (package! ix)               ; Pastebin alternative
 (package! org-super-agenda) ; Super agenda for even more agenda power!
+(package! org-ref)          ; Helps with references
+(package! org-drill)        ; Anki for org mode (flashcards)
 
 ;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
