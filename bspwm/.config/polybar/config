@@ -39,11 +39,13 @@ module-margin-left = 1
 module-margin-right = 1
 
 font-0 = Monaco for Powerline:size=13;2
-font-1 = FontAwesome:size=14;2
-font-2 = Material Design Icons:size=14;2
-font-3 = Material\-Design\-Iconic\-Font:size=18;2
+font-1 = FontAwesome5Free:style=Regular:size=12;2
+font-2 = FontAwesome5Free:style=Solid:size=12;2
+font-3 = FontAwesome5Brands:size=12;2
+font-4 = Material Design Icons:size=14;2
+font-5 = Material\-Design\-Iconic\-Font:size=18;2
 
-modules-left = player-mpris-simp bluetooth-menu
+modules-left = player-mpris-simp bluetooth-menu corona-sweden
 ;modules-center =
 modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
 
@@ -489,3 +491,9 @@ type = custom/script
 exec = ~/.config/polybar/scripts/air-quality/info-airqualityindex.sh
 label-font = 5
 interval = 600
+
+[module/corona-sweden]
+type = custom/script
+exec = ~/.config/polybar/scripts/corona/get_sweden_daily.sh
+label-font = 1
+interval = 3600
