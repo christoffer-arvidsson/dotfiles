@@ -24,11 +24,11 @@
 (setq display-line-numbers-type 'relative)
 
 ;; Configure centaur tabs
-(after! tabs
-  (setq centaur-tabs-style "bar"
-        centaur-tabs-set-bar 'under
-        centaur-tabs-set-icons t
-        centaur-tabs-height 102
-        centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-plain-icons t))
+;; (after! tabs
+;;   (setq centaur-tabs-style "bar"
+;;         centaur-tabs-set-bar 'under
+;;         centaur-tabs-set-icons t
+;;         centaur-tabs-height 102
+;;         centaur-tabs-cycle-scope 'tabs
+;;         centaur-tabs-set-modified-marker t
+;;         centaur-tabs-plain-icons t))

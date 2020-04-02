@@ -33,6 +33,16 @@
         treemacs-use-collapsed-directories 3))
 (map! "S-<backspace>" 'treemacs)
 
+;; Configure latex
+(after! latex
+  (set-company-backend! 'latex-mode t)
+  (setq-default TeX-master 'nil)) ; Ask for master file on latexmk
+
+;; Completion settings
+(require 'company)
+(setq company-idle-delay 0.1
+      company-minimum-prefix-length 3)
+
 ;; MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 (load! "+ui")  ; Contains ui modifications
 (load! "+org")  ; Contains org modifications

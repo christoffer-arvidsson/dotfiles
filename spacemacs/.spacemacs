@@ -43,10 +43,13 @@ values."
      html
      java
      javascript
-     latex
+     (latex :variables latex-enable-auto-fill t))
      markdown
-     (org :variables org-enable-github-support t
+
+     (org :variables
+          org-enable-github-support t
           org-enable-reveal-js-support t)
+
      python
      ranger
      react
