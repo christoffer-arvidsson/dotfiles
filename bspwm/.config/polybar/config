@@ -15,7 +15,7 @@ positive = #4fb069
 inactive = #33ffffff
 
 [bar/topbar]
-monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:eDP1}
 enable-ipc = true
 width = 100%
 height = 20
