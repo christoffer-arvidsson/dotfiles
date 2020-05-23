@@ -40,12 +40,20 @@
 
 ;; Completion settings
 (require 'company)
-(setq company-idle-delay 0.1
-      company-minimum-prefix-length 3)
+(setq company-idle-delay 0.0
+      company-minimum-prefix-length 1)
+
+;; Configure python
+(map! :map python-mode-map
+      :localleader
+      "c" 'python-shell-send-buffer
+      "r" 'run-python)
+
 
 ;; MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 (load! "+ui")  ; Contains ui modifications
-(load! "+org")  ; Contains org modifications
+(load! "+org") ; Contains org modifications
+(load! "+lsp") ; Contains lsp modifications
 ;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ;;

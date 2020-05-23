@@ -115,5 +115,15 @@ alias doom='/home/eethern/doom-emacs/bin/doom'
 
 eval $(thefuck --alias)
 
+export EDITOR=nvim
+
+# Pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
 # Load nvm
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
+
+# Autojump
+source /usr/share/autojump/autojump.zsh

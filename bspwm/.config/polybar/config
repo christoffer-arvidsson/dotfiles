@@ -45,7 +45,7 @@ font-3 = FontAwesome5Brands:size=12;2
 font-4 = Material Design Icons:size=14;2
 font-5 = Material\-Design\-Iconic\-Font:size=18;2
 
-modules-left = player-mpris-simp bluetooth-menu corona-sweden
+modules-left = spotify bluetooth-menu
 ;modules-center =
 modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
 
@@ -119,6 +119,7 @@ menu-1-0-exec = exec /home/eethern/.config/polybar/scripts/bluetooth/toggle_conn
 
 [module/bluetooth]
 type = custom/script
+format-prefix = ""
 exec = /home/eethern/.config/polybar/scripts/bluetooth/status.sh
 
 [module/player-mpris-simple]
@@ -128,6 +129,21 @@ interval = 3
 format-prefix = " "
 label-maxlen = 40
 click-left = playerctl play-pause
+
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = " "
+format = <label>
+exec = ~/.config/polybar/scripts/spotify/awesome-spotify.py -f '{artist}: {song}'
+format-underline = #1db954
+
+
+[module/bspwm-windows]
+type = custom/script
+interval = 1
+format = <label>
+exec = ~/.config/polybar/scripts/bspwm/curr_windows.sh
 
 [module/bspwm]
 type = internal/bspwm
@@ -496,4 +512,4 @@ interval = 600
 type = custom/script
 exec = ~/.config/polybar/scripts/corona/get_sweden_daily.sh
 label-font = 1
-interval = 3600
+interval = 100

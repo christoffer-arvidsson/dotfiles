@@ -14,3 +14,8 @@
   (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
   (setq org-latex-prefer-user-labels t)
 
+(after! spell
+  ; Make spellcheck faster
+  (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode)
+  (setq enable-flyspell-auto-completion t)
+  )
