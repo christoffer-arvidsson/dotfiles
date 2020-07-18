@@ -53,7 +53,7 @@
 ;; MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 (load! "+ui")  ; Contains ui modifications
 (load! "+org") ; Contains org modifications
-(load! "+lsp") ; Contains lsp modifications
+;(load! "+lsp") ; Contains lsp modifications
 ;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ;;
