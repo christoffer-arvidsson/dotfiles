@@ -15,6 +15,7 @@
       "v"   'er/expand-region ; Quick way to highlight blocks
       ; Bindings for workspaces
       "W n" '+workspace/new
+      "W d" '+workspace/delete
       "W W" '+workspace/display
       "W l" '+workspace/load
       "W L" '+workspace/load-session
@@ -25,6 +26,18 @@
       "W TAB" '+workspace/other)
 
       ;; These bindings deal with new workspace switching
+
+;; Evilmotion
+(after! evil-easymotion
+  (put 'visible-buffer 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
+  (evilem-make-motion evilem-motion-forward-word-begin #'evil-forward-word-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-WORD-begin #'evil-forward-WORD-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-word-end #'evil-forward-word-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-WORD-end #'evil-forward-WORD-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-word-begin #'evil-backward-word-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-WORD-begin #'evil-backward-WORD-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-word-end #'evil-backward-word-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible-buffer))
 
 ;; Configure treemacs
 (after! treemacs
@@ -49,12 +62,24 @@
       "c" 'python-shell-send-buffer
       "r" 'run-python)
 
+;; Surround magic
+(after! evil-surround
+  (let ((pairs '((?g "$" . "$")
+                 (?h "(" . ")")
+                 (?j "[" . "]")
+                 (?k "{" . "}")
+                 (?l "<" . ">")
+                 (?ø "'" . "'")
+                 (?æ "\"" . "\""))))
+    (prependq! evil-surround-pairs-alist pairs)
+    (prependq! evil-embrace-evil-surround-keys (mapcar #'car pairs))))
 
 ;; MODULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 (load! "+ui")  ; Contains ui modifications
 (load! "+org") ; Contains org modifications
 ;(load! "+lsp") ; Contains lsp modifications
-;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(load! "+deploy")
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ;;
 ;; Here are some additional functions/macros that could help you configure Doom:

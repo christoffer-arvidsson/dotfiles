@@ -18,9 +18,12 @@ then
 fi
 
 inner_gap=30
+inner_gap=10
 outer_gap_vert=10
 outer_gap_hori=20
 bar_compensation=44
+outer_gap_hori=10
+bar_compensation=10
 
 bspc monitor -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
 

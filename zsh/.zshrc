@@ -127,3 +127,5 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # Autojump
 source /usr/share/autojump/autojump.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

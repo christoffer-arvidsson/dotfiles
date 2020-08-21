@@ -19,6 +19,14 @@ super + Escape
 #
 # bspwm hotkeys
 #
+#
+
+super + alt + {_,shift + }{1-9,0}
+    bspc {desktop -f, window -d} $(bspc query -M -m)/{a,b,c}
+
+# Next monitor
+alt + w
+        bspc monitor -f next
 
 # Restart/quit bspwm
 super + alt + {_, shift} + Escape

@@ -62,7 +62,7 @@ enable-ipc = true
 width = 100%
 height = 25
 offset-x = 0
-offset-y = 10
+offset-y = 5
 radius = 0.0
 fixed-center = true
 bottom = true
@@ -81,7 +81,7 @@ padding-right = 5
 module-margin-left = 2
 module-margin-right = 2
 
-font-0 = Monaco for Powerline:size=12
+font-0 = Monaco for Powerline:size=13
 font-1 = FontAwesome:size=14;2
 font-2 = Material\ Icons:size=12
 
@@ -239,7 +239,7 @@ format = <ramp> <bar>
 ramp-0 = 
 ramp-font = 2
 
-bar-width = 6
+bar-width = 5
 bar-indicator = 
 bar-indicator-foreground = ${colors.soft-highlight}
 bar-indicator-font = 4
@@ -376,7 +376,7 @@ label-muted-foreground = ${colors.soft-highlight}
 label-muted = "muted"
 label-muted-font = 1
 
-bar-volume-width = 6
+bar-volume-width = 5
 bar-volume-foreground-0 = ${colors.soft-highlight}
 bar-volume-foreground-1 = ${colors.soft-highlight}
 bar-volume-foreground-2 = ${colors.soft-highlight}
