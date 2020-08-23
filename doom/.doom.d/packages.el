@@ -3,11 +3,13 @@
 
 (package! ix)               ; Pastebin alternative
 (package! yaml-mode)        ; Yaml my way downtown
+(package! darkburn-theme)
 
 (when (package! org)
   (package! org-super-agenda) ; Super agenda for even more agenda power!
-  (package! org-refs)          ; Helps with references
-  (package! org-drill))       ; Anki for org mode (flashcards)
+  ;; (package! org-refs)          ; Helps with references
+  ;; (package! org-drill))       ; Anki for org mode (flashcards)
+  )
 
 ;(when (package! lsp)
   ;(package! lsp-ui)

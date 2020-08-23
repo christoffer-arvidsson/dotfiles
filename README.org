@@ -1,5 +1,18 @@
 * dotfiles
-Hello! These are my dotfiles.
-For installation, read up on stow!
+Hello! This is the ever changing mess that are my dotfiles.
 
-In short, put it all in =~/.dotfiles= and then stow
+- *WM*: BSPWM
+- *OS*: Arch Linux
+- *Bar*: Polybar
+- *Shell*: zsh
+- *Terminal*: kitty
+- *Editor*: Doom Emacs / Neovim
+- *File manager*: ranger
+- *Launcher*: rofi
+- *Browser*: firefox
+- *Notification daemon*: Dunst
+- *Compositor*: picom
+
+* Install
+Most of these are installable by using =stow=. Configs stored outside of the home
+directory should be manually moved until I make a script for it.

@@ -6,6 +6,8 @@
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 # Set keymap for xdotool
-setxkbmap $(setxkbmap -query | grep layout: | sed 's/layout: //g')
+setxkbmap se
+xrandr --output eDP1 --auto
 
 ~/.fehbg &
+exec bspwm
