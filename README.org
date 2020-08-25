@@ -1,6 +1,10 @@
 * dotfiles
 Hello! This is the ever changing mess that are my dotfiles.
 
+#+CAPTION: The current look
+#+NAME:   fig:current
+[[./.img/current.png]]
+
 - *WM*: BSPWM
 - *OS*: Arch Linux
 - *Bar*: Polybar
