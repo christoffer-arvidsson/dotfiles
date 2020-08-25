@@ -286,21 +286,6 @@
 # NOTE: It might be helpful to run dunst -print in a terminal in order
 # to find fitting options for rules.
 
-[base16_low]
-    msg_urgency = low
-    background = "#272727"
-    foreground = "#757575"
-
-[base16_normal]
-    msg_urgency = normal
-    background = "#313131"
-    foreground = "#dbdbdb"
-
-[base16_critical]
-    msg_urgency = critical
-    background = "#f8706e"
-    foreground = "#889ba0"
-
 # [base16_low]
 #     msg_urgency = low
 #     background = "#272727"
@@ -315,6 +300,24 @@
 #     msg_urgency = critical
 #     background = "#f8706e"
 #     foreground = "#889ba0"
+#
+frame_color = "#dbdbdb"
+separator_color = "#dbdbdb"
+
+[base16_low]
+    msg_urgency = low
+    background = "#1c1e26"
+    foreground = "#7b7c80"
+
+[base16_normal]
+    msg_urgency = normal
+    background = "#292a49"
+    foreground = "#dbdbdb"
+
+[base16_critical]
+    msg_urgency = critical
+    background = "#e1986d"
+    foreground = "#dbcbba"
 
 [Spotify]
     appname = Spotify

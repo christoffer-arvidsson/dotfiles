@@ -5,8 +5,8 @@
 (setq org-directory "~/Projects/org/")
 
 ;, Org drill ~ Anki flashcards for org mode
-(use-package org-drill
-  :after org)
+;; (use-package org-drill
+;;   :after org)
 
 (after! org
   (setq org-hide-emphasis-markers t)

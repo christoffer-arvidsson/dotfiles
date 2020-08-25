@@ -1,12 +1,17 @@
 xset r rate 190 25
-xcet +fp /home/eethern/.fonts
+xset +fp /home/eethern/.fonts
 xset fp rehash
 xset -b
 
-source /usr/share/nvm/init-nvm.sh
+setxkbmap se
+#xrandr --output eDP1 --auto
+
+# source /usr/share/nvm/init-nvm.sh
+
+# Make sure this is before the 'exec' comand or it won'b be sourced
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-export _JAVA_AWT_WM_NONREPARENTING=1
+# export _JAVA_AWT_WM_NONREPARENTING=1
 
 WM=$GDMSESSION
 

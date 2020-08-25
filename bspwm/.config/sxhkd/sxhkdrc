@@ -73,16 +73,16 @@ super + {_,shift + }{h,j,k,l}
     bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
+super + {p,b,comma,per od}
     bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }Tab
-    bspc node -f {next,prev}.local
+    bspc node -f {next,prev}.local.leaf
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
-    bspc desktop -f {prev,next}.local
+    bspc desktop -f {prev,next}.local.leaf
 
 # focus the last node/desktop
 # super + {grave,Tab}
