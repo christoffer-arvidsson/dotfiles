@@ -50,7 +50,7 @@ font-0 = iosevka:size=14
 font-1 = FontAwesome:size=14;2
 font-2 = Material\ Icons:size=14
 
-modules-left = spotify bluetooth-menu
+modules-left = spotify bluetooth-menu bluetooth
 ;modules-center = bspwm
 modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
 
@@ -110,8 +110,8 @@ click-left = exec /home/eethern/.config/polybar/scripts/do_not_disturb/do_not_di
 [module/bluetooth-menu]
 type = custom/menu
 expand-right = true
-label-open = Bluetooth
-label-close = [Close]
+label-open = " %{F#ff95b4e6}:"
+label-close = " %{F#ff95b4e6}: [Close]"
 label-separator = " | "
 
 menu-0-0 = Toggle
@@ -124,7 +124,7 @@ menu-1-0-exec = exec /home/eethern/.config/polybar/scripts/bluetooth/toggle_conn
 
 [module/bluetooth]
 type = custom/script
-format-prefix = ""
+;format-prefix =
 exec = /home/eethern/.config/polybar/scripts/bluetooth/status.sh
 
 [module/player-mpris-simple]

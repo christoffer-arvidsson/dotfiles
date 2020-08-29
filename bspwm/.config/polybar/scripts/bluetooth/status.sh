@@ -6,10 +6,10 @@ if [ $onoff = "yes" ]
 then
     if [ ! "$name" ]
     then
-        echo "%{F#ffffffff}"
+        echo "%{F#ff95b4e6}on"
     else
-        echo "%{F#ff95b4e6} ${name}"
+        echo "%{F#ff95b4e6}${name}"
     fi
 else
-    echo "%{F#66ffffff}"
+    echo ""
 fi
