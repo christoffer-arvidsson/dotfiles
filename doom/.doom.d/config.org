@@ -1,0 +1,271 @@
+#+TITLE: Doom Config
+#+PROPERTY: header-args:elisp :tangle yes :cache yes :results silent :padline no
+#+EXPORT_FILE_NAME: README.md
+#+STARTUP: showeverything
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
+# End:
+
+* LEXICAL BINDING
+#+BEGIN_SRC elisp
+;;; config.el --- -*- lexical-binding: t -*-
+#+END_SRC
+* PERSONAL INFORMATION
+Some functionality uses this to identify you, e.g. GPG configuration, email
+clients, file templates and snippets.
+#+BEGIN_SRC elisp
+(setq user-full-name "Christoffer Arvidsson"
+      user-mail-address "christoffer@arvidson.nu")
+#+END_SRC
+
+* UI
+** THEME
+There are two ways to load a theme. Both assume the theme is installed and
+available. You can either set `doom-theme' or manually load a theme with the
+`load-theme' function. Here we set the doom-horizon theme.
+ #+begin_src elisp
+(setq doom-theme 'doom-horizon
+      doom-themes-enable-bold t
+      doom-themes-enable-italic t)
+ #+end_src
+** FONT
+Doom exposes five (optional) variables for controlling fonts in Doom. Here
+are the three important ones:
+
++ `doom-font'
++ `doom-variable-pitch-font'
++ `doom-big-font' -- used for `doom-big-font-mode'; use this for
+  presentations or streaming.
+
+They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+font string. You generally only need these two:
+ #+begin_src elisp
+(setq doom-font (font-spec :family "iosevka" :size 18))
+ #+end_src
+** LINE NUMBERS
+This determines the style of line numbers in effect. If set to `nil', line
+numbers are disabled. For relative line numbers, set this to `relative'.
+#+begin_src elisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+* MODES
+** ORG MODE
+*** General org settings
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
+#+BEGIN_SRC elisp
+(setq org-directory "~/Projects/org/")
+#+END_SRC
+#+begin_src elisp
+(after! org
+  ;; Make ** into BOLD
+  (setq org-hide-emphasis-markers t)
+
+  ;; Fix org export bibliography
+  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")i)
+  (setq org-latex-prefer-user-labels t)
+
+  ;; Change screenshot backend of org-download (it now uses scrot!)
+  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
+  ;; (setq org-download-method `directory)
+
+  ;; Make agenda always show +7 days forward
+  (setq org-agenda-start-on-weekday nil)
+  (setq ob-mermaid-cli-path "/usr/bin/mmdc")
+
+  ;; Show habit tracker!
+  (setq org-habit-show-habits t))
+#+end_src
+*** Org drill
+Org drill ~ Anki flashcards for org mode
+#+begin_src elisp
+(use-package! org-drill
+  :after org)
+#+end_src
+
+*** Elfeed
+Read your rss in emacs!
+#+begin_src elisp
+(after! elfeed-org
+  (elfeed-org)
+  (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
+  (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
+  )
+#+end_src
+*** Spell optimization
+Speedup spell in org mode
+#+begin_src elisp
+(after! spell
+  (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode()
+               (setq enable-flyspell-auto-completion t)
+               ))
+#+end_src
+*** Super agenda
+#+begin_src elisp
+  ;; SOURCE: from https://github.com/zaen323
+  (after! org-super-agenda
+    (setq org-agenda-time-grid '((daily today require-timed) "----------------------" nil))
+    (setq org-agenda-skip-scheduled-if-done t)
+    (setq org-agenda-skip-deadline-if-done t)
+    (setq org-agenda-include-deadlines t)
+    (setq org-agenda-include-diary t)
+    (setq org-agenda-block-separator nil)
+    (setq org-agenda-compact-blocks nil)
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-agenda-custom-commands
+          '(("z" "Super agenda!"
+             ((agenda "" ((org-agenda-span 'day)
+                          (org-super-agenda-groups
+                           '((:name "Today"
+                              :time-grid t
+                              :date today
+                              :todo "TODAY"
+                              :scheduled today
+                              :order 1)))))
+              (alltodo "" ((org-agenda-overriding-header "")
+                           (org-super-agenda-groups
+                            '((:name "Next to do"
+                               :todo "NEXT"
+                               :order 1)
+                              (:name "Important"
+                               :tag "Important"
+                               :priority "A"
+                               :order 6)
+                              (:name "Due Today"
+                               :deadline today
+                               :order 2)
+                              (:name "Due Soon"
+                               :deadline future
+                               :order 8)
+                              (:name "Overdue"
+                               :deadline past
+                               :order 7)
+                              (:name "Assignments"
+                               :tag "Assignment"
+                               :order 10)
+                              (:name "Issues"
+                               :tag "Issue"
+                               :order 12)
+                              (:name "Projects"
+                               :tag "Project"
+                               :order 14)
+                              (:name "Emacs"
+                               :tag "Emacs"
+                               :order 13)
+                              (:name "Research"
+                               :tag "Research"
+                               :order 15)
+                              (:name "To read"
+                               :tag "Read"
+                               :order 30)
+                              (:name "Exercises"
+                               :tag "Exercise"
+                               :order 31)
+                              (:name "Waiting"
+                               :todo "WAITING"
+                               :order 20)
+                              (:name "trivial"
+                               :priority<= "C"
+                               :tag ("Trivial" "Unimportant")
+                               :todo ("SOMEDAY" )
+                               :order 90)
+                              (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+    )
+
+  (defun my-open-calendar ()
+    (interactive)
+    (cfw:open-calendar-buffer
+     :contents-sources
+     (list
+      (cfw:org-create-source "Green")  ; orgmode source
+      ;; (cfw:ical-create-source "Moon" "/home/eethern/Projects/course/master/mphpc1.ics" "Gray")  ; ICS source1
+      (cfw:ical-create-source "gcal" "https://cloud.timeedit.net/chalmers_test/web/public/ri6Xn0gQ5560YZQQ55Z6973Y00y80074Q5Y64Q587v530Z62.ics" "IndianRed")
+      )))
+#+end_src
+** LATEX
+#+BEGIN_SRC elisp
+(after! latex
+  (set-company-backend! 'latex-mode t)
+  (setq-default TeX-master 'nil)) ; Ask for master file on latexmk
+#+END_SRC
+
+** PYTHON
+Configure python
+#+begin_src elisp
+(map! :map python-mode-map
+      :localleader
+      "c" 'python-shell-send-buffer
+      "r" 'run-python)
+#+end_src
+* EDITOR
+** COMPLETION
+Completion settings
+#+begin_src elisp
+(require 'company)
+(setq company-idle-delay 0.0
+      company-minimum-prefix-length 1)
+#+end_src
+** EVIL SURROUND
+#+begin_src elisp
+;; Surround magic
+(after! evil-surround
+  (let ((pairs '((?g "$" . "$")
+                 (?h "(" . ")")
+                 (?j "[" . "]")
+                 (?k "{" . "}")
+                 (?l "<" . ">")
+                 (?ø "'" . "'")
+                 (?æ "\"" . "\""))))
+    (prependq! evil-surround-pairs-alist pairs)
+    (prependq! evil-embrace-evil-surround-keys (mapcar #'car pairs))))
+#+end_src
+** EVIL MOTION
+#+begin_src elisp
+(after! evil-easymotion
+  (put 'visible-buffer 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
+  (evilem-make-motion evilem-motion-forward-word-begin #'evil-forward-word-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-WORD-begin #'evil-forward-WORD-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-word-end #'evil-forward-word-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-forward-WORD-end #'evil-forward-WORD-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-word-begin #'evil-backward-word-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-WORD-begin #'evil-backward-WORD-begin :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-word-end #'evil-backward-word-end :scope 'visible-buffer)
+  (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible-buffer))
+#+end_src
+
+** TREEMACS
+Configure treemacs
+#+begin_src elisp
+(after! treemacs
+  (setq treemacs-use-follow-mode t
+        treemacs-use-filewatch-mode t
+        treemacs-use-collapsed-directories 3))
+(map! "S-<backspace>" 'treemacs)
+#+end_src
+
+* KEYBINDINGS
+Change switch to last buffer to leader+TAB
+#+BEGIN_SRC elisp
+(map! :leader
+      "TAB" 'evil-switch-to-windows-last-buffer)
+#+END_SRC
+
+Change the workspace bindings to use M-§ instead
+#+BEGIN_SRC elisp
+(map! :leader
+      "TAB" 'evil-switch-to-windows-last-buffer ; Switch to last buffer
+      "v"   'er/expand-region ; Quick way to highlight blocks
+      ; Bindings for workspaces
+      "W n" '+workspace/new
+      "W d" '+workspace/delete
+      "W W" '+workspace/display
+      "W l" '+workspace/load
+      "W L" '+workspace/load-session
+      "W s" '+workspace/save
+      "W S" '+workspace/save-session
+      "W ." '+workspace/switch-to
+      "W X" '+workspace/kill-session
+      "W TAB" '+workspace/other)
+#+END_SRC
+

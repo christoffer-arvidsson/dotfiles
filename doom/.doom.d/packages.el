@@ -3,19 +3,24 @@
 
 (package! ix)               ; Pastebin alternative
 (package! yaml-mode)        ; Yaml my way downtown
-(package! darkburn-theme)
+(package! keychain-environment) ; Manage ssh and gpg keys
 
 (when (package! org)
   (package! org-super-agenda) ; Super agenda for even more agenda power!
-  ;; (package! org-refs)          ; Helps with references
-  ;; (package! org-drill))       ; Anki for org mode (flashcards)
+  (package! ob-mermaid)       ; Graphs in org mode using babel
+  (package! org-ref)          ; Helps with references
+  (package! org-drill)        ; Anki for org mode (flashcards)
+  ;; (package! calfw)
+  ;; (package! calfw-org)
+  ;; (package! calfw-ical)
   )
 
-;(when (package! lsp)
-  ;(package! lsp-ui)
-  ;(package! lsp-ivy)
-  ;(package! lsp-treemacs)
-  ;)
+
+;; (when (package! lsp)
+;;   (package! lsp-ui)
+;;   (package! lsp-ivy)
+;;   (package! lsp-treemacs)
+;;   )
 
 ;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;; To install a package with Doom you must declare them here, run 'doom sync' on
