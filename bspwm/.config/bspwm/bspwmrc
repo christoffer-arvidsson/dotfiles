@@ -5,13 +5,14 @@ if [ ! -f /tmp/bspwm_startup ]
 then
     touch /tmp/bspwm_startup
     # Do startup stuff
+    emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
     polybar -r topbar &
     polybar -r bottombar &
     spotify --force-device-scale-factor=1.25 &
     dunst &
     blueman-applet &
-   # mullvad-vpn &
+    mullvad-vpn &
     # mullvad-tray &
     redshift-gtk &
     sxhkd &
