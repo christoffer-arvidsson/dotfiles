@@ -73,15 +73,20 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
          vi-mode
-         vim-cursor
+         #vim-cursor
          sudo
+         git
+         fzf-tab
+         ssh-agent
          colorize)
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+
 # User configuration
+
 # Reduce waittime when switching modes in vi-mode
 export KEYTIMEOUT=1
 
@@ -111,16 +116,16 @@ export KEYTIMEOUT=1
 # 
 alias dotfiles="/home/eethern/.dotfiles/"
 alias lc='colorls --sd'
-alias doom='/home/eethern/doom-emacs/bin/doom'
+alias doom='/home/eethern/.emacs.d/bin/doom'
 
 eval $(thefuck --alias)
 
 export EDITOR=nvim
 
 # Pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+#export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # Load nvm
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
