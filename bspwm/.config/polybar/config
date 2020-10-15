@@ -397,16 +397,17 @@ label-font = 2
 type = internal/date
 interval = 1
 
-
 date = " %a %e %b"
-date-alt = " %Y-%m-%d"
+; date-alt = " %Y-%m-%d"
 
 format-prefix-foreground = ${bar/topbar.foreground}
 format-underline = ${bar/topbar.foreground}
 
-format = <label>
+format =%{A1:gsimplecal:} <label> %{A}
 label = %date%
 label-font = 2
+
+click-left = exec gsimplecal
 
 [module/volume]
 type = internal/alsa
