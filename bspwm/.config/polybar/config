@@ -90,7 +90,7 @@ font-0 = iosevka:size=14
 font-1 = FontAwesome:size=16;2
 font-2 = Material\ Icons:size=12
 
-modules-left = powermenu xwindow
+modules-left = bspwm-modes powermenu xwindow
 modules-center = bspwm
 modules-right = filesystem temperature
 
@@ -150,6 +150,46 @@ interval = 1
 format = <label>
 exec = ~/.config/polybar/scripts/bspwm/curr_windows.sh
 
+[module/bspwm-modes]
+type = internal/bspwm
+; Only show workspaces defined on the same output as the bar
+; NOTE: The bspwm and XRandR monitor names must match, which they do by default.
+; Default: true
+pin-workspaces = true
+
+; Output mode flags after focused state label
+; Default: false
+inline-mode = false
+
+; Set the scroll cycle direction
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+format = <label-mode>
+
+label-separator-padding = 1
+label-monocle = "  "
+label-monocle-foreground = ${colors.soft-highlight}
+label-floating = ""
+label-floating-foreground = ${colors.soft-highlight}
+label-locked = "  "
+label-locked-foreground = ${colors.soft-highlight}
+label-sticky = "  "
+label-sticky-foreground = ${colors.soft-highlight}
+
+label-focused-font = 2
+label-occupied-font = 2
+label-empty-font = 2
+label-urgent-font = 2
+
+
 [module/bspwm]
 type = internal/bspwm
 ; Only show workspaces defined on the same output as the bar
@@ -180,11 +220,13 @@ reverse-scroll = false
 ; Default: false
 fuzzy-match = true
 
-format = | <label-state> |
+format = <label-state>
 label-focused-font = 2
 label-occupied-font = 2
 label-empty-font = 2
 label-urgent-font = 2
+
+
 ws-icon-1 = web;
 ws-icon-2 = code;
 ws-icon-3 = opt1;
@@ -207,6 +249,7 @@ label-empty-foreground = ${colors.inactive}
 
 label-separator-padding = 1
 label-separator = "|"
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
