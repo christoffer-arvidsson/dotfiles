@@ -30,7 +30,7 @@ alt + w
 
 # Restart/quit bspwm
 super + alt + {_, shift} + Escape
-    bspc {wm -r, quit}
+    rm -f /tmp/bspwm_startup && bspc {wm -r, quit}
 
 # close and kill
 super + {_,shift + }w
