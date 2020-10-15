@@ -158,6 +158,13 @@ XF86AudioNext
 XF86AudioPrev
   playerctl previous
 
+XF86AudioRaiseVolume
+  pactl set-sink-volume 0 +5%
+
+XF86AudioLowerVolume
+  pactl set-sink-volume 0 -5%
+
+
 # spotify-tui drop
 super + ctrl + n
   tdrop -h 500 -w 1000 -x 1542 -y 800 -n 4 -a --name sasdasd -f '-e spt' kitty
