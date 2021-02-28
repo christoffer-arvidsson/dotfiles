@@ -19,8 +19,8 @@
        ;;japanese
 
        :completion
-       company           ; the ultimate code completion backend
-       ;;helm              ; the *other* search engine for love and life
+       (company +tng)      ; the ultimate code completion backend
+       ;; helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        (ivy
         +fuzzy
@@ -58,25 +58,25 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        format
-        ;;+onsave)  ; automated prettiness
+       ;;+onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       ;;parinfer          ; turn lisp into python, sort of
+       parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +ranger)   ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ibuffer           ; interactive buffer management
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       eshell            ; a consistent, cross-platform shell (WIP)
-       ;;shell             ; a terminal REPL for Emacs
+       ;;eshell            ; a consistent, cross-platform shell (WIP)
+       shell             ; a terminal REPL for Emacs
        ;;term              ; terminals in Emacs
        ;;vterm             ; another terminals in Emacs
 
@@ -86,7 +86,7 @@
        grammar           ; tasing grammar mistake every you make
 
        :tools
-       ansible
+       ;;ansible
        debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
@@ -96,7 +96,7 @@
        ;;gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
-       lsp
+       (lsp + peek)
        ;;macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
@@ -121,8 +121,8 @@
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
-       ;,erlang            ; an elegant language for a more civilized age
-       ;;ess               ; emacs speaks statistics
+                                        ;,erlang            ; an elegant language for a more civilized age
+       (ess +lsp)               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
        ;;fsharp           ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
@@ -135,8 +135,8 @@
        ;;julia             ; a better, faster MATLAB
        kotlin              ; a better, slicker Java(Script)
        (latex              ; writing papers in Emacs has never been so fun
-       +latexmk            ; for quick latex compilations
-       +cdlatex)
+        +cdlatex
+        +latexmk)            ; for quick latex compilations
        ;;lean
        ;;factor
        ;;ledger            ; an accounting system in Emacs
@@ -150,10 +150,11 @@
         +journal         ; Enables [[https://github.com/bastibe/org-journal][org-journal]] integration.
         +noter           ; Notes in documents
         +pretty          ; pretty symbols
-        +hugo            ; use Emacs for hugo blogging
+        ;;+hugo            ; use Emacs for hugo blogging
         +jupyter        ; ipython/jupyter support for babel
-        ;;+pandoc          ; export-with-pandoc support
-        ;;+pomodoro        ; be fruitful with the tomato technique
+        +pandoc          ; export-with-pandoc support
+        +pomodoro        ; be fruitful with the tomato technique
+        +roam
         +present)        ; using org-mode for presentations
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
@@ -175,7 +176,7 @@
        web               ; the tubes
 
        :email
-       ;;(mu4e +gmail)
+       (mu4e +gmail)
        ;;notmuch
        ;;(wanderlust +gmail)
 

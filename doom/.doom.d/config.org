@@ -1,17 +1,17 @@
 #+TITLE: Doom Config
 #+PROPERTY: header-args:elisp :tangle yes :cache yes :results silent :padline no
 #+EXPORT_FILE_NAME: README.md
-#+STARTUP: showeverything
+#+STARTUP: content
+#+SETUPFILE: ~/Dropbox/org/org-roam/setup_file.org
 # Local Variables:
 # org-confirm-babel-evaluate: nil
 # eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
 # End:
 
-* LEXICAL BINDING
-#+BEGIN_SRC elisp
+#+begin_src elisp
 ;;; config.el --- -*- lexical-binding: t -*-
-#+END_SRC
-* PERSONAL INFORMATION
+#+end_src
+* Personal Information
 Some functionality uses this to identify you, e.g. GPG configuration, email
 clients, file templates and snippets.
 #+BEGIN_SRC elisp
@@ -19,8 +19,23 @@ clients, file templates and snippets.
       user-mail-address "christoffer@arvidson.nu")
 #+END_SRC
 
+** Mail handling
+#+begin_src elisp
+;; Each path is relative to `+mu4e-mu4e-mail-path', which is ~/.mail by default
+
+(after! mu4e
+    (setq +mu4e-mu4e-mail-path "~/Mail/")
+    (set-email-account! "arvidson.nu"
+    '((mu4e-sent-folder       . "/[Gmail].Sent Mail")
+        ;; (mu4e-drafts-folder     . "/[Gmail].Drafts")
+        ;; (mu4e-trash-folder      . "/[Gmail].Sent Mail")
+        (mu4e-refile-folder     . "/[Gmail].All Mail")
+        (smtpmail-smtp-user     . "christoffer@arvidson.nu")
+        (mu4e-compose-signature . "---\nChristoffer Arvidsson"))
+    t))
+#+end_src
 * UI
-** THEME
+** Theme
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. Here we set the doom-horizon theme.
@@ -29,7 +44,7 @@ available. You can either set `doom-theme' or manually load a theme with the
       doom-themes-enable-bold t
       doom-themes-enable-italic t)
  #+end_src
-** FONT
+** Font
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
 are the three important ones:
 
@@ -43,184 +58,20 @@ font string. You generally only need these two:
  #+begin_src elisp
 (setq doom-font (font-spec :family "iosevka" :size 18))
  #+end_src
-** LINE NUMBERS
-This determines the style of line numbers in effect. If set to `nil', line
-numbers are disabled. For relative line numbers, set this to `relative'.
+* Editor
+** Line numbers
+Relative line numbers allows using relational vim bindings, ie. =10k= to move 10 lines up, for example. Enable this to get better at using them.
 #+begin_src elisp
 (setq display-line-numbers-type 'relative)
 #+end_src
-* MODES
-** ORG MODE
-*** General org settings
-If you use `org' and don't want your org files in the default location below,
-change `org-directory'. It must be set before org loads!
-#+BEGIN_SRC elisp
-(setq org-directory "~/Projects/org/")
-#+END_SRC
-#+begin_src elisp
-(after! org
-  ;; Make ** into BOLD
-  (setq org-hide-emphasis-markers t)
-
-  ;; Fix org export bibliography
-  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")i)
-  (setq org-latex-prefer-user-labels t)
-
-  ;; Change screenshot backend of org-download (it now uses scrot!)
-  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
-  ;; (setq org-download-method `directory)
-
-  ;; Make agenda always show +7 days forward
-  (setq org-agenda-start-on-weekday nil)
-  (setq ob-mermaid-cli-path "/usr/bin/mmdc")
-
-  ;; Show habit tracker!
-  (setq org-habit-show-habits t))
-#+end_src
-*** Org drill
-Org drill ~ Anki flashcards for org mode
-#+begin_src elisp
-(use-package! org-drill
-  :after org)
-#+end_src
-
-*** Elfeed
-Read your rss in emacs!
-#+begin_src elisp
-(after! elfeed-org
-  (elfeed-org)
-  (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
-  (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
-  )
-#+end_src
-*** Spell optimization
-Speedup spell in org mode
-#+begin_src elisp
-(after! spell
-  (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode()
-               (setq enable-flyspell-auto-completion t)
-               ))
-#+end_src
-*** Super agenda
-#+begin_src elisp
-  ;; SOURCE: from https://github.com/zaen323
-  (after! org-super-agenda
-    (setq org-agenda-time-grid '((daily today require-timed) "----------------------" nil))
-    (setq org-agenda-skip-scheduled-if-done t)
-    (setq org-agenda-skip-deadline-if-done t)
-    (setq org-agenda-include-deadlines t)
-    (setq org-agenda-include-diary t)
-    (setq org-agenda-block-separator nil)
-    (setq org-agenda-compact-blocks nil)
-    (setq org-agenda-start-with-log-mode t)
-    (setq org-agenda-custom-commands
-          '(("z" "Super agenda!"
-             ((agenda "" ((org-agenda-span 'day)
-                          (org-super-agenda-groups
-                           '((:name "Today"
-                              :time-grid t
-                              :date today
-                              :todo "TODAY"
-                              :scheduled today
-                              :order 1)))))
-              (alltodo "" ((org-agenda-overriding-header "")
-                           (org-super-agenda-groups
-                            '((:name "Next to do"
-                               :todo "NEXT"
-                               :order 1)
-                              (:name "Important"
-                               :tag "Important"
-                               :priority "A"
-                               :order 6)
-                              (:name "Due Today"
-                               :deadline today
-                               :order 2)
-                              (:name "Due Soon"
-                               :deadline future
-                               :order 8)
-                              (:name "Overdue"
-                               :deadline past
-                               :order 7)
-                              (:name "Assignments"
-                               :tag "Assignment"
-                               :order 10)
-                              (:name "Issues"
-                               :tag "Issue"
-                               :order 12)
-                              (:name "Projects"
-                               :tag "Project"
-                               :order 14)
-                              (:name "Emacs"
-                               :tag "Emacs"
-                               :order 13)
-                              (:name "Research"
-                               :tag "Research"
-                               :order 15)
-                              (:name "To read"
-                               :tag "Read"
-                               :order 30)
-                              (:name "Exercises"
-                               :tag "Exercise"
-                               :order 31)
-                              (:name "Waiting"
-                               :todo "WAITING"
-                               :order 20)
-                              (:name "trivial"
-                               :priority<= "C"
-                               :tag ("Trivial" "Unimportant")
-                               :todo ("SOMEDAY" )
-                               :order 90)
-                              (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
-    )
-
-  (defun my-open-calendar ()
-    (interactive)
-    (cfw:open-calendar-buffer
-     :contents-sources
-     (list
-      (cfw:org-create-source "Green")  ; orgmode source
-      ;; (cfw:ical-create-source "Moon" "/home/eethern/Projects/course/master/mphpc1.ics" "Gray")  ; ICS source1
-      (cfw:ical-create-source "gcal" "https://cloud.timeedit.net/chalmers_test/web/public/ri6Xn0gQ5560YZQQ55Z6973Y00y80074Q5Y64Q587v530Z62.ics" "IndianRed")
-      )))
-#+end_src
-** LATEX
-#+BEGIN_SRC elisp
-(after! latex
-  (set-company-backend! 'latex-mode t)
-  (setq-default TeX-master 'nil)) ; Ask for master file on latexmk
-#+END_SRC
-
-** PYTHON
-Configure python
-#+begin_src elisp
-(map! :map python-mode-map
-      :localleader
-      "c" 'python-shell-send-buffer
-      "r" 'run-python)
-#+end_src
-* EDITOR
-** COMPLETION
-Completion settings
+** Completion
+Completion settings.
 #+begin_src elisp
 (require 'company)
 (setq company-idle-delay 0.0
       company-minimum-prefix-length 1)
 #+end_src
-** EVIL SURROUND
-#+begin_src elisp
-;; Surround magic
-(after! evil-surround
-  (let ((pairs '((?g "$" . "$")
-                 (?h "(" . ")")
-                 (?j "[" . "]")
-                 (?k "{" . "}")
-                 (?l "<" . ">")
-                 (?ø "'" . "'")
-                 (?æ "\"" . "\""))))
-    (prependq! evil-surround-pairs-alist pairs)
-    (prependq! evil-embrace-evil-surround-keys (mapcar #'car pairs))))
-#+end_src
-** EVIL MOTION
+** Evil moton
 #+begin_src elisp
 (after! evil-easymotion
   (put 'visible-buffer 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
@@ -234,7 +85,7 @@ Completion settings
   (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible-buffer))
 #+end_src
 
-** TREEMACS
+** Treemacs
 Configure treemacs
 #+begin_src elisp
 (after! treemacs
@@ -244,28 +95,344 @@ Configure treemacs
 (map! "S-<backspace>" 'treemacs)
 #+end_src
 
-* KEYBINDINGS
-Change switch to last buffer to leader+TAB
-#+BEGIN_SRC elisp
-(map! :leader
-      "TAB" 'evil-switch-to-windows-last-buffer)
-#+END_SRC
+** Expand region
+[[https://github.com/magnars/expand-region.el][Expand region]] allows pressing =<leader> v v v v v...= repeatedly to expand the
+visual mode from current point. For example, if your cursor is within the curly
+brackets, you can select everything within the parenthesis in =(Hello my name is
+{name})= by pressing =leader v v v=.
+#+begin_src elisp
+(map! :leader "v" 'er/expand-region)
+#+end_src
 
-Change the workspace bindings to use M-§ instead
+* Mode config
+** Org mode
+Welcome to 90% of this config.
+*** Keybindings
+#+begin_src elisp
+(map! :map org-mode-map
+      :leader
+      "tt" 'toggle-truncate-lines
+      "o n"#'org-noter)    ; "org noter"  : opens up org noter in a headline
+#+end_src
+
+*** General org settings
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
+#+BEGIN_SRC elisp
+(setq org-directory "~/Dropbox/org/")
+#+END_SRC
+#+begin_src elisp
+(after! org
+  ;; Visual stuff
+  (setq org-pretty-entities nil
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images "inlineimages"
+        org-fontify-whole-heading-line t
+        org-src-fontify-natively t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-startup-truncated nil) ;; Force org to not truncate lines
+
+  ;; Fix org export bibliography
+  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")i)
+  (setq org-latex-prefer-user-labels t)
+
+)
+#+end_src
+*** Async export fix
+#+begin_src elisp
+(after! org
+  (setq org-export-async-init-file (concat doom-private-dir "local/async-ox.el")))
+#+end_src
+*** File handling
+This controls what is used to open links in org documents. Since there are only
+a few defaults defined, I am just prepending them to my changes instead of
+dealing with append and stuff.
+
+#+begin_src elisp
+(after! org
+  (setq org-file-apps
+        '((auto-mode . emacs)
+          ("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . "zathura %s")
+          ("\\.png\\'" . viewnior)
+          ("\\.jpg\\'" . viewnior)
+          ("\\.svg\\'" . viewnior)
+          )))
+#+end_src
+*** Inline image size
+Make large images not take up entire buffer
+#+begin_src elisp
+(setq org-image-actual-width nil)
+#+end_src
+*** Org ref
+Manage references using org-ref.
+#+begin_src elisp
+(after! org
+  (setq reftex-default-bibliography '("~/Dropbox/org/references.bib"))
+  (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+        org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
+        org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+
+  (setq org-ref-completion-library 'org-ref-ivy-cite)
+  (map! :map org-mode-map :localleader
+        :desc "Insert org-ref reference link"
+        "l r" 'org-ref-insert-ref-link)
+
+                                        ; Makes org-ref reload its completion on save rather than just on buffer reload
+  (add-hook 'after-save-hook (lambda ()
+                               (setq org-ref-labels nil)))
+  )
+#+end_src
+
+*** Agenda
+I don't really use agenda anymore, but they're here.
+**** Settings
+#+begin_src elisp
+(after! org
+  ;; Make agenda always show +7 days forward
+  (setq org-agenda-start-on-weekday nil)
+
+  ;; Show habit tracker!
+  (setq org-habit-show-habits t))
+#+end_src
+**** Super agenda
+Add super agenda
+#+begin_src elisp
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '((:auto-dir-name t)))
+  (org-super-agenda-mode))
+#+end_src
+*** Org auto tangle
+Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
+#+begin_src elisp
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+#+end_src
+**** TODO Make this work for jupyter python code blocks
+
+*** Org appear
+Use org-appear to reveal emphasis markers when moving the cursor over them.
+#+begin_src elisp
+(after! org
+  (add-hook! org-mode :append #'org-appear-mode)
+  )
+#+end_src
+*** Org download
+Org download allows me to screenshot regions of my screen directly into org mode
+buffers. It is useful for grabbing images during lectures, etc.
+
+Change screenshot backend of org-download (it now uses xfce4-screenshooter,
+which does not have ugly borders that scrot has).
+#+begin_src elisp
+(after! org-download
+  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
+  (setq org-download-method 'directory))
+#+end_src
+*** Org roam
+I transferred to org-roam after I realized I hated hierarchical documents. Ideas
+apply to many different subjects, which org-roam handles very well. This block
+setups org-roam and enables it.
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-directory "~/Dropbox/org/org-roam")
+  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
+#+end_src
+
+#+begin_src elisp
+(after! org-roam-server
+  (setq org-roam-server-default-exclude-filters (json-encode (list (list (cons 'id "Dailies") (cons 'parent "tags"))))))
+#+end_src
+
+Setup a capture template
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-capture-templates
+        '(("d" "draft" plain (function org-roam-capture--get-point)
+           :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+ROAM_ALIAS: \"%^{roam alias|${title}}\"\n#+CREATED: %u\n#+TITLE: ${title}\n%?"
+           :unnarrowed t)
+          ("l" "latex")
+          ("lc" "two column" plain (function org-roam-capture--get-point)
+           :file-name "%<%y%m%d%h%m%s>-${slug}"
+           :head "#+setupfile: ./setup_file_2col.org\n#+roam_alias: \"%^{roam alias|${title}}\"\n#+created: %u\n#+title: ${title}\n\n%?"
+           :unnarrowed t)
+          ("ll" "standard" plain (function org-roam-capture--get-point)
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "-*- mode: Org; org-download-image-dir: \"./images/\"; -*-\n#+SETUPFILE: ./setup_file.org\n#+ROAM_ALIAS: \"%^{roam alias|${title}}\"\n#+CREATED: %u\n#+TITLE: ${title}\n\n%?"
+           :unnarrowed t)
+          ("e" "exercise" plain (function org-roam-capture--get-point)
+           :file-name "ex/%<%y%m%d%h%m%s>-${slug}"
+           :head "#+setupfile: ./setup_file.org\n#+roam_TAGS: Dailies\n#+created: %u\n#+title: ${title}\n\n%?"
+           :unnarrowed t))
+        ))
+#+end_src
+And for dailies
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?"
+           :file-name "daily/%<%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
+           ))))
+#+end_src
+
+The following comands handles exporting backlinks to html. They will appear at the top of the document.
+#+begin_src elisp
+(after! (org-roam)
+  (defun eethern/org-roam-export-all ()
+    "Re-exports all Org-roam files to HTML"
+    (interactive)
+    (dolist (f (org-roam--list-all-files))
+      (with-current-buffer (find-file f)
+        (when (s-contains? "SETUPFILE" (buffer-string))
+          (org-html-export-to-html)))))
+  (defun eethern/org-roam--backlinks-list (file)
+    (when (org-roam--org-roam-file-p file)
+      (mapcar #'car (org-roam-db-query [:select :distinct [from]
+                                        :from links
+                                        :where (= to $s1)
+                                        :and from :not :like $s2] file "%private%"))))
+  (defun eethern/org-export-preprocessor (_backend)
+    (when-let ((links (eethern/org-roam--backlinks-list (buffer-file-name))))
+      (insert "\n** Backlinks\n")
+      (dolist (link links)
+        (insert (format "- [[file:%s][%s]]\n"
+                        (file-relative-name link org-roam-directory)
+                        (org-roam--get-title-or-slug link))))))
+  (add-hook 'org-export-before-processing-hook #'eethern/org-export-preprocessor))
+#+end_src
+
+*** Org mermaid
+Org babel mermaid allows drawing mermaid diagrams using source blocks. Works well if you want to quickly render something for an assignement.
+#+begin_src elisp
+(after! ob-mermaid
+  (setq ob-mermaid-cli-path "/usr/bin/mmdc")
+  )
+#+end_src
+*** Cdlatex
+Makes math more bearable in org-mode, therefore activate it.
+#+begin_src elisp
+(after! org
+  (add-hook 'org-mode-hook #'org-cdlatex-mode))
+#+end_src
+*** Inline task
+Inline tasks are todo items that can be mid section, hence they will not make
+all text under them belong to the todo. They are included in org-mode, but
+disabled by default, so activate them.
+#+begin_src elisp
+(require 'org-inlinetask)
+#+end_src
+*** Elfeed
+Read your rss in emacs!
+#+begin_src elisp
+(after! elfeed-org
+  (elfeed-org)
+  (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
+  (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
+)
+(map! :leader "o f" 'elfeed)
+#+end_src
+*** Spell optimization
+Speedup spell in org mode
+#+begin_src elisp
+(after! spell
+  (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode()
+               (setq enable-flyspell-auto-completion t)
+               ))
+#+end_src
+*** Org fragtog - Automate latex inline rendering
+An annoying thing about latex equations in org mode is that you have to toggle
+them to display and undisplay images. org-fragtog only shows the latex code if
+you hover over. Also make the equations bigger scale with text scaling
+
+#+begin_src elisp
+(after! org
+  (add-hook! org-mode org-fragtog-mode)
+
+                                        ; Scale depending on zoom level
+  (defun update-org-latex-fragment-scale ()
+    (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
+      (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
+    )
+  (add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
+  )
+#+end_src
+
+*** Source code export
+Export minted latex source code in pdf, using latexmk.
+
+#+begin_src elisp
+(after! org
+  (require 'org)
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+
+  (setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf %f"))
+  ;; (setq org-latex-pdf-process
+  ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  (setq org-src-fontify-natively t))
+#+end_src
+
+Do not evaluate src blocks on export, which prevents blocks that take a long
+time to run aren't clogging the system and won't replace my outputs unless I
+specifically run it.
+#+begin_src elisp
+(after! org
+  (setq org-export-babel-evaluate 'nil)
+  )
+#+end_src
+
+*** Jupyter emacs
+Bread and butter for using python in org-mode for notebook style execution.
+
+Make a template for inserting jupyter blocks.
+#+begin_src elisp
+(add-to-list 'org-structure-template-alist
+    '("j" . "src jupyter-python"))
+#+end_src
+** Latex
+I don't really edit latex anymore, so not sure why this is here.
+#+BEGIN_SRC elisp
+(after! latex
+  (set-company-backend! 'latex-mode t)
+  (setq-default TeX-master 'nil)) ; Ask for master file on latexmk
+#+END_SRC
+** Python
+Configure python
+#+begin_src elisp
+(map! :map python-mode-map
+      :localleader
+      "c" 'python-shell-send-buffer
+      "r" 'run-python)
+#+end_src
+** Dired
+*** Ranger
+Automatically use ranger when using dired.
+#+begin_src elisp
+(after! ranger
+    (setq ranger-override-dired 'ranger))
+#+end_src
+
+* Bindings
+Collection of nice bindings I use throughout the emacs journey.
 #+BEGIN_SRC elisp
 (map! :leader
       "TAB" 'evil-switch-to-windows-last-buffer ; Switch to last buffer
-      "v"   'er/expand-region ; Quick way to highlight blocks
-      ; Bindings for workspaces
-      "W n" '+workspace/new
-      "W d" '+workspace/delete
-      "W W" '+workspace/display
-      "W l" '+workspace/load
-      "W L" '+workspace/load-session
-      "W s" '+workspace/save
-      "W S" '+workspace/save-session
-      "W ." '+workspace/switch-to
-      "W X" '+workspace/kill-session
-      "W TAB" '+workspace/other)
+      "o c" 'quick-calc
+      "o C" 'calc
+      "i p" 'academic-phrases
+      "i P" 'academic-phrases-by-section)
 #+END_SRC
-
