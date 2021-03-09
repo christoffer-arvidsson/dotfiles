@@ -20,30 +20,52 @@ clients, file templates and snippets.
 #+END_SRC
 
 ** Mail handling
+Use mu4e as mail handler, this loads from gmail. Each path is relative to
+=+mu4e-mu4e-mail-path=, which is =~/.mail= by default
 #+begin_src elisp
-;; Each path is relative to `+mu4e-mu4e-mail-path', which is ~/.mail by default
 
 (after! mu4e
-    (setq +mu4e-mu4e-mail-path "~/Mail/")
-    (set-email-account! "arvidson.nu"
-    '((mu4e-sent-folder       . "/[Gmail].Sent Mail")
-        ;; (mu4e-drafts-folder     . "/[Gmail].Drafts")
-        ;; (mu4e-trash-folder      . "/[Gmail].Sent Mail")
-        (mu4e-refile-folder     . "/[Gmail].All Mail")
-        (smtpmail-smtp-user     . "christoffer@arvidson.nu")
-        (mu4e-compose-signature . "---\nChristoffer Arvidsson"))
-    t))
+  (setq +mu4e-mu4e-mail-path "~/Mail/")
+  (set-email-account! "arvidson.nu"
+                      '((mu4e-sent-folder       . "/[Gmail].Sent Mail")
+                        ;; (mu4e-drafts-folder     . "/[Gmail].Drafts")
+                        ;; (mu4e-trash-folder      . "/[Gmail].Sent Mail")
+                        (mu4e-refile-folder     . "/[Gmail].All Mail")
+                        (smtpmail-smtp-user     . "christoffer@arvidson.nu")
+                        (mu4e-compose-signature . "---\nChristoffer Arvidsson"))
+                      t))
 #+end_src
+
 * UI
 ** Theme
 There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. Here we set the doom-horizon theme.
- #+begin_src elisp
-(setq doom-theme 'doom-horizon
-      doom-themes-enable-bold t
-      doom-themes-enable-italic t)
- #+end_src
+
+#+begin_src elisp
+(use-package! doom-themes
+  :config
+  ;; Global settings (defaults)
+
+  (setq doom-themes-enable-bold t      ; if nil, bold is universally disabled
+        doom-themes-enable-italic t    ; if nil, italics is universally disabled
+        doom-horizon-brighter-comments t
+        )
+
+  (load-theme 'doom-horizon t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+
+  ;; Treemacs
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+#+end_src
+
 ** Font
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
 are the three important ones:
