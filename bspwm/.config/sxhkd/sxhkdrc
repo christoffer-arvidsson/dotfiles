@@ -158,16 +158,13 @@ XF86AudioNext
 XF86AudioPrev
   playerctl previous
 
+# Volum up
 XF86AudioRaiseVolume
   pactl set-sink-volume 0 +5%
 
+# Volume down
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -5%
-
-
-# spotify-tui drop
-super + ctrl + n
-  tdrop -h 500 -w 1000 -x 1542 -y 800 -n 4 -a --name sasdasd -f '-e spt' kitty
 
 # Termite drop
 super + ctrl + s
@@ -177,9 +174,17 @@ super + ctrl + s
 super + ctrl + r
   tdrop -h 500 -w 1000 -x 1542 -y 42 -n 3 -a --name ranger -f '-e ranger' kitty
 
-# Bitwarden rofi
+# Htop drop
+super + ctrl + p
+  tdrop -h 500 -w 1000 -x 13 -y 900 -n 4 -a --name htop -f '-e htop' kitty
+
+# Bitwarden rofi, autolock after 1hour
 super + shift + o
-  bwmenu
+  bwmenu --auto-lock 3600
+
+# Bibbrowser rofi
+super + shift + b
+    /home/eethern/.dotfiles/rofi/.config/rofi/scripts/rofi-bibbrowser/rofi-bibbrowser --default-config
 
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
