@@ -5,8 +5,8 @@
 [ -f ~/.xprofile ] && . ~/.xprofile
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-# Set keymap for xdotool
-setxkbmap se
+# Escape -> Caps and set swedish keyboard
+setxkbmap se -option caps:swapescape
 
 # Screen resolution
 xrandr --output eDP1 --auto
