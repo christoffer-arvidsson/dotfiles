@@ -92,7 +92,7 @@ font-2 = Material\ Icons:size=12
 
 modules-left = bspwm-modes powermenu xwindow
 modules-center = bspwm
-modules-right = filesystem temperature
+modules-right = crypto filesystem temperature
 
 wm-restack = bspwm
 
@@ -562,3 +562,9 @@ type = custom/script
 exec = ~/.config/polybar/scripts/corona/get_sweden_daily.sh
 label-font = 1
 interval = 100
+
+[module/crypto]
+type = custom/script
+interval = 1000
+label-font = 1
+exec = /home/eethern/.config/polybar/scripts/crypto/crypto.sh
