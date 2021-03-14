@@ -1,13 +1,14 @@
 #!/bin/sh
 
-name=`bluetoothctl info | grep "Name" | sed 's/^.*: //'`
-onoff=`bluetoothctl show | grep "Powered" | sed 's/^.*: //'`
-connected=`bluetoothctl info | grep "Connected" | sed 's/^.*: //'`
-paired=`bluetoothctl paired-devices | grep "Device"`
+paired=`bluetoothctl paired-devices | grep "WH"`
 controllers=`bluetoothctl list`
-
 read -ra DEV <<< "$paired"
 read -ra CON <<< "$controllers"
+
+name=`bluetoothctl info ${ARR[1]}| grep "Name" | sed 's/^.*: //'`
+onoff=`bluetoothctl show | grep "Powered" | sed 's/^.*: //'`
+connected=`bluetoothctl info | grep "Connected" | sed 's/^.*: //'`
+
 
 if [ $onoff == "no" ]
 then
@@ -18,5 +19,10 @@ if [ "$connected" == "yes" ]
 then
     bluetoothctl disconnect
 else
-    bluetoothctl connect ${ARR[1]}
+    bluetoothctl connect ${DEV[1]}
+    echo ${DEV[1]}
+    # Sleep due to low energy devices requiring me to connect twice???
+    sleep 2.5
+    bluetoothctl connect ${DEV[1]}
+    echo ${DEV[1]}
 fi
