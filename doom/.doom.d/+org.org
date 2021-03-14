@@ -1,0 +1,294 @@
+* Org-mode
+Welcome to 90% of this config.
+** Keybindings
+#+begin_src elisp
+(map! :map org-mode-map
+      :leader
+      "t t" 'toggle-truncate-lines
+      "o n"#'org-noter)
+#+end_src
+
+** General org settings
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
+#+BEGIN_SRC elisp
+(setq org-directory "~/Dropbox/org/")
+#+END_SRC
+#+begin_src elisp
+(after! org
+  ;; Visual stuff
+  (setq org-pretty-entities nil
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images "inlineimages"
+        org-fontify-whole-heading-line t
+        org-src-fontify-natively t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-startup-truncated nil) ;; Force org to not truncate lines
+
+  ;; Fix org export bibliography
+  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")i)
+  (setq org-latex-prefer-user-labels t)
+
+  )
+#+end_src
+** Async export fix
+#+begin_src elisp
+(after! org
+  (setq org-export-async-init-file (concat doom-private-dir "local/async-ox.el")))
+#+end_src
+** File handling
+This controls what is used to open links in org documents. Since there are only
+a few defaults defined, I am just prepending them to my changes instead of
+dealing with append and stuff.
+
+#+begin_src elisp
+(after! org
+  (setq org-file-apps
+        '((auto-mode . emacs)
+          ("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . "zathura %s")
+          ("\\.png\\'" . viewnior)
+          ("\\.jpg\\'" . viewnior)
+          ("\\.svg\\'" . viewnior)
+          )))
+#+end_src
+** Inline image size
+Make large images not take up entire buffer
+#+begin_src elisp
+(after! org
+  (setq org-image-actual-width nil))
+#+end_src
+** Org ref
+Manage references using org-ref.
+#+begin_src elisp
+(after! org
+  (setq reftex-default-bibliography '("~/Dropbox/org/references.bib"))
+  (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+        org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
+        org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+
+  (setq org-ref-completion-library 'org-ref-ivy-cite)
+  (map! :map org-mode-map :localleader
+        :desc "Insert org-ref reference link"
+        "l r" 'org-ref-insert-ref-link)
+
+                                        ; Makes org-ref reload its completion on save rather than just on buffer reload
+  (add-hook 'after-save-hook (lambda ()
+                               (setq org-ref-labels nil)))
+  )
+#+end_src
+
+** Agenda
+I don't really use agenda anymore, but they're here.
+*** Settings
+#+begin_src elisp
+(after! org
+  ;; Use org-habit
+  (require 'org-habit)
+  ;; Make agenda always show +7 days forward
+  (setq org-agenda-start-on-weekday nil)
+
+  ;; Show habit tracker!
+  (setq org-habit-show-habits t))
+#+end_src
+*** Super agenda
+Add super agenda
+#+begin_src elisp
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '((:auto-dir-name t)))
+  (org-super-agenda-mode))
+#+end_src
+** Org auto tangle
+Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
+#+begin_src elisp
+(after! org-auto-tangle
+  (add-hook 'org-mode-hook 'org-auto-tangle-mode)
+  (setq org-auto-tangle-default t))
+#+end_src
+*** TODO Make this work for jupyter python code blocks
+
+** Org appear
+Use org-appear to reveal emphasis markers when moving the cursor over them.
+#+begin_src elisp
+(after! org
+  (add-hook! org-mode :append #'org-appear-mode)
+  )
+#+end_src
+** Org download
+Org download allows me to screenshot regions of my screen directly into org mode
+buffers. It is useful for grabbing images during lectures, etc.
+
+Change screenshot backend of org-download (it now uses xfce4-screenshooter,
+which does not have ugly borders that scrot has).
+#+begin_src elisp
+(after! org-download
+  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
+  (setq org-download-method 'directory))
+#+end_src
+** Org roam
+I transferred to org-roam after I realized I hated hierarchical documents. Ideas
+apply to many different subjects, which org-roam handles very well. This block
+setups org-roam and enables it.
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-directory "~/Dropbox/org/org-roam")
+  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
+#+end_src
+
+Setup capture templates for org-roam. I made these load from template files for faster editing.
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-capture-templates
+        '(("l" "latex")
+          ("ld" "temporary note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/draft.org")
+           :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("ll" "permanent note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/latex.org")
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("la" "assignment" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/latex.org")
+           :file-name "assignment/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("le" "exercise" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/exercise.org")
+           :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
+           :unnarrowed t))
+        ))
+#+end_src
+And for dailies
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?"
+           :file-name "daily/%<%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
+           ))))
+#+end_src
+
+The following comands handles exporting backlinks to html. They will appear at the top of the document.
+#+begin_src elisp
+(after! (org-roam)
+  (defun eethern/org-roam-export-all ()
+    "Re-exports all Org-roam files to HTML"
+    (interactive)
+    (dolist (f (org-roam--list-all-files))
+      (with-current-buffer (find-file f)
+        (when (s-contains? "SETUPFILE" (buffer-string))
+          (org-html-export-to-html)))))
+  (defun eethern/org-roam--backlinks-list (file)
+    (when (org-roam--org-roam-file-p file)
+      (mapcar #'car (org-roam-db-query [:select :distinct [from]
+                                        :from links
+                                        :where (= to $s1)
+                                        :and from :not :like $s2] file "%private%"))))
+  (defun eethern/org-export-preprocessor (_backend)
+    (when-let ((links (eethern/org-roam--backlinks-list (buffer-file-name))))
+      (insert "\n** Backlinks\n")
+      (dolist (link links)
+        (insert (format "- [[file:%s][%s]]\n"
+                        (file-relative-name link org-roam-directory)
+                        (org-roam--get-title-or-slug link))))))
+  (add-hook 'org-export-before-processing-hook #'eethern/org-export-preprocessor))
+#+end_src
+
+** Org mermaid
+Org babel mermaid allows drawing mermaid diagrams using source blocks. Works well if you want to quickly render something for an assignement.
+#+begin_src elisp
+(after! ob-mermaid
+  (setq ob-mermaid-cli-path "/usr/bin/mmdc")
+  )
+#+end_src
+** Cdlatex
+Makes math more bearable in org-mode, therefore activate it.
+#+begin_src elisp
+(after! org
+  (add-hook 'org-mode-hook #'org-cdlatex-mode))
+#+end_src
+** Inline task
+Inline tasks are todo items that can be mid section, hence they will not make
+all text under them belong to the todo. They are included in org-mode, but
+disabled by default, so activate them.
+#+begin_src elisp
+(require 'org-inlinetask)
+#+end_src
+** Elfeed
+Read your rss in emacs!
+#+begin_src elisp
+(after! elfeed-org
+  (elfeed-org)
+  (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
+  (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
+  )
+(map! :leader "o f" 'elfeed)
+#+end_src
+** Spell optimization
+Speedup spell in org mode
+#+begin_src elisp
+(after! spell
+  (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode()
+               (setq enable-flyspell-auto-completion t)
+               ))
+#+end_src
+** Org fragtog - Automate latex inline rendering
+An annoying thing about latex equations in org mode is that you have to toggle
+them to display and undisplay images. org-fragtog only shows the latex code if
+you hover over. Also make the equations bigger scale with text scaling
+
+#+begin_src elisp
+(after! org
+(add-hook! org-mode org-fragtog-mode)
+
+                        ; Scale depending on zoom level
+(defun update-org-latex-fragment-scale ()
+(let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
+(plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
+)
+(add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
+)
+#+end_src
+
+** Source code export
+Export minted latex source code in pdf, using latexmk.
+
+#+begin_src elisp
+(after! org
+(require 'org)
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+
+(setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf %f"))
+;; (setq org-latex-pdf-process
+;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-src-fontify-natively t))
+#+end_src
+
+Do not evaluate src blocks on export, which prevents blocks that take a long
+time to run aren't clogging the system and won't replace my outputs unless I
+specifically run it.
+#+begin_src elisp
+(after! org
+(setq org-export-babel-evaluate 'nil)
+)
+#+end_src
+
+** Jupyter emacs
+Bread and butter for using python in org-mode for notebook style execution.
+
+Make a template for inserting jupyter blocks.
+#+begin_src elisp
+(add-to-list 'org-structure-template-alist
+             '("j" . "src jupyter-python"))
+#+end_src

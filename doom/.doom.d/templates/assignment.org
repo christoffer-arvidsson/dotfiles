@@ -1,0 +1,10 @@
+# -*- mode: Org; org-download-image-dir: "./images/${title}"; -*-
+:metadata:
+#+setupfile: ../setup_file.org
+#+roam_alias: "%^{roam alias|${title}}"
+#+roam_keys: assignment %^{roam keys}
+#+created: %u
+:end:
+#+title: ${title}
+
+%?

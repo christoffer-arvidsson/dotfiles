@@ -1,24 +1,25 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
-(package! ix)                   ; Pastebin alternative
-(package! yaml-mode)            ; Yaml my way downtown
-(package! keychain-environment) ; Manage ssh and gpg keys
-(package! academic-phrases)     ; Scientific lingo for reports
+(package! ix)                                                       ; Pastebin alternative
+(package! yaml-mode)                                                ; Yaml my way downtown
+(package! keychain-environment)                                     ; Manage ssh and gpg keys
+(package! academic-phrases)                                         ; Scientific lingo for reports
 
 (when (package! org)
-  (package! org-super-agenda) ; Neater agenda view
+  (package! org-super-agenda)                                       ; Neater agenda view
   (package! org-appear
     :recipe (:host github
-             :repo "awth13/org-appear")) ; Make ** appear on bolded words on hover
+             :repo "awth13/org-appear"))                            ; Make ** appear on bolded words on hover
   (package! org-auto-tangle
-    :recipe (:local-repo "~/Dropbox/Personal/devel/emacs/org-auto-tangle")) ; Tangle org babel blocks on save
-  (package! org-super-agenda) ; Super agenda for even more agenda power!
-  (package! ob-mermaid)       ; Graphs in org mode using babel
-  (package! org-drill)        ; Anki for org mode (flashcards)
-  (package! literate-calc-mode) ; Display inline results for calculations in org buffer
-  (package! org-fragtog)      ; Automate inline latex rendering
-  (package! org-ref)          ; Helps with references
+    :recipe
+    (:local-repo "~/Dropbox/Personal/devel/emacs/org-auto-tangle")) ; Tangle org babel blocks on save
+  (package! org-super-agenda)                                       ; Super agenda for even more agenda power!
+  (package! ob-mermaid)                                             ; Graphs in org mode using babel
+  (package! org-drill)                                              ; Anki for org mode (flashcards)
+  (package! literate-calc-mode)                                     ; Display inline results for calculations in org buffer
+  (package! org-fragtog)                                            ; Automate inline latex rendering
+  (package! org-ref)                                                ; Helps with references
   (package! ox-latex-subfigure))
 
 (when (package! org-roam)
