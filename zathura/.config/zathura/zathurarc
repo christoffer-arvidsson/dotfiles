@@ -29,7 +29,7 @@ set completion-highlight-fg     "#dbdbdb"
 set completion-highlight-bg     "#aaa0d7"
 
 set recolor-lightcolor          "#1c1e26"
-set recolor-darkcolor           "#dbcbba"
+set recolor-darkcolor           "#dddddd"
 
 set recolor                     "false"
 set recolor-keephue             "false"
