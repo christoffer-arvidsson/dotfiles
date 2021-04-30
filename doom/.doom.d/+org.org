@@ -1,3 +1,8 @@
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
+# End:
+
 * Org-mode
 Welcome to 90% of this config.
 ** Keybindings
@@ -5,8 +10,10 @@ Welcome to 90% of this config.
 (map! :map org-mode-map
       :leader
       "t t" 'toggle-truncate-lines
-      "o n"#'org-noter)
+      "o n"#'org-noter
+      )
 #+end_src
+
 
 ** General org settings
 If you use `org' and don't want your org files in the default location below,
@@ -14,6 +21,7 @@ change `org-directory'. It must be set before org loads!
 #+BEGIN_SRC elisp
 (setq org-directory "~/Dropbox/org/")
 #+END_SRC
+
 #+begin_src elisp
 (after! org
   ;; Visual stuff
@@ -26,17 +34,11 @@ change `org-directory'. It must be set before org loads!
         org-fontify-quote-and-verse-blocks t
         org-startup-truncated nil) ;; Force org to not truncate lines
 
-  ;; Fix org export bibliography
-  ;; (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")i)
   (setq org-latex-prefer-user-labels t)
 
   )
 #+end_src
-** Async export fix
-#+begin_src elisp
-(after! org
-  (setq org-export-async-init-file (concat doom-private-dir "local/async-ox.el")))
-#+end_src
+
 ** File handling
 This controls what is used to open links in org documents. Since there are only
 a few defaults defined, I am just prepending them to my changes instead of
@@ -54,19 +56,21 @@ dealing with append and stuff.
           ("\\.svg\\'" . viewnior)
           )))
 #+end_src
+
 ** Inline image size
 Make large images not take up entire buffer
 #+begin_src elisp
 (after! org
   (setq org-image-actual-width nil))
 #+end_src
+
 ** Org ref
 Manage references using org-ref.
 #+begin_src elisp
 (after! org
-  (setq reftex-default-bibliography '("~/Dropbox/org/references.bib"))
+  (setq reftex-default-bibliography "/home/eethern/Dropbox/bibliography/references.bib")
   (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
-        org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
+        org-ref-default-bibliography (list "/home/eethern/Dropbox/bibliography/references.bib")
         org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
 
   (setq org-ref-completion-library 'org-ref-ivy-cite)
@@ -76,9 +80,11 @@ Manage references using org-ref.
 
                                         ; Makes org-ref reload its completion on save rather than just on buffer reload
   (add-hook 'after-save-hook (lambda ()
-                               (setq org-ref-labels nil)))
-  )
+                               (setq org-ref-labels nil))))
 #+end_src
+
+#+RESULTS:
+| (lambda nil (setq org-ref-labels nil)) | (closure (t) nil (setq org-ref-labels nil)) | rmail-after-save-hook | doom-modeline-update-vcs-text | doom-modeline-update-vcs-icon | doom-modeline-update-buffer-file-name | +upload-init-after-save-h | +evil-display-vimlike-save-message-h | doom-auto-revert-buffers-h | doom-guess-mode-h |
 
 ** Agenda
 I don't really use agenda anymore, but they're here.
@@ -93,6 +99,7 @@ I don't really use agenda anymore, but they're here.
   ;; Show habit tracker!
   (setq org-habit-show-habits t))
 #+end_src
+
 *** Super agenda
 Add super agenda
 #+begin_src elisp
@@ -102,13 +109,18 @@ Add super agenda
   (setq org-super-agenda-groups '((:auto-dir-name t)))
   (org-super-agenda-mode))
 #+end_src
+
 ** Org auto tangle
 Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
 #+begin_src elisp
-(after! org-auto-tangle
-  (add-hook 'org-mode-hook 'org-auto-tangle-mode)
-  (setq org-auto-tangle-default t))
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default nil))
 #+end_src
+
+
 *** TODO Make this work for jupyter python code blocks
 
 ** Org appear
@@ -118,6 +130,7 @@ Use org-appear to reveal emphasis markers when moving the cursor over them.
   (add-hook! org-mode :append #'org-appear-mode)
   )
 #+end_src
+
 ** Org download
 Org download allows me to screenshot regions of my screen directly into org mode
 buffers. It is useful for grabbing images during lectures, etc.
@@ -129,6 +142,7 @@ which does not have ugly borders that scrot has).
   (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
   (setq org-download-method 'directory))
 #+end_src
+
 ** Org roam
 I transferred to org-roam after I realized I hated hierarchical documents. Ideas
 apply to many different subjects, which org-roam handles very well. This block
@@ -159,9 +173,17 @@ Setup capture templates for org-roam. I made these load from template files for 
           ("le" "exercise" plain (function org-roam-capture--get-point)
            (file "/home/eethern/.doom.d/templates/exercise.org")
            :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
-           :unnarrowed t))
-        ))
+           :unnarrowed t)
+          ("p" "project" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/project.org")
+           :file-name "project/${slug}/README"
+           :unnarrowd t)
+           )
+          )
+        )
 #+end_src
+
+
 And for dailies
 #+begin_src elisp
 (after! org-roam
@@ -176,29 +198,161 @@ And for dailies
 
 The following comands handles exporting backlinks to html. They will appear at the top of the document.
 #+begin_src elisp
-(after! (org-roam)
-  (defun eethern/org-roam-export-all ()
-    "Re-exports all Org-roam files to HTML"
-    (interactive)
-    (dolist (f (org-roam--list-all-files))
-      (with-current-buffer (find-file f)
-        (when (s-contains? "SETUPFILE" (buffer-string))
-          (org-html-export-to-html)))))
-  (defun eethern/org-roam--backlinks-list (file)
-    (when (org-roam--org-roam-file-p file)
-      (mapcar #'car (org-roam-db-query [:select :distinct [from]
-                                        :from links
-                                        :where (= to $s1)
-                                        :and from :not :like $s2] file "%private%"))))
-  (defun eethern/org-export-preprocessor (_backend)
-    (when-let ((links (eethern/org-roam--backlinks-list (buffer-file-name))))
-      (insert "\n** Backlinks\n")
-      (dolist (link links)
-        (insert (format "- [[file:%s][%s]]\n"
-                        (file-relative-name link org-roam-directory)
-                        (org-roam--get-title-or-slug link))))))
-  (add-hook 'org-export-before-processing-hook #'eethern/org-export-preprocessor))
+;; (after! (org-roam)
+;;   (defun eethern/org-roam-export-all ()
+;;     "Re-exports all Org-roam files to HTML"
+;;     (interactive)
+;;     (dolist (f (org-roam--list-all-files))
+;;       (with-current-buffer (find-file f)
+;;         (when (s-contains? "SETUPFILE" (buffer-string))
+;;           (org-html-export-to-html)))))
+;;   (defun eethern/org-roam--backlinks-list (file)
+;;     (when (org-roam--org-roam-file-p file)
+;;       (mapcar #'car (org-roam-db-query [:select :distinct [from]
+;;                                         :from links
+;;                                         :where (= to $s1)
+;;                                         :and from :not :like $s2] file "%private%"))))
+;;   (defun eethern/org-export-preprocessor (_backend)
+;;     (when-let ((links (eethern/org-roam--backlinks-list (buffer-file-name))))
+;;       (insert "\n** Backlinks\n")
+;;       (dolist (link links)
+;;         (insert (format "- [[file:%s][%s]]\n"
+;;                         (file-relative-name link org-roam-directory)
+;;                         (org-roam--get-title-or-slug link))))))
+;;   (add-hook 'org-export-before-processing-hook #'eethern/org-export-preprocessor))
 #+end_src
+
+Setup org roam server. This does some nice styling and physics simulations to
+make the graph view much nicer.
+#+begin_src elisp
+(setq org-roam-server-network-vis-options "{
+    \"physics\": {
+        \"enabled\": true,
+        \"stabilization\": {
+            \"enabled\": true,
+            \"iterations\": 10000
+        },
+        \"timestep\": 0.4,
+        \"maxVelocity\": 100,
+        \"solver\": \"barnesHut\",
+        \"barnesHut\": {
+            \"theta\": 0.5,
+            \"gravitationalConstant\": -2000,
+            \"centralGravity\": 20,
+            \"springLength\": 100,
+            \"springConstant\": 0.1,
+            \"damping\": 0.8,
+            \"avoidOverlap\": 0
+        }
+    },
+    \"edges\": {
+        \"physics\": true,
+        \"length\": 5,
+        \"hidden\": false,
+        \"smooth\": {
+            \"enabled\": true,
+            \"type\": \"continuous\"
+        },
+        \"color\": {
+            \"border\": \"#2B7CE9\",
+            \"background\": \"#97C2FC\",
+            \"highlight\": \"#6f5ecc\",
+            \"hover\": \"#6f5ecc\"
+        }
+    },
+    \"nodes\": {
+        \"mass\": 15,
+        \"font\": {
+            \"size\": 24
+        },
+        \"color\": {
+            \"border\": \"#D6D5D3\",
+            \"background\": \"#ffffff\",
+            \"highlight\": \"#6f5ecc\",
+            \"hover\": \"#6f5ecc\"
+        }
+    },
+    \"options\": {
+        \"highlightNearest\": {
+            \"enable\": true,
+            \"degree\": 2
+        }
+    }
+}")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "iterations": 10000
+        },
+        "timestep": 0.4,
+        "maxVelocity": 100,
+        "solver": "barnesHut",
+        "barnesHut": {
+            "theta": 0.5,
+            "gravitationalConstant": -2000,
+            "centralGravity": 20,
+            "springLength": 100,
+            "springConstant": 0.1,
+            "damping": 0.8,
+            "avoidOverlap": 0
+        }
+    },
+    "edges": {
+        "physics": true,
+        "length": 5,
+        "hidden": false,
+        "smooth": {
+            "enabled": true,
+            "type": "continuous"
+        },
+        "color": {
+            "border": "#2B7CE9",
+            "background": "#97C2FC",
+            "highlight": "#6f5ecc",
+            "hover": "#6f5ecc"
+        }
+    },
+    "nodes": {
+        "mass": 15,
+        "font": {
+            "size": 24
+        },
+        "color": {
+            "border": "#D6D5D3",
+            "background": "#ffffff",
+            "highlight": "#6f5ecc",
+            "hover": "#6f5ecc"
+        }
+    },
+    "options": {
+        "highlightNearest": {
+            "enable": true,
+            "degree": 2
+        }
+    }
+}
+#+end_example
+
+*** Bibliography
+Setup org-roam-bibtex
+#+begin_src elisp
+(use-package! org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (require 'org-ref)) ; optional: if Org Ref is not loaded anywhere else, load it here
+#+end_src
+
+
+
+  #+RESULTS:
+  | org-roam-bibtex-mode |
 
 ** Org mermaid
 Org babel mermaid allows drawing mermaid diagrams using source blocks. Works well if you want to quickly render something for an assignement.
@@ -207,29 +361,148 @@ Org babel mermaid allows drawing mermaid diagrams using source blocks. Works wel
   (setq ob-mermaid-cli-path "/usr/bin/mmdc")
   )
 #+end_src
+
+#+RESULTS:
+
 ** Cdlatex
 Makes math more bearable in org-mode, therefore activate it.
 #+begin_src elisp
 (after! org
   (add-hook 'org-mode-hook #'org-cdlatex-mode))
 #+end_src
-** Inline task
+
+** DISABLED Inline task
 Inline tasks are todo items that can be mid section, hence they will not make
 all text under them belong to the todo. They are included in org-mode, but
 disabled by default, so activate them.
 #+begin_src elisp
-(require 'org-inlinetask)
+                                        ;(require 'org-inlinetask)
 #+end_src
+
 ** Elfeed
 Read your rss in emacs!
 #+begin_src elisp
+(map! :leader "o f" 'elfeed)
+
 (after! elfeed-org
   (elfeed-org)
   (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
   (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
+
+  (use-package! elfeed-link)
+
+  (setq elfeed-search-filter "@1-week-ago"
+        elfeed-search-print-entry-function '+rss/elfeed-search-print-entry
+        elfeed-search-title-min-width 80
+        elfeed-show-entry-switch #'pop-to-buffer
+        elfeed-show-entry-delete #'+rss/delete-pane
+        elfeed-show-refresh-function #'+rss/elfeed-show-refresh--better-style
+        shr-max-image-proportion 0.6)
+
+  (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
+  (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
+
+  (defface elfeed-show-title-face '((t (:weight ultrabold :slant italic :height 1.5)))
+    "title face in elfeed show buffer"
+    :group 'elfeed)
+  (defface elfeed-show-author-face `((t (:weight light)))
+    "title face in elfeed show buffer"
+    :group 'elfeed)
+  (set-face-attribute 'elfeed-search-title-face nil
+                      :foreground 'nil
+                      :weight 'light)
+
+  (defadvice! +rss-elfeed-wrap-h-nicer ()
+    "Enhances an elfeed entry's readability by wrapping it to a width of
+`fill-column' and centering it with `visual-fill-column-mode'."
+    :override #'+rss-elfeed-wrap-h
+    (let ((inhibit-read-only t)
+          (inhibit-modification-hooks t))
+      (setq-local truncate-lines nil)
+      (setq-local shr-width 120)
+      (setq-local line-spacing 0.2)
+      (setq-local visual-fill-column-center-text t)
+      (visual-fill-column-mode)
+      ;; (setq-local shr-current-font '(:family "Merriweather" :height 1.2))
+      (set-buffer-modified-p nil)))
+
+  (defun +rss/elfeed-search-print-entry (entry)
+    "Print ENTRY to the buffer."
+    (let* ((elfeed-goodies/tag-column-width 40)
+           (elfeed-goodies/feed-source-column-width 30)
+           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (feed (elfeed-entry-feed entry))
+           (feed-title
+            (when feed
+              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+           (tags-str (concat (mapconcat 'identity tags ",")))
+           (title-width (- (window-width) elfeed-goodies/feed-source-column-width
+                           elfeed-goodies/tag-column-width 4))
+
+           (tag-column (elfeed-format-column
+                        tags-str (elfeed-clamp (length tags-str)
+                                               elfeed-goodies/tag-column-width
+                                               elfeed-goodies/tag-column-width)
+                        :left))
+           (feed-column (elfeed-format-column
+                         feed-title (elfeed-clamp elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width)
+                         :left)))
+
+      (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
+      (insert (propertize tag-column 'face 'elfeed-search-tag-face) " ")
+      (insert (propertize title 'face title-faces 'kbd-help title))
+      (setq-local line-spacing 0.2)))
+
+  (defun +rss/elfeed-show-refresh--better-style ()
+    "Update the buffer to match the selected entry, using a mail-style."
+    (interactive)
+    (let* ((inhibit-read-only t)
+           (title (elfeed-entry-title elfeed-show-entry))
+           (date (seconds-to-time (elfeed-entry-date elfeed-show-entry)))
+           (author (elfeed-meta elfeed-show-entry :author))
+           (link (elfeed-entry-link elfeed-show-entry))
+           (tags (elfeed-entry-tags elfeed-show-entry))
+           (tagsstr (mapconcat #'symbol-name tags ", "))
+           (nicedate (format-time-string "%a, %e %b %Y %T %Z" date))
+           (content (elfeed-deref (elfeed-entry-content elfeed-show-entry)))
+           (type (elfeed-entry-content-type elfeed-show-entry))
+           (feed (elfeed-entry-feed elfeed-show-entry))
+           (feed-title (elfeed-feed-title feed))
+           (base (and feed (elfeed-compute-base (elfeed-feed-url feed)))))
+      (erase-buffer)
+      (insert "\n")
+      (insert (format "%s\n\n" (propertize title 'face 'elfeed-show-title-face)))
+      (insert (format "%s\t" (propertize feed-title 'face 'elfeed-search-feed-face)))
+      (when (and author elfeed-show-entry-author)
+        (insert (format "%s\n" (propertize author 'face 'elfeed-show-author-face))))
+      (insert (format "%s\n\n" (propertize nicedate 'face 'elfeed-log-date-face)))
+      (when tags
+        (insert (format "%s\n"
+                        (propertize tagsstr 'face 'elfeed-search-tag-face))))
+      ;; (insert (propertize "Link: " 'face 'message-header-name))
+      ;; (elfeed-insert-link link link)
+      ;; (insert "\n")
+      (cl-loop for enclosure in (elfeed-entry-enclosures elfeed-show-entry)
+               do (insert (propertize "Enclosure: " 'face 'message-header-name))
+               do (elfeed-insert-link (car enclosure))
+               do (insert "\n"))
+      (insert "\n")
+      (if content
+          (if (eq type 'html)
+              (elfeed-insert-html content base)
+            (insert content))
+        (insert (propertize "(empty)\n" 'face 'italic)))
+      (goto-char (point-min))))
   )
-(map! :leader "o f" 'elfeed)
 #+end_src
+
+#+RESULTS:
+: +rss/elfeed-show-refresh--better-style
+
 ** Spell optimization
 Speedup spell in org mode
 #+begin_src elisp
@@ -238,6 +511,7 @@ Speedup spell in org mode
                (setq enable-flyspell-auto-completion t)
                ))
 #+end_src
+
 ** Org fragtog - Automate latex inline rendering
 An annoying thing about latex equations in org mode is that you have to toggle
 them to display and undisplay images. org-fragtog only shows the latex code if
@@ -245,43 +519,43 @@ you hover over. Also make the equations bigger scale with text scaling
 
 #+begin_src elisp
 (after! org
-(add-hook! org-mode org-fragtog-mode)
+  (add-hook! org-mode org-fragtog-mode)
 
-                        ; Scale depending on zoom level
-(defun update-org-latex-fragment-scale ()
-(let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
-(plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
-)
-(add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
-)
+                                        ; Scale depending on zoom level
+  (defun update-org-latex-fragment-scale ()
+    (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
+      (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
+    )
+  (add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
+  )
 #+end_src
 
-** Source code export
+** Latex export
 Export minted latex source code in pdf, using latexmk.
 
 #+begin_src elisp
 (after! org
-(require 'org)
-(require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(setq org-latex-listings 'minted)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+  (setq org-src-fontify-natively t)
+  )
 
-(setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf %f"))
-;; (setq org-latex-pdf-process
-;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-(setq org-src-fontify-natively t))
+;; (after! ox-latex
+;;   (add-to-list org-latex-listings-langs '(jupyter-emacs "Python")))
 #+end_src
 
-Do not evaluate src blocks on export, which prevents blocks that take a long
-time to run aren't clogging the system and won't replace my outputs unless I
-specifically run it.
+#+RESULTS:
+: t
+
+Although I want to not evalaute src blocks on export, settings the following
+option to nil makes org disregard header arguments such as =:exports=, which for
+me makes this completely unusable. Instead, I use =:eval never-export= in large
+runtime org files.
 #+begin_src elisp
 (after! org
-(setq org-export-babel-evaluate 'nil)
-)
+  (setq org-export-use-babel t)
+  )
 #+end_src
 
 ** Jupyter emacs
@@ -289,6 +563,15 @@ Bread and butter for using python in org-mode for notebook style execution.
 
 Make a template for inserting jupyter blocks.
 #+begin_src elisp
-(add-to-list 'org-structure-template-alist
-             '("j" . "src jupyter-python"))
+(after! org
+  (add-to-list 'org-structure-template-alist
+               '("j" . "src jupyter-python"))
+
+  (setq org-babel-default-header-args:jupyter-python '((:kernel . "python3")
+                                                       (:async . "yes")
+                                                       (:exports . "code")
+                                                       (:session . "py")
+                                                       (:eval . "never-export")))
+  )
 #+end_src
+
