@@ -4,6 +4,9 @@
 if [ ! -f /tmp/bspwm_startup ]
 then
     touch /tmp/bspwm_startup
+
+    feh --bg-scale ~/.dotfiles/.img/space.jpg
+
     # Do startup stuff
     emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
