@@ -56,6 +56,7 @@ Solaire mode
   ;; Treemacs
   (setq doom-themes-treemacs-theme "doom-colors")
   (setq doom-theme 'doom-horizon)
+  (setq doom-horizon-brighter-comments t)
   (doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.

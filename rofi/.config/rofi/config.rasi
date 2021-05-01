@@ -10,10 +10,14 @@
     modi:                        "ssh,drun,run,window";
     combi-modi:                  "window,drun,ssh";
     font:                        "iosevka 12";
+    kb-remove-to-eol:            "";
+    kb-accept-entry:             "Control+m,Return";
+    kb-row-up:                   "Up,Control+k";
+    kb-row-down:                 "Down,Control+j";
 }
 
 * {
-    padding:                     10;
+    padding:                     0;
     red:                         rgba ( 225, 152, 109, 100 % );
     blue:                        rgba ( 170, 160, 215, 100 % );
     lightfg:                     rgba ( 219, 203, 186, 100 % );
