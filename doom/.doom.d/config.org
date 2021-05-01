@@ -1,5 +1,5 @@
 #+TITLE: Doom Config
-#+PROPERTY: header-args:elisp :tangle yes :cache yes :results silent :padline no
+#+PROPERTY: header-args:elisp :tangle config.el :cache yes :results silent :padline no
 #+EXPORT_FILE_NAME: README.md
 #+STARTUP: content
 #+SETUPFILE: ~/Dropbox/org/org-roam/setup_file.org
