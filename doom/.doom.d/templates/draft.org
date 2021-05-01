@@ -1,8 +1,7 @@
 # -*- mode: Org; org-download-image-dir: "./images/${title}"; -*-
 :metadata:
-#+setupfile: ../setup_file.org
 #+roam_alias: "%^{roam alias|${title}}"
-#+roam_tags: exercise
+#+roam_tags: draft
 #+created: %u
 :end:
 #+title: ${title}

@@ -11,9 +11,7 @@
   (package! org-appear
     :recipe (:host github
              :repo "awth13/org-appear"))                            ; Make ** appear on bolded words on hover
-  (package! org-auto-tangle
-    :recipe
-    (:local-repo "~/Dropbox/Personal/devel/emacs/org-auto-tangle")) ; Tangle org babel blocks on save
+  (package! org-auto-tangle)
   (package! org-super-agenda)                                       ; Super agenda for even more agenda power!
   (package! ob-mermaid)                                             ; Graphs in org mode using babel
   (package! org-drill)                                              ; Anki for org mode (flashcards)
@@ -22,15 +20,15 @@
   (package! org-ref)                                                ; Helps with references
   (package! ox-latex-subfigure))
 
+
+(package! zoom) ; Replacement for golden-ratio.el
+
+(unpin! org-roam company-org-roam)
 (when (package! org-roam)
   (package! org-roam-server)
-  (package! org-roam-bibtex))
+  (package! org-roam-bibtex
+    :recipe (:host github :repo "org-roam/org-roam-bibtex")))
 
-;; (when (package! lsp)
-;;   (package! lsp-ui)
-;;   (package! lsp-ivy)
-;;   (package! lsp-treemacs)
-;;   )
 
 ;;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ;; To install a package with Doom you must declare them here, run 'doom sync' on

@@ -43,33 +43,35 @@ There are two ways to load a theme. Both assume the theme is installed and
 available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. Here we set the doom-horizon theme.
 
+Solaire mode
+
 #+begin_src elisp
 (use-package! doom-themes
   :config
   ;; Global settings (defaults)
 
   (setq doom-themes-enable-bold t      ; if nil, bold is universally disabled
-        doom-themes-enable-italic t    ; if nil, italics is universally disabled
-        )
-
-  (setq doom-theme 'doom-horizon)
+        doom-themes-enable-italic t)   ; if nil, italics is universally disabled
 
   ;; Treemacs
   (setq doom-themes-treemacs-theme "doom-colors")
+  (setq doom-theme 'doom-horizon)
   (doom-themes-treemacs-config)
 
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+
+  )
 #+end_src
 
 The following changes the color of org mode blocks (src, example, quote etc.) to be more obvious by darkening them.
 #+begin_src elisp
-(after! org
-  (after! doom-themes
-    (set-face-background 'org-block (doom-darken 'bg 0.15))
-    (set-face-background 'org-block-begin-line (doom-darken 'bg 0.15))
-  )
-)
+;; (after! org
+;;   (after! doom-themes
+;;     (set-face-background 'org-block (doom-darken 'bg 0.15))
+;;     (set-face-background 'org-block-begin-line (doom-darken 'bg 0.15))
+;;   )
+;; )
 #+end_src
 
 ** Font
@@ -87,6 +89,19 @@ font string. You generally only need these two:
 #+begin_src elisp
 (setq doom-font (font-spec :family "iosevka" :size 18))
 #+end_src
+** Window management
+*** Golden ratio mode
+Golden ratio mode automatically resizes windows according to the golden ratio.
+#+begin_src elisp
+;; (use-package zoom
+;;   :hook (doom-first-input . zoom-mode)
+;;   :config
+;;   (setq zoom-size '(0.618 . 0.618)
+;;         zoom-ignored-major-modes '(dired-mode vterm-mode help-mode helpful-mode rxt-help-mode help-mode-menu org-mode)
+;;         zoom-ignored-buffer-names '("*doom:scratch*" "*info*" "*helpful variable: argv*")
+;;         zoom-ignored-buffer-name-regexps '("^\\*calc" "\\*helpful variable: .*\\*")
+;;         zoom-ignore-predicates (list (lambda () (< (count-lines (point-min) (point-max)) 20))))
+#+end_src
 * Editor
 ** Line numbers
 Relative line numbers allows using relational vim bindings, ie. =10k= to move 10 lines up, for example. Enable this to get better at using them.
@@ -100,19 +115,6 @@ Completion settings.
 (require 'company)
 (setq company-idle-delay 0.0
       company-minimum-prefix-length 1)
-#+end_src
-** Evil moton
-#+begin_src elisp
-(after! evil-easymotion
-  (put 'visible-buffer 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
-  (evilem-make-motion evilem-motion-forward-word-begin #'evil-forward-word-begin :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-forward-WORD-begin #'evil-forward-WORD-begin :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-forward-word-end #'evil-forward-word-end :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-forward-WORD-end #'evil-forward-WORD-end :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-backward-word-begin #'evil-backward-word-begin :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-backward-WORD-begin #'evil-backward-WORD-begin :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-backward-word-end #'evil-backward-word-end :scope 'visible-buffer)
-  (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible-buffer))
 #+end_src
 ** Evil snipe
 Make evil snipe jumpy into easymotion
@@ -138,21 +140,29 @@ brackets, you can select everything within the parenthesis in =(Hello my name is
 (map! :leader "v" 'er/expand-region)
 #+end_src
 
+** Line endings
+Convert line endings to unix
+#+begin_src elisp
+(defun no-junk-please-were-unixish ()
+  (let ((coding-str (symbol-name buffer-file-coding-system)))
+    (when (string-match "-\\(?:dos\\|mac\\)$" coding-str)
+      (set-buffer-file-coding-system 'unix))))
+
+(add-hook 'find-file-hooks 'no-junk-please-were-unixish)
+#+end_src
 * Mode config
 #+include: "~/.doom.d/+org.org"
+** PDF-tools
+#+begin_src elisp
+(after! pdf-tools
+  (add-hook 'pdf-view-mode-hook 'auto-revert-mode))
+#+end_src
 ** Magit
 Bring back the sidebuffer for magit.
 #+begin_src elisp
 (set-popup-rule! "\\^*magit" :side 'right :width 0.4)
 #+end_src
 
-** Latex
-I don't really edit latex anymore, so not sure why this is here.
-#+BEGIN_SRC elisp
-(after! latex
-  (set-company-backend! 'latex-mode t)
-  (setq-default TeX-master 'nil)) ; Ask for master file on latexmk
-#+END_SRC
 ** Python
 Configure python
 #+begin_src elisp
@@ -161,6 +171,7 @@ Configure python
       "c" 'python-shell-send-buffer
       "r" 'run-python)
 #+end_src
+
 ** Dired
 *** Ranger
 Automatically use ranger when using dired.
@@ -169,6 +180,13 @@ Automatically use ranger when using dired.
   (setq ranger-override-dired 'ranger))
 #+end_src
 
+** Eshell
+
+#+begin_src elisp
+(after! eshell
+  (setq eshell-term-name "kitty")
+)
+#+end_src
 * Bindings
 Collection of nice bindings I use throughout the emacs journey.
 #+BEGIN_SRC elisp
