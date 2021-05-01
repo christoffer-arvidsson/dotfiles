@@ -6,12 +6,14 @@
  *  Scheme: ElementLush
  *  Template: Jordi Pakey-Rodriguez (https://github.com/0xdec), Andrea Scarpino (https://github.com/ilpianista)
  */
+ configuration {
+    modi:                        "ssh,drun,run,window";
+    combi-modi:                  "window,drun,ssh";
+    font:                        "iosevka 12";
+}
 
 * {
-    modi:                        "drun, window";
-    font:                        "iosevka 15";
     padding:                     10;
-
     red:                         rgba ( 225, 152, 109, 100 % );
     blue:                        rgba ( 170, 160, 215, 100 % );
     lightfg:                     rgba ( 219, 203, 186, 100 % );
@@ -71,6 +73,7 @@ element {
     border:           0;
     padding:          5px ;
 }
+
 element normal.normal {
     background-color: @normal-background;
     text-color:       @normal-foreground;
@@ -106,6 +109,9 @@ element alternate.urgent {
 element alternate.active {
     background-color: @alternate-active-background;
     text-color:       @alternate-active-foreground;
+}
+element-icon {
+    size: 1.1em;
 }
 scrollbar {
     width:            4px ;

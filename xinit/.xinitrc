@@ -6,10 +6,7 @@
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 # Escape -> Caps and set swedish keyboard
-setxkbmap sv -option caps:swapescape
+setxkbmap se -option caps:swapescape
 
-# Screen resolution
-xrandr --output DVI-I-1 --scale 1.25x1.25
-xrandr --output DVI-D-0 --scale 1.25x1.25
-
+sxhkd &
 exec bspwm

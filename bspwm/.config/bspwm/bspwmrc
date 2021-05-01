@@ -8,8 +8,8 @@ then
     emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
     polybar -r topbar &
-    polybar -r bottombar &
-    spotify --force-device-scale-factor=1.25 &
+    # polybar -r bottombar &
+    spotify --force-device-scale-factor=0.75 &
     dunst &
     blueman-applet &
     mullvad-vpn &
@@ -23,8 +23,8 @@ outer_gap_vert=10
 outer_gap_hori=10
 bar_compensation=5
 
-bspc monitor DVI-I-1 web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-bspc monitor DVI-D-0 web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+bspc monitor DVI-I-1 -n 0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+bspc monitor DVI-D-0 -n 1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
 
 bspc config border_width         2
 

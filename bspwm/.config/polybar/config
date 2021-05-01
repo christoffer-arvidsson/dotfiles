@@ -25,9 +25,9 @@ inactive = #55BFA89E
 [bar/topbar]
 enable-ipc = true
 width = 100%
-height = 30
+height = 20
 offset-x = 0
-offset-y = 4
+offset-y = 2
 radius = 0.0
 fixed-center = true
 
@@ -49,9 +49,9 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=12;2
 font-2 = Material\ Icons:size=12
 
-modules-left = spotify bluetooth-menu bluetooth
-;modules-center = bspwm
-modules-right = do-not-disturb backlight volume vpn-openvpn-status wlan battery date time
+modules-left = bspwm-modes spotify bluetooth-menu bluetooth
+modules-center = bspwm
+modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10

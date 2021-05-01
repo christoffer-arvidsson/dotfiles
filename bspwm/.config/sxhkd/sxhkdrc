@@ -182,10 +182,6 @@ super + ctrl + p
 super + shift + o
   bwmenu --auto-lock 3600
 
-# Bibbrowser rofi
-super + shift + b
-    /home/eethern/.dotfiles/rofi/.config/rofi/scripts/rofi-bibbrowser/rofi-bibbrowser --default-config
-
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
   xfce4-screenshooter {-c -r,-r}
