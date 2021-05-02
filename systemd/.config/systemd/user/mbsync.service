@@ -1,0 +1,6 @@
+[Unit]
+Description=Mailbox synchronization service
+
+[Service]
+Type=oneshot
+ExecStartPost=/usr/bin/emacsclient -e '(mu4e-update-index)'
