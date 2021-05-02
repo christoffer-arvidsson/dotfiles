@@ -1,0 +1,19 @@
+#+TITLE: Mail configuration for =mu4e=
+
+* Mail handling
+
+Use mu4e as mail handler, this loads from gmail. Each path is relative to
+=+mu4e-mu4e-mail-path=, which is =~/.mail= by default. Here, I set it to =~/Mail=
+#+begin_src elisp
+
+(after! mu4e
+  (setq +mu4e-mu4e-mail-path "~/Mail/")
+  (set-email-account! "arvidson.nu"
+                      '((mu4e-sent-folder       . "/[Gmail].Sent Mail")
+                        ;; (mu4e-drafts-folder     . "/[Gmail].Drafts")
+                        ;; (mu4e-trash-folder      . "/[Gmail].Sent Mail")
+                        (mu4e-refile-folder     . "/[Gmail].All Mail")
+                        (smtpmail-smtp-user     . "christoffer@arvidson.nu")
+                        (mu4e-compose-signature . "---\nChristoffer Arvidsson"))
+                      t))
+#+end_src

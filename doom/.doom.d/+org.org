@@ -83,33 +83,6 @@ Manage references using org-ref.
                                (setq org-ref-labels nil))))
 #+end_src
 
-#+RESULTS:
-| (lambda nil (setq org-ref-labels nil)) | (closure (t) nil (setq org-ref-labels nil)) | rmail-after-save-hook | doom-modeline-update-vcs-text | doom-modeline-update-vcs-icon | doom-modeline-update-buffer-file-name | +upload-init-after-save-h | +evil-display-vimlike-save-message-h | doom-auto-revert-buffers-h | doom-guess-mode-h |
-
-** Agenda
-I don't really use agenda anymore, but they're here.
-*** Settings
-#+begin_src elisp
-(after! org
-  ;; Use org-habit
-  (require 'org-habit)
-  ;; Make agenda always show +7 days forward
-  (setq org-agenda-start-on-weekday nil)
-
-  ;; Show habit tracker!
-  (setq org-habit-show-habits t))
-#+end_src
-
-*** Super agenda
-Add super agenda
-#+begin_src elisp
-(use-package! org-super-agenda
-  :after org-agenda
-  :config
-  (setq org-super-agenda-groups '((:auto-dir-name t)))
-  (org-super-agenda-mode))
-#+end_src
-
 ** Org auto tangle
 Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
 #+begin_src elisp
@@ -183,7 +156,6 @@ Setup capture templates for org-roam. I made these load from template files for 
         )
 #+end_src
 
-
 And for dailies
 #+begin_src elisp
 (after! org-roam
@@ -194,32 +166,6 @@ And for dailies
            :file-name "daily/%<%Y-%m-%d>"
            :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
            ))))
-#+end_src
-
-The following comands handles exporting backlinks to html. They will appear at the top of the document.
-#+begin_src elisp
-;; (after! (org-roam)
-;;   (defun eethern/org-roam-export-all ()
-;;     "Re-exports all Org-roam files to HTML"
-;;     (interactive)
-;;     (dolist (f (org-roam--list-all-files))
-;;       (with-current-buffer (find-file f)
-;;         (when (s-contains? "SETUPFILE" (buffer-string))
-;;           (org-html-export-to-html)))))
-;;   (defun eethern/org-roam--backlinks-list (file)
-;;     (when (org-roam--org-roam-file-p file)
-;;       (mapcar #'car (org-roam-db-query [:select :distinct [from]
-;;                                         :from links
-;;                                         :where (= to $s1)
-;;                                         :and from :not :like $s2] file "%private%"))))
-;;   (defun eethern/org-export-preprocessor (_backend)
-;;     (when-let ((links (eethern/org-roam--backlinks-list (buffer-file-name))))
-;;       (insert "\n** Backlinks\n")
-;;       (dolist (link links)
-;;         (insert (format "- [[file:%s][%s]]\n"
-;;                         (file-relative-name link org-roam-directory)
-;;                         (org-roam--get-title-or-slug link))))))
-;;   (add-hook 'org-export-before-processing-hook #'eethern/org-export-preprocessor))
 #+end_src
 
 Setup org roam server. This does some nice styling and physics simulations to
@@ -281,64 +227,6 @@ make the graph view much nicer.
 }")
 #+end_src
 
-#+RESULTS:
-#+begin_example
-{
-    "physics": {
-        "enabled": true,
-        "stabilization": {
-            "enabled": true,
-            "iterations": 10000
-        },
-        "timestep": 0.4,
-        "maxVelocity": 100,
-        "solver": "barnesHut",
-        "barnesHut": {
-            "theta": 0.5,
-            "gravitationalConstant": -2000,
-            "centralGravity": 20,
-            "springLength": 100,
-            "springConstant": 0.1,
-            "damping": 0.8,
-            "avoidOverlap": 0
-        }
-    },
-    "edges": {
-        "physics": true,
-        "length": 5,
-        "hidden": false,
-        "smooth": {
-            "enabled": true,
-            "type": "continuous"
-        },
-        "color": {
-            "border": "#2B7CE9",
-            "background": "#97C2FC",
-            "highlight": "#6f5ecc",
-            "hover": "#6f5ecc"
-        }
-    },
-    "nodes": {
-        "mass": 15,
-        "font": {
-            "size": 24
-        },
-        "color": {
-            "border": "#D6D5D3",
-            "background": "#ffffff",
-            "highlight": "#6f5ecc",
-            "hover": "#6f5ecc"
-        }
-    },
-    "options": {
-        "highlightNearest": {
-            "enable": true,
-            "degree": 2
-        }
-    }
-}
-#+end_example
-
 *** Bibliography
 Setup org-roam-bibtex
 #+begin_src elisp
@@ -349,34 +237,11 @@ Setup org-roam-bibtex
   (require 'org-ref)) ; optional: if Org Ref is not loaded anywhere else, load it here
 #+end_src
 
-
-
-  #+RESULTS:
-  | org-roam-bibtex-mode |
-
-** Org mermaid
-Org babel mermaid allows drawing mermaid diagrams using source blocks. Works well if you want to quickly render something for an assignement.
-#+begin_src elisp
-(after! ob-mermaid
-  (setq ob-mermaid-cli-path "/usr/bin/mmdc")
-  )
-#+end_src
-
-#+RESULTS:
-
 ** Cdlatex
 Makes math more bearable in org-mode, therefore activate it.
 #+begin_src elisp
 (after! org
   (add-hook 'org-mode-hook #'org-cdlatex-mode))
-#+end_src
-
-** DISABLED Inline task
-Inline tasks are todo items that can be mid section, hence they will not make
-all text under them belong to the todo. They are included in org-mode, but
-disabled by default, so activate them.
-#+begin_src elisp
-                                        ;(require 'org-inlinetask)
 #+end_src
 
 ** Elfeed
@@ -500,9 +365,6 @@ Read your rss in emacs!
   )
 #+end_src
 
-#+RESULTS:
-: +rss/elfeed-show-refresh--better-style
-
 ** Spell optimization
 Speedup spell in org mode
 #+begin_src elisp
@@ -541,12 +403,7 @@ Export minted latex source code in pdf, using latexmk.
   (setq org-src-fontify-natively t)
   )
 
-;; (after! ox-latex
-;;   (add-to-list org-latex-listings-langs '(jupyter-emacs "Python")))
 #+end_src
-
-#+RESULTS:
-: t
 
 Although I want to not evalaute src blocks on export, settings the following
 option to nil makes org disregard header arguments such as =:exports=, which for
