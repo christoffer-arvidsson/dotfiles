@@ -3,4 +3,5 @@ Description=Mailbox synchronization service
 
 [Service]
 Type=oneshot
-ExecStartPost=/usr/bin/emacsclient -e '(mu4e-update-index)'
+ExecStart=/usr/bin/mbsync -Va
+ExecStartPost=/usr/bin/emacsclient --socket-name doom_server -e '(mu4e-update-mail-and-index 1)'

@@ -26,3 +26,5 @@
 ;; UI
 (package! zoom) ; Replacement for golden-ratio.el
 
+;; MAIL
+(package! mu4e-alert) ; Desktop and emacs notifications when there is new mail

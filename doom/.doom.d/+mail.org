@@ -16,4 +16,11 @@ Use mu4e as mail handler, this loads from gmail. Each path is relative to
                         (smtpmail-smtp-user     . "christoffer@arvidson.nu")
                         (mu4e-compose-signature . "---\nChristoffer Arvidsson"))
                       t))
+
+(use-package! mu4e-alert
+  :config
+   (mu4e-alert-set-default-style 'libnotify)
+   (mu4e-alert-enable-notifications)
+   (mu4e-alert-enable-mode-line-display)
+   )
 #+end_src
