@@ -3,6 +3,8 @@
 # eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
 # End:
 
+#+property: header-args :results silent
+
 * Org-mode
 Welcome to 90% of this config.
 ** Keybindings
