@@ -1,26 +1,5 @@
 #! /bin/sh
 
-## Startup
-if [ ! -f /tmp/bspwm_startup ]
-then
-    touch /tmp/bspwm_startup
-
-    feh --bg-scale ~/.dotfiles/.img/space.jpg
-
-    # Do startup stuff
-    emacs --bg-daemon=doom_server &
-    picom --config ~/.config/picom/picom.conf &
-    polybar -r topbar &
-    # polybar -r bottombar &
-    spotify --force-device-scale-factor=0.75 &
-    dunst &
-    blueman-applet &
-    mullvad-vpn &
-    # mullvad-tray &
-    redshift-gtk &
-    sxhkd -c ~/.config/sxhkd/sxhkdrc &
-fi
-
 inner_gap=5
 outer_gap_vert=10
 outer_gap_hori=10
@@ -52,4 +31,27 @@ bspc rule -a rocket.chat+ desktop=^9
 bspc rule -a spotify desktop=^music
 bspc rule -a Zathura state=tiled
 bspc rule -a termite state=tiled
-bspc rule -a steam desktop=^8
+bspc rule -a steam desktop=^7
+
+## Startup
+if [ ! -f /tmp/bspwm_startup ]
+then
+    touch /tmp/bspwm_startup
+
+    feh --bg-scale ~/.dotfiles/.img/space.jpg
+
+    # Do startup stuff
+    emacs --bg-daemon=doom_server &
+    picom --config ~/.config/picom/picom.conf &
+    polybar -r topbar &
+    # polybar -r bottombar &
+    spotify --force-device-scale-factor=0.75 &
+    dunst &
+    blueman-applet &
+    mullvad-vpn &
+    # mullvad-tray &
+    redshift-gtk &
+    sxhkd -c ~/.config/sxhkd/sxhkdrc &
+    discord-canary &
+    steam-native &
+fi
