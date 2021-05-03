@@ -1,0 +1,8 @@
+# -*- mode: Org; org-download-image-dir: "./images/${title}"; -*-
+:metadata:
+#+roam_tags: lecture
+#+created: %u
+:end:
+#+title: ${title}
+
+%?

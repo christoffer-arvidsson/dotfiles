@@ -135,7 +135,11 @@ Setup capture templates for org-roam. I made these load from template files for 
            (file "/home/eethern/.doom.d/templates/draft.org")
            :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
            :unnarrowed t)
-          ("ll" "permanent note" plain (function org-roam-capture--get-point)
+          ("ll" "lecture note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/lecture_note.org")
+           :file-name "lecture/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("lp" "permanent note" plain (function org-roam-capture--get-point)
            (file "/home/eethern/.doom.d/templates/latex.org")
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
            :unnarrowed t)
