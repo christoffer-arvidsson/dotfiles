@@ -252,7 +252,7 @@ Read your rss in emacs!
 (after! elfeed-org
   (elfeed-org)
   (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
-  (setq rmh-elfeed-org-files (list "~/Projects/org/elfeed/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/Dropbox/org/elfeed/elfeed.org"))
 
   (use-package! elfeed-link)
 
