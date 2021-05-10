@@ -166,6 +166,22 @@ XF86AudioRaiseVolume
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -5%
 
+#
+# Popup terminals
+#
+
+# Emacs client
+super + e
+  emacsclient -s doom_server -c
+
+# Emacs nonclient
+super + shift + e
+  emacs
+
+# Emacs server
+super + e
+  emacs --bg-daemon=doom_server
+
 # Termite drop
 super + ctrl + s
   tdrop -h 400 -w 800 -x 13 -y 44 -n 2 -a --name terminal kitty
