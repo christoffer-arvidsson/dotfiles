@@ -176,61 +176,64 @@ And for dailies
 
 Setup org roam server. This does some nice styling and physics simulations to
 make the graph view much nicer.
+
 #+begin_src elisp
-(setq org-roam-server-network-vis-options "{
-    \"physics\": {
-        \"enabled\": true,
-        \"stabilization\": {
-            \"enabled\": true,
-            \"iterations\": 10000
-        },
-        \"timestep\": 0.4,
-        \"maxVelocity\": 100,
-        \"solver\": \"barnesHut\",
-        \"barnesHut\": {
-            \"theta\": 0.5,
-            \"gravitationalConstant\": -2000,
-            \"centralGravity\": 20,
-            \"springLength\": 100,
-            \"springConstant\": 0.1,
-            \"damping\": 0.8,
-            \"avoidOverlap\": 0
-        }
-    },
-    \"edges\": {
-        \"physics\": true,
-        \"length\": 5,
-        \"hidden\": false,
-        \"smooth\": {
-            \"enabled\": true,
-            \"type\": \"continuous\"
-        },
-        \"color\": {
-            \"border\": \"#2B7CE9\",
-            \"background\": \"#97C2FC\",
-            \"highlight\": \"#6f5ecc\",
-            \"hover\": \"#6f5ecc\"
-        }
-    },
-    \"nodes\": {
-        \"mass\": 15,
-        \"font\": {
-            \"size\": 24
-        },
-        \"color\": {
-            \"border\": \"#D6D5D3\",
-            \"background\": \"#ffffff\",
-            \"highlight\": \"#6f5ecc\",
-            \"hover\": \"#6f5ecc\"
-        }
-    },
-    \"options\": {
-        \"highlightNearest\": {
-            \"enable\": true,
-            \"degree\": 2
-        }
-    }
-}")
+(setq org-roam-server-network-vis-options
+      (json-encode (list
+                    (cons 'physics
+                          (list
+                           (cons 'enabled t)
+                           (cons 'stabilization
+                                 (list
+                                  (cons 'enabled t)
+                                  (cons 'iterations 100)
+                                  (cons 'fit t)))
+                           (cons 'timestep 0.2)
+                           (cons 'maxVelocity 30)
+                           (cons 'solver "barnesHut")
+                           (cons 'barnesHut
+                                 (list
+                                  (cons 'theta 0.5)
+                                  (cons 'graviationalConstant -10000)
+                                  (cons 'centralGravity 0.3)
+                                  (cons 'springLength 50)
+                                  (cons 'springConstant 0.14)
+                                  (cons 'damping 0.09)
+                                  (cons 'avoidOverlap 0.0)))))
+                    (cons 'edges
+                          (list
+                           (cons 'physics t)
+                           (cons 'length 10)
+                           (cons 'hidden json-false)
+                           (cons 'smooth
+                                 (list
+                                  (cons 'enabled t)
+                                  (cons 'type "continuous")))
+                           (cons 'color
+                                 (list
+                                  (cons 'border "#2B7CE9")
+                                  (cons 'background "#97C2FC")
+                                  (cons 'highlight "#6f5ecc")
+                                  (cons 'hover "#6f5ecc")))))
+                    (cons 'nodes
+                          (list
+                           (cons 'mass 4)
+                           (cons 'font
+                                 (list
+                                  (cons 'size 12)))
+                           (cons 'color
+                                 (list
+                                  (cons 'border "#D6D5D3")
+                                  (cons 'background "#ffffff")
+                                  (cons 'highlight "#6f5ecc")
+                                  (cons 'hover "#6f5ecc")))))
+                    (cons 'options
+                          (list
+                           (cons 'highlight-nearest
+                                 (list
+                                  (cons 'enabled t)
+                                  (cons 'degree 2))))))))
+
 #+end_src
 
 *** Bibliography
