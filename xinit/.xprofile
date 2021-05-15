@@ -5,10 +5,9 @@ xset +fp /home/eethern/.fonts
 xset fp rehash
 xset -b
 
-# Escape -> Caps and set swedish keyboard
-setxkbmap se -option caps:swapescape
-
 # Make sure this is before the 'exec' comand or it won'b be sourced
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+
+~/.screenlayout/Layout.sh
 
 exec bspwm
