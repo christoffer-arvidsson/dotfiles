@@ -51,7 +51,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left = spotify bluetooth-menu bluetooth
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = bspwm-modes unread-mail do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -555,3 +555,9 @@ type = custom/script
 interval = 1000
 label-font = 1
 exec = /home/eethern/.config/polybar/scripts/crypto/crypto.sh
+
+[module/unread-mail]
+type = custom/script
+interval = 100
+label-font = 1
+exec = /home/eethern/.config/polybar/scripts/mail/num_unread.sh
