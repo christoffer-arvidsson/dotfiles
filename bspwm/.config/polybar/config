@@ -510,6 +510,6 @@ exec = /home/eethern/.config/polybar/scripts/crypto/crypto.sh
 
 [module/unread-mail]
 type = custom/script
-interval = 100
+interval = 10
 label-font = 1
 exec = /home/eethern/.config/polybar/scripts/mail/num_unread.sh

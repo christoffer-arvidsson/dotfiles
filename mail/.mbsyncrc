@@ -1,0 +1,23 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User christoffer@arvidson.nu
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
+Port 993
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/INBOX
+
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "[Gmail]/All Mail" "[Gmail]/Bin" "[Gmail]/Drafts" "[Gmail]/Sent Mail" "[Gmail]/Spam"
+Create Slave
+Sync All
+SyncState *
