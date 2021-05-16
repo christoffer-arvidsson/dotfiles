@@ -176,7 +176,7 @@ super + shift + e
   emacs
 
 # Emacs server
-super + e
+super + alt + shift + e
   emacs --bg-daemon=doom_server
 
 # Termite drop
