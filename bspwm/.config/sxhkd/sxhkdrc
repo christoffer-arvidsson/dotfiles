@@ -9,8 +9,6 @@ super + Return
 # program launcher
 super + {_,shift} + p
   rofi -show {drun, window} -show-icons
-  #dmenu_run
-
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -18,7 +16,6 @@ super + Escape
 
 #
 # bspwm hotkeys
-#
 #
 
 super + alt + {_,shift + }{1-9,0}
@@ -196,19 +193,20 @@ super + ctrl + p
 
 # Bitwarden rofi, autolock after 1hour
 super + shift + o
-  bwmenu --auto-lock 3600
+  bwmenu --auto-lock 86400
 
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
   xfce4-screenshooter {-c -r,-r}
 
-# Show help menu
-# super +
-#   /home/eethern/.config/sxhkd/scripts/show_help.sh
-
 # Lock
 super + ctrl + alt + l
   dm-tool lock
+
+
+#
+# UI
+#
 
 # Increase gap
 super + plus
