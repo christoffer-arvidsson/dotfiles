@@ -5,26 +5,29 @@ outer_gap_vert=10
 outer_gap_hori=10
 bar_compensation=0
 
-bspc monitor DP-1 -n 0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-bspc monitor DVI-D-0 -n 1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+## Monitors
+if [[ "$(hostname)" == "station" ]]; then
+    bspc monitor DP-1 -n 0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    bspc monitor DVI-D-0 -n 1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+fi
+
+if [[ "$(hostname)" == "shuttle" ]]; then
+    bspc monitor eDP1 -n 0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+fi
 
 bspc config border_width         2
-
 bspc config window_gap           $inner_gap
 bspc config top_padding          $((-inner_gap+outer_gap_vert+bar_compensation))
 bspc config bottom_padding       $((-inner_gap+outer_gap_vert+bar_compensation))
 bspc config left_padding         $((-inner_gap+outer_gap_hori))
 bspc config right_padding        $((-inner_gap+outer_gap_hori))
-
-
 bspc config split_ratio          0.618
 bspc config borderless_monocle   true
 bspc config single_monocle       false
-
 bspc config focused_border_color "#ad8c79"
-
 bspc config focus_follows_pointer false
 
+## Rules
 bspc rule -a Emacs state=tiled
 bspc rule -a Screenkey manage=off
 bspc rule -a rocket.chat+ desktop=^9
@@ -38,21 +41,28 @@ if [ ! -f /tmp/bspwm_startup ]
 then
     touch /tmp/bspwm_startup
 
-    # Do startup stuff
     feh --bg-scale ~/.dotfiles/.img/space.jpg
 
     # Background applications
     emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
-    polybar -r topbar &
     dunst &
     redshift-gtk &
     sxhkd -c ~/.config/sxhkd/sxhkdrc &
-    dropbox &
+
+    if [[ "$(hostname)" == "station" ]]; then
+        polybar -r station-topbar &
+        steam-native &
+    fi
+
+    if [[ "$(hostname)" == "shuttle" ]]; then
+        polybar -r shuttle-topbar &
+    fi
+
 
     # Other applications
+    dropbox &
     spotify --force-device-scale-factor=0.75 &
     mullvad-vpn &
     discord-canary &
-    steam-native &
 fi

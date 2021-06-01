@@ -5,9 +5,11 @@ xset +fp /home/eethern/.fonts
 xset fp rehash
 xset -b
 
-# Make sure this is before the 'exec' comand or it won'b be sourced
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-~/.screenlayout/Layout.sh
+if [[ "$(hostname)" == "station" ]]; then
+    # desktop or server machine commands
+    ~/.screenlayout/Layout.sh
+fi
 
 exec bspwm
