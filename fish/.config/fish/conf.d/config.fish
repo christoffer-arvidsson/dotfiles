@@ -74,9 +74,9 @@ set -U fish_pager_color_prefix        'white' '--bold' '--underline'
 set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 
 # alias
-alias ls="ls -l --color=auto"
+alias ls="exa -l"
+alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
-
 
 status is-login; and pyenv init --path | source
 pyenv init - | source
