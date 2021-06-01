@@ -179,6 +179,10 @@ super + shift + e
 super + alt + shift + e
   emacs --bg-daemon=doom_server
 
+# Firefox
+super + ctrl + b
+  firefox
+
 # Termite drop
 super + ctrl + s
   tdrop -h 500 -w 1000 -x 15 -y 40 -n 2 -a --name terminal kitty
