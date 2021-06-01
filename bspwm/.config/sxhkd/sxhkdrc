@@ -164,7 +164,7 @@ XF86AudioLowerVolume
   pactl set-sink-volume 0 -5%
 
 #
-# Popup terminals
+# Programs
 #
 
 # Emacs client

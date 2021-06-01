@@ -2,7 +2,8 @@
 #+PROPERTY: header-args:elisp :tangle config.el :cache yes :results silent :padline no
 #+EXPORT_FILE_NAME: README.md
 #+STARTUP: content
-#+SETUPFILE: ~/Dropbox/org/org-roam/setup_file.org
+#+options: toc:3
+
 # Local Variables:
 # org-confirm-babel-evaluate: nil
 # eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
@@ -17,6 +18,7 @@
 #+end_src
 
 * Personal Information
+** Name and email
 Some functionality uses this to identify you, e.g. GPG configuration, email
 clients, file templates and snippets.
 #+BEGIN_SRC elisp
@@ -24,7 +26,8 @@ clients, file templates and snippets.
       user-mail-address "christoffer@arvidson.nu")
 #+END_SRC
 
-#+include: "~/.doom.d/+mail.org" :contents-only
+** Mail
+#+include: "~/.doom.d/+mail.org"
 
 * UI
 ** Theme
@@ -52,32 +55,27 @@ available. You can either set `doom-theme' or manually load a theme with the
   )
 #+end_src
 
-The following changes the color of org mode blocks (src, example, quote etc.) to be more obvious by darkening them.
+The following changes the color of org mode blocks (src, example, quote etc.) to
+be more obvious by darkening them.
 #+begin_src elisp
-;; (after! org
-;;   (after! doom-themes
-;;     (set-face-background 'org-block (doom-darken 'bg 0.15))
-;;     (set-face-background 'org-block-begin-line (doom-darken 'bg 0.15))
-;;   )
-;; )
+(after! org
+  (after! doom-themes
+    (set-face-background 'org-block (doom-darken 'bg 0.15))
+    (set-face-background 'org-block-begin-line (doom-darken 'bg 0.15))
+  )
+)
 #+end_src
 
 ** Font
-Doom exposes five (optional) variables for controlling fonts in Doom. Here
-are the three important ones:
-
-+ `doom-font'
-+ `doom-variable-pitch-font'
-+ `doom-big-font' -- used for `doom-big-font-mode'; use this for
-  presentations or streaming.
-
-They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-font string. You generally only need these two:
+Iosevka and overpass fonts.
 
 #+begin_src elisp
 (setq doom-font (font-spec :family "iosevka" :size 14))
 #+end_src
+
 * Editor
+** Keyboard
+#+include: "~/.doom.d/+keyboard.org"
 ** Line numbers
 Relative line numbers allows using relational vim bindings, ie. =10k= to move 10 lines up, for example. Enable this to get better at using them.
 
@@ -113,6 +111,7 @@ Convert line endings to unix
 (add-hook 'find-file-hooks 'no-junk-please-were-unixish)
 #+end_src
 * Mode config
+** Org-mode
 #+include: "~/.doom.d/+org.org"
 ** PDF-tools
 #+begin_src elisp
@@ -128,6 +127,7 @@ Bring back the sidebuffer for magit.
 ** Python
 Configure python
 #+begin_src elisp
+(setq python-shell-interpreter "~/.pyenv/shims/python")
 (map! :map python-mode-map
       :localleader
       "c" 'python-shell-send-buffer

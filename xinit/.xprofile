@@ -1,6 +1,6 @@
 #!/bin/sh
 
-xset r rate 190 25
+xset r rate 250 35
 xset +fp /home/eethern/.fonts
 xset fp rehash
 xset -b

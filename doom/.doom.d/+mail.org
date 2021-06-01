@@ -32,8 +32,7 @@ Use mu4e as mail handler, this loads from gmail. Each path is relative to
   (setq mu4e-maildir-shortcuts
         '((:maildir "/gmail/[Gmail]/Sent Mail"     :key ?s)
           (:maildir "/gmail/[Gmail]/Drafts"        :key ?d)
-          (:maildir "/gmail/[Gmail]/All Mail"      :key ?a)
-          (:maildir "/gmail/[Gmail]/Spam"          :key ?-)
+          (:maildir "/gmail/[Gmail]/Spam"          :key ?S)
           (:maildir "/gmail/[Gmail]/All Mail"      :key ?a)))
   )
 #+end_src

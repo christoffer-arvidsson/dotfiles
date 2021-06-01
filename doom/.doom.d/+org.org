@@ -1,27 +1,24 @@
+#+PROPERTY: header-args:elisp :cache yes :results silent :padline no
+
 # Local Variables:
 # org-confirm-babel-evaluate: nil
 # eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
 # End:
 
-#+property: header-args :results silent
-
-* Org-mode
-Welcome to 90% of this config.
-** Keybindings
+* Keybindings
 #+begin_src elisp
 (map! :map org-mode-map
       :leader
       "t t" 'toggle-truncate-lines
-      "o n"#'org-noter
       )
 #+end_src
 
-
-** General org settings
+* General org settings
 If you use `org' and don't want your org files in the default location below,
 change `org-directory'. It must be set before org loads!
 #+BEGIN_SRC elisp
 (setq org-directory "~/Dropbox/org/")
+(setq org-capture-todo-file "~/Dropbox/org/agenda.org")
 #+END_SRC
 
 #+begin_src elisp
@@ -41,7 +38,7 @@ change `org-directory'. It must be set before org loads!
   )
 #+end_src
 
-** File handling
+* File handling
 This controls what is used to open links in org documents. Since there are only
 a few defaults defined, I am just prepending them to my changes instead of
 dealing with append and stuff.
@@ -59,30 +56,42 @@ dealing with append and stuff.
           )))
 #+end_src
 
-** Inline image size
-Make large images not take up entire buffer
+* Org download
+Org download allows me to screenshot regions of my screen directly into org mode
+buffers. It is useful for grabbing images during lectures, etc.
+
+Change screenshot backend of org-download (it now uses xfce4-screenshooter,
+which does not have ugly borders that scrot has).
 #+begin_src elisp
-(after! org
-  (setq org-image-actual-width nil))
+(after! org-download
+  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
+  (setq org-download-method 'directory))
 #+end_src
 
-** Org ref
-Manage references using org-ref.
+* Notebooking and babel
+** Keybindings
 #+begin_src elisp
 (after! org
-  (setq reftex-default-bibliography "/home/eethern/Dropbox/bibliography/references.bib")
-  (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
-        org-ref-default-bibliography (list "/home/eethern/Dropbox/bibliography/references.bib")
-        org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+  (map! :leader "m k s" 'org-babel-demarcate-block)
+  )
+#+end_src
 
-  (setq org-ref-completion-library 'org-ref-ivy-cite)
-  (map! :map org-mode-map :localleader
-        :desc "Insert org-ref reference link"
-        "l r" 'org-ref-insert-ref-link)
+** Jupyter emacs
+Bread and butter for using python in org-mode for notebook style execution.
 
-                                        ; Makes org-ref reload its completion on save rather than just on buffer reload
-  (add-hook 'after-save-hook (lambda ()
-                               (setq org-ref-labels nil))))
+Make a template for inserting jupyter blocks.
+#+begin_src elisp
+(after! org
+  (setq org-babel-python-command "~/.pyenv/shims/python")
+  (add-to-list 'org-structure-template-alist
+               '("j" . "src jupyter-python"))
+
+  (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
+                                                       (:kernel . "python3")
+                                                       (:exports . "code")
+                                                       (:session . "py")
+                                                       (:eval . "never-export")))
+  )
 #+end_src
 
 ** Org auto tangle
@@ -95,164 +104,118 @@ Automatically tangle src blocks on save. Makes working with literate programming
   (setq org-auto-tangle-default nil))
 #+end_src
 
-
-*** TODO Make this work for jupyter python code blocks
-
-** Org appear
-Use org-appear to reveal emphasis markers when moving the cursor over them.
+* Productivity
+** Agenda
+*** General settings
 #+begin_src elisp
 (after! org
-  (add-hook! org-mode :append #'org-appear-mode)
-  )
+  (setq! org-agenda-files (list "~/Dropbox/org/agenda.org")
+         +org-capture-todo-file "agenda.org"))
 #+end_src
 
-** Org download
-Org download allows me to screenshot regions of my screen directly into org mode
-buffers. It is useful for grabbing images during lectures, etc.
-
-Change screenshot backend of org-download (it now uses xfce4-screenshooter,
-which does not have ugly borders that scrot has).
+*** Super agenda
 #+begin_src elisp
-(after! org-download
-  (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s")
-  (setq org-download-method 'directory))
+(use-package! org-super-agenda
+  :commands (org-super-agenda-mode))
+
+(after! org-agenda
+  (org-super-agenda-mode))
+
+(setq org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-include-deadlines t
+      org-agenda-block-separator nil
+      org-agenda-tags-column 100 ;; from testing this seems to be a good value
+      org-agenda-compact-blocks t)
+
+(setq org-agenda-custom-commands
+      '(("o" "Overview"
+         ((agenda "" ((org-agenda-span 'day)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                          :time-grid t
+                          :date today
+                          :todo "TODAY"
+                          :scheduled today
+                          :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '((:name "Next to do"
+                           :todo "NEXT"
+                           :order 1)
+                          (:name "Important"
+                           :tag "important"
+                           :priority "A"
+                           :order 6)
+                          (:name "Due Today"
+                           :deadline today
+                           :order 2)
+                          (:name "Due Soon"
+                           :deadline future
+                           :order 8)
+                          (:name "Overdue"
+                           :deadline past
+                           :face error
+                           :order 7)
+                          (:name "Assignments"
+                           :tag "assignment"
+                           :order 10)
+                          (:name "Issues"
+                           :tag "issue"
+                           :order 12)
+                          (:name "Emacs"
+                           :tag "emacs"
+                           :order 13)
+                          (:name "Projects"
+                           :tag "project"
+                           :order 14)
+                          (:name "Research"
+                           :tag "research"
+                           :order 15)
+                          (:name "To read"
+                           :tag "read"
+                           :order 30)
+                          (:name "Waiting"
+                           :todo "WAITING"
+                           :order 20)
+                          (:name "University"
+                           :tag "uni"
+                           :order 32)
+                          (:name "Trivial"
+                           :priority<= "E"
+                           :tag ("trivial" "unimportant")
+                           :todo ("SOMEDAY" )
+                           :order 90)
+                          (:discard (:tag ("chore" "routine" "daily")))))))))))
 #+end_src
-
-** Org roam
-I transferred to org-roam after I realized I hated hierarchical documents. Ideas
-apply to many different subjects, which org-roam handles very well. This block
-setups org-roam and enables it.
-#+begin_src elisp
-(after! org-roam
-  (setq org-roam-directory "~/Dropbox/org/org-roam")
-  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
-#+end_src
-
-Setup capture templates for org-roam. I made these load from template files for faster editing.
-#+begin_src elisp
-(after! org-roam
-  (setq org-roam-capture-templates
-        '(("l" "latex")
-          ("ld" "temporary note" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/draft.org")
-           :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
-           :unnarrowed t)
-          ("ll" "lecture note" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/lecture_note.org")
-           :file-name "lecture/%<%Y%m%d%H%M%S>-${slug}"
-           :unnarrowed t)
-          ("lp" "permanent note" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/latex.org")
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :unnarrowed t)
-          ("la" "assignment" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/latex.org")
-           :file-name "assignment/%<%Y%m%d%H%M%S>-${slug}"
-           :unnarrowed t)
-          ("le" "exercise" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/exercise.org")
-           :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
-           :unnarrowed t)
-          ("p" "project" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/project.org")
-           :file-name "project/${slug}/README"
-           :unnarrowd t)
-           )
-          )
-        )
-#+end_src
-
-And for dailies
-#+begin_src elisp
-(after! org-roam
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           #'org-roam-capture--get-point
-           "* %?"
-           :file-name "daily/%<%Y-%m-%d>"
-           :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
-           ))))
-#+end_src
-
-Setup org roam server. This does some nice styling and physics simulations to
-make the graph view much nicer.
-
-#+begin_src elisp
-(setq org-roam-server-network-vis-options
-      (json-encode (list
-                    (cons 'physics
-                          (list
-                           (cons 'enabled t)
-                           (cons 'stabilization
-                                 (list
-                                  (cons 'enabled t)
-                                  (cons 'iterations 100)
-                                  (cons 'fit t)))
-                           (cons 'timestep 0.2)
-                           (cons 'maxVelocity 30)
-                           (cons 'solver "barnesHut")
-                           (cons 'barnesHut
-                                 (list
-                                  (cons 'theta 0.5)
-                                  (cons 'graviationalConstant -10000)
-                                  (cons 'centralGravity 0.3)
-                                  (cons 'springLength 50)
-                                  (cons 'springConstant 0.14)
-                                  (cons 'damping 0.09)
-                                  (cons 'avoidOverlap 0.0)))))
-                    (cons 'edges
-                          (list
-                           (cons 'physics t)
-                           (cons 'length 10)
-                           (cons 'hidden json-false)
-                           (cons 'smooth
-                                 (list
-                                  (cons 'enabled t)
-                                  (cons 'type "continuous")))
-                           (cons 'color
-                                 (list
-                                  (cons 'border "#2B7CE9")
-                                  (cons 'background "#97C2FC")
-                                  (cons 'highlight "#6f5ecc")
-                                  (cons 'hover "#6f5ecc")))))
-                    (cons 'nodes
-                          (list
-                           (cons 'mass 4)
-                           (cons 'font
-                                 (list
-                                  (cons 'size 12)))
-                           (cons 'color
-                                 (list
-                                  (cons 'border "#D6D5D3")
-                                  (cons 'background "#ffffff")
-                                  (cons 'highlight "#6f5ecc")
-                                  (cons 'hover "#6f5ecc")))))
-                    (cons 'options
-                          (list
-                           (cons 'highlight-nearest
-                                 (list
-                                  (cons 'enabled t)
-                                  (cons 'degree 2))))))))
-
-#+end_src
-
-*** Bibliography
-Setup org-roam-bibtex
-#+begin_src elisp
-(use-package! org-roam-bibtex
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-  (require 'org-ref)) ; optional: if Org Ref is not loaded anywhere else, load it here
-#+end_src
-
-** Cdlatex
-Makes math more bearable in org-mode, therefore activate it.
+*** Capture templates
+Capture templates to easier file different tasks into the agenda file
 #+begin_src elisp
 (after! org
-  (add-hook 'org-mode-hook #'org-cdlatex-mode))
+  (setq org-capture-templates
+        '(("t" "Personal todo" entry
+           (file+headline +org-capture-todo-file "Inbox")
+           "* [ ] %?\n%i\n%a" :prepend t)
+          ("n" "Personal notes" entry
+           (file+headline +org-capture-notes-file "Inbox")
+           "* %u %?\n%i\n%a" :prepend t)
+          ("r" "Research" entry
+           (file+headline +org-capture-todo-file "Research")
+           "* %u %?\n%i\n%a" :prepend t)
+          ("u" "University" entry
+           (file+headline +org-capture-todo-file "University")
+           "* [ ] %u %?\n%i\n%a" :prepend t)
+
+          ("p" "Templates for projects")
+          ("pt" "Project todo" entry
+           #'+org-capture-central-project-todo-file "* [ ] %?\n %i\n %a" :heading "Tasks" :prepend nil)
+          ("pn" "Project notes" entry
+           #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+          ("pc" "Project changelog" entry
+           #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t))))
 #+end_src
 
+*** TODO Setup alerts
 ** Elfeed
 Read your rss in emacs!
 #+begin_src elisp
@@ -374,6 +337,7 @@ Read your rss in emacs!
   )
 #+end_src
 
+* Writing
 ** Spell optimization
 Speedup spell in org mode
 #+begin_src elisp
@@ -381,6 +345,165 @@ Speedup spell in org mode
   (remove-hook 'mu4e-compose-mode-hook #'org-mu4e-compose-org-mode()
                (setq enable-flyspell-auto-completion t)
                ))
+#+end_src
+** Org roam
+I transferred to org-roam after I realized I hated hierarchical documents. Ideas
+apply to many different subjects, which org-roam handles very well. This block
+setups org-roam and enables it.
+#+begin_src elisp
+(use-package! org-roam
+  :defer t
+  :config
+  (setq org-roam-directory "~/Dropbox/org/org-roam")
+  (setq org-roam-db-location "~/Dropbox/org/org-roam/org-roam.db")
+  (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
+#+end_src
+
+Setup capture templates for org-roam. I made these load from template files for faster editing.
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-capture-templates
+        '(("l" "latex")
+          ("ld" "temporary note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/draft.org")
+           :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("ll" "lecture note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/lecture_note.org")
+           :file-name "lecture/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("lp" "permanent note" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/latex.org")
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("la" "assignment" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/latex.org")
+           :file-name "assignment/%<%Y%m%d%H%M%S>-${slug}"
+           :unnarrowed t)
+          ("le" "exercise" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/exercise.org")
+           :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
+           :unnarrowed t)
+          ("p" "project" plain (function org-roam-capture--get-point)
+           (file "/home/eethern/.doom.d/templates/project.org")
+           :file-name "project/${slug}/README"
+           :unnarrowd t)
+           )
+          )
+        )
+#+end_src
+
+And for dailies
+#+begin_src elisp
+(after! org-roam
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?"
+           :file-name "daily/%<%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
+           ))))
+#+end_src
+
+Setup org roam server. This does some nice styling and physics simulations to
+make the graph view much nicer.
+
+#+begin_src elisp
+(after! org-roam-server
+  (require 'json)
+  (setq org-roam-server-network-vis-options
+        (json-encode (list
+                      (cons 'physics
+                            (list
+                             (cons 'enabled t)
+                             (cons 'stabilization
+                                   (list
+                                    (cons 'enabled t)
+                                    (cons 'iterations 10)
+                                    (cons 'fit t)))
+                             (cons 'timestep 1.0)
+                             (cons 'maxVelocity 20)
+                             (cons 'solver "barnesHut")
+                             ;; (cons 'repulsion
+                             ;;       (list
+                             ;;        (cons 'nodeDistance 400)
+                             ;;        (cons 'centralGravity 0.5)
+                             ;;        (cons 'springLength 100)
+                             ;;        (cons 'springConstant 0.05)
+                             ;;        (cons 'damping 0.5)))))
+                             (cons 'barnesHut
+                                   (list
+                                    (cons 'theta 0.5)
+                                    (cons 'graviationalConstant -500000)
+                                    (cons 'centralGravity 0.1)
+                                    (cons 'springLength 1000)
+                                    (cons 'springConstant 0.01)
+                                    (cons 'damping 0.1)
+                                    (cons 'avoidOverlap 0)))))
+                      (cons 'edges
+                            (list
+                             (cons 'physics t)
+                             (cons 'length 20)
+                             (cons 'width 0.15)
+                             (cons 'hidden json-false)
+                             (cons 'smooth
+                                   (list
+                                    (cons 'enabled t)
+                                    (cons 'type "continuous")))
+                             (cons 'color
+                                   (list
+                                    (cons 'border "#ffffff")
+                                    (cons 'background "#ffffff")
+                                    (cons 'highlight "#6f5ecc")
+                                    (cons 'hover "#6f5ecc")))))
+                      (cons 'nodes
+                            (list
+                             (cons 'mass 2)
+                             (cons 'font
+                                   (list
+                                    (cons 'size 16)))
+                             (cons 'color
+                                   (list
+                                    (cons 'border "#222222")
+                                    (cons 'background "#bbbbbb")
+                                    (cons 'highlight "#6f5ecc")
+                                    (cons 'hover "#6f5ecc")))))
+                      (cons 'options
+                            (list
+                             (cons 'highlight-nearest
+                                   (list
+                                    (cons 'enabled t)
+                                    (cons 'degree 2))))))))
+  )
+#+end_src
+
+*** Bibliography
+Setup org-roam-bibtex
+#+begin_src elisp
+(use-package! org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (require 'org-ref)) ; optional: if Org Ref is not loaded anywhere else, load it here
+#+end_src
+
+** Org ref
+Manage references using org-ref.
+#+begin_src elisp
+(after! org
+  (setq reftex-default-bibliography "/home/eethern/Dropbox/bibliography/references.bib")
+  (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+        org-ref-default-bibliography (list "/home/eethern/Dropbox/bibliography/references.bib")
+        org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+
+  (setq org-ref-completion-library 'org-ref-ivy-cite)
+  (map! :map org-mode-map :localleader
+        :desc "Insert org-ref reference link"
+        "l r" 'org-ref-insert-ref-link)
+
+                                        ; Makes org-ref reload its completion on save rather than just on buffer reload
+  (add-hook 'after-save-hook (lambda ()
+                               (setq org-ref-labels nil))))
 #+end_src
 
 ** Org fragtog - Automate latex inline rendering
@@ -398,6 +521,14 @@ you hover over. Also make the equations bigger scale with text scaling
       (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
     )
   (add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
+  )
+#+end_src
+
+** Org appear
+Use org-appear to reveal emphasis markers when moving the cursor over them.
+#+begin_src elisp
+(after! org
+  (add-hook! org-mode :append #'org-appear-mode)
   )
 #+end_src
 
@@ -424,20 +555,15 @@ runtime org files.
   )
 #+end_src
 
-** Jupyter emacs
-Bread and butter for using python in org-mode for notebook style execution.
-
-Make a template for inserting jupyter blocks.
+** Inline image size
+Make large images not take up entire buffer
 #+begin_src elisp
 (after! org
-  (add-to-list 'org-structure-template-alist
-               '("j" . "src jupyter-python"))
-
-  (setq org-babel-default-header-args:jupyter-python '((:kernel . "python3")
-                                                       (:async . "yes")
-                                                       (:exports . "code")
-                                                       (:session . "py")
-                                                       (:eval . "never-export")))
-  )
+  (setq org-image-actual-width nil))
 #+end_src
-
+** Cdlatex
+Makes math more bearable in org-mode, therefore activate it.
+#+begin_src elisp
+(after! org
+  (add-hook 'org-mode-hook #'org-cdlatex-mode))
+#+end_src
