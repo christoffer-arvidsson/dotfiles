@@ -53,13 +53,14 @@ then
 
     if [[ "$(hostname)" == "station" ]]; then
         polybar -r station-topbar &
+        xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
         steam-native &
     fi
 
     if [[ "$(hostname)" == "shuttle" ]]; then
         polybar -r shuttle-topbar &
+        xmodmap ~/.dotfiles/colemak/colemak-dh-ansi.xmodmap
     fi
-
 
     # Other applications
     dropbox &
