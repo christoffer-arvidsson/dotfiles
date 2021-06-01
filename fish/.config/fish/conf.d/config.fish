@@ -1,3 +1,4 @@
+# Disable greeting
 set fish_greeting
 
 # Vi bindings for colemak (hacked together)
@@ -78,5 +79,6 @@ alias ls="exa -l"
 alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
 
+# pyenv
 status is-login; and pyenv init --path | source
 pyenv init - | source
