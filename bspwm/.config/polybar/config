@@ -23,6 +23,7 @@ inactive = #55BFA89E
 ; Orange tan: #DF946A
 
 [bar/station-topbar]
+monitor = DP-1
 enable-ipc = true
 width = 100%
 height = 20
@@ -62,6 +63,7 @@ tray-detached = false
 wm-restack = bspwm
 
 [bar/shuttle-topbar]
+monitor = eDP-1
 enable-ipc = true
 width = 100%
 height = 20
@@ -257,7 +259,7 @@ mount-0 = /
 
 label-mounted =  %{F#ffffff}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted =  %mountpoint% not mounted
-label-unmounted-foreground = ${bar/bottombar.foreground}
+label-unmounted-foreground = ${colors/top-foreground}
 
 
 [module/backlight]
@@ -279,7 +281,7 @@ bar-fill-font = 4
 bar-fill-foreground = ${colors.soft-highlight}
 bar-empty = 
 bar-empty-font = 4
-bar-empty-foreground = ${bar/topbar.foreground}
+bar-empty-foreground = ${colors.top-foreground}
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -289,14 +291,14 @@ label = BL
 
 bar-width = 6
 bar-indicator = |
-bar-indicator-foreground = ${bar/topbar.foreground}
+bar-indicator-foreground = ${colors/top-foreground}
 bar-indicator-font = 2
 bar-fill = -
 bar-fill-font = 2
-bar-fill-foreground = ${bar/topbar.foreground}
+bar-fill-foreground = ${colors/top-foreground}
 bar-empty = -
 bar-empty-font = 2
-bar-empty-foreground = ${bar/topbar.foreground}
+bar-empty-foreground = ${colors/top-foreground}
 
 [module/backlight-acpi]
 inherit = module/xbacklight
@@ -307,7 +309,7 @@ card = intel_backlight
 type = internal/cpu
 interval = 2
 format-prefix = " "
-format-prefix-foreground = ${bar/bottombar.foreground}
+format-prefix-foreground = ${colors/top-foreground}
 ;format-underline = #f90000
 label = %percentage%%
 
@@ -315,7 +317,7 @@ label = %percentage%%
 type = internal/memory
 interval = 2
 format-prefix = " "
-format-prefix-foreground = ${bar/bottombar.foreground}
+format-prefix-foreground = ${colors/top-Foreground}
 ;format-underline = #4bffdc
 label = %percentage_used%%
 
@@ -328,7 +330,7 @@ format-connected = <ramp-signal> <label-connected>
 format-prefix = 1
 format-connected-underline = #9f78e1
 label-connected = %essid%
-label-connected-foreground = ${bar/topbar.foreground}
+label-connected-foreground = ${colors/top-foreground}
 
 ;format-disconnected-prefix = " "
 ;format-disconnected-prefix-font = 3
@@ -336,15 +338,15 @@ label-connected-foreground = ${bar/topbar.foreground}
 format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${bar/topbar.foreground}
+;label-disconnected-foreground = ${colors/top-foreground}
 
 label-disconnected = 
 label-disconnected-font = 3
-label-disconnected-foreground = ${bar/topbar.foreground}
+label-disconnected-foreground = ${colors/top-foreground}
 
 ramp-signal-0 = 
 ramp-signal-font = 3
-ramp-signal-foreground = ${bar/topbar.foreground}
+ramp-signal-foreground = ${colors/top-foreground}
 
 [module/eth]
 type = internal/network
@@ -353,14 +355,14 @@ interval = 3.0
 
 format-connected-underline = #55aa55
 format-connected-prefix = ""
-format-connected-prefix-foreground = ${bar/topbar.foreground}
+format-connected-prefix-foreground = ${colors/top-foreground}
 label-connected = %local_ip%
 
 format-disconnected =
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${bar/topbar.foreground}
+;label-disconnected-foreground = ${colors/top-foreground}
 
 [module/time]
 type = internal/date
@@ -369,8 +371,8 @@ interval = 1
 time = " %H:%M"
 time-alt = "%H:%M:%S"
 
-format-prefix-foreground = ${bar/topbar.foreground}
-format-underline = ${bar/topbar.foreground}
+format-prefix-foreground = ${colors/top-foreground}
+format-underline = ${colors/top-foreground}
 
 format = <label>
 label = %time%
@@ -383,8 +385,8 @@ interval = 1
 date = " %a %e %b"
 ; date-alt = " %Y-%m-%d"
 
-format-prefix-foreground = ${bar/topbar.foreground}
-format-underline = ${bar/topbar.foreground}
+format-prefix-foreground = ${colors/top-foreground}
+format-underline = ${colors/top-foreground}
 
 format =%{A1:gsimplecal:} <label> %{A}
 label = %date%
@@ -400,10 +402,10 @@ format-volume = <ramp-volume> <bar-volume>
 ramp-volume-0 =
 ramp-volume-1 = 
 ramp-volume-2 = 
-ramp-volume-foreground = ${bar/topbar.foreground}
+ramp-volume-foreground = ${colors/top-foreground}
 
 format-muted-prefix = " "
-format-muted-foreground = ${bar/topbar.foreground}
+format-muted-foreground = ${colors/top-foreground}
 label-muted-foreground = ${colors.soft-highlight}
 label-muted = "muted"
 label-muted-font = 1
@@ -424,7 +426,7 @@ bar-volume-fill = 
 bar-volume-fill-font = 4
 bar-volume-empty = 
 bar-volume-empty-font = 4
-bar-volume-empty-foreground = ${bar/topbar.foreground}
+bar-volume-empty-foreground = ${colors/top-foreground}
 
 
 [module/battery]
@@ -440,11 +442,11 @@ format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 format-full = <label-full> 100%
-format-full-prefix-foreground = ${bar/topbar.foreground}
+format-full-prefix-foreground = ${colors/top-foreground}
 format-full-underline = ${self.format-charging-underline}
 
-label-discharging-foreground = ${bar/topbar.foreground}
-label-charging-foreground = ${bar/topbar.foreground}
+label-discharging-foreground = ${colors/top-foreground}
+label-charging-foreground = ${colors/top-foreground}
 label-full = 
 label-full-font = 2
 
@@ -454,14 +456,14 @@ ramp-capacity-2 = 
 ramp-capacity-3 = 
 ramp-capacity-4 = 
 ramp-capacity-font = 4
-ramp-capacity-foreground = ${bar/topbar.foreground}
+ramp-capacity-foreground = ${colors/top-foreground}
 
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-3 = 
 animation-charging-4 = 
-animation-charging-foreground = ${bar/topbar.foreground}
+animation-charging-foreground = ${colors/top-foreground}
 animation-charging-framerate = 650
 animation-charging-font = 2
 
@@ -481,7 +483,7 @@ label-warn-foreground = #CA407E
 
 ramp-0 = 
 ramp-font = 3
-ramp-foreground = ${bar/bottombar.foreground}
+ramp-foreground = ${colors/top-foreground}
 
 [module/powermenu]
 type = custom/menu
@@ -490,14 +492,14 @@ format-spacing = 1
 
 label-open = 
 label-open-padding = 1
-label-open-foreground = ${bar/topbar.foreground}
+label-open-foreground = ${colors/top-foreground}
 
 label-close = 
 label-close-padding = 1
-label-close-foreground = ${bar/topbar.foreground}
+label-close-foreground = ${colors/top-foreground}
 
 label-separator = |
-label-separator-foreground = ${bar/topbar.foreground}
+label-separator-foreground = ${colors/top-foreground}
 
 menu-0-0 = reboot
 menu-0-0-exec = menu-open-1
