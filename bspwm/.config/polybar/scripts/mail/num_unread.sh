@@ -4,7 +4,7 @@ set -euo pipefail
 # Because gmail is weird, they serve "labels" where a mail can belong to
 # multiple such labels. This query disregards certain mailboxes to not
 # duplicate unread mails.
-NUM_UNREAD=$(mu msgs-count --query='flag:unread AND NOT maildir:/gmail/[Gmail]/Bin AND NOT maildir:/gmail/[Gmail]/Spam AND NOT maildir:/gmail/[Gmail]/Sent Mail')
+NUM_UNREAD=$(mu msgs-count --query='flag:unread AND NOT maildir:/gmail/[Gmail]/Bin AND NOT maildir:/gmail/[Gmail]/Spam')
 
 # echo "No unread mails"
 if [ "$NUM_UNREAD" = "0" ]; then
