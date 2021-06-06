@@ -185,15 +185,19 @@ super + b
 
 # Termite drop
 super + ctrl + s
-  tdrop -h 500 -w 1000 -x 15 -y 40 -n 2 -a --name terminal kitty
+  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a kitty
 
 # Ranger drop
 super + ctrl + r
-  tdrop -h 500 -w 1000 -x 1542 -y 40 -n 3 -a --name ranger -f '-e ranger' kitty
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' kitty
 
 # Htop drop
 super + ctrl + p
-  tdrop -h 500 -w 1000 -x 15 -y 900 -n 4 -a --name htop -f '-e htop' kitty
+  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' kitty
+
+# Audia control drop
+super + ctrl + v
+  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
 
 # Bitwarden rofi, autolock after 1hour
 super + shift + o
