@@ -15,7 +15,7 @@ bind -s -M visual e down-line
 
 # Accept autocompletion with alt a
 # src: https://github.com/fish-shell/fish-shell/issues/3011
-bind -M insert \ea accept-autosuggestion
+bind -M insert \e\t accept-autosuggestion
 
 # Emulates vim's cursor shape behavior
 # Set the normal and visual mode cursors to a block
