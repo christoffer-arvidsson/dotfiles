@@ -36,6 +36,11 @@ fi
 if [[ "$(hostname)" == "shuttle" ]]; then
     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
 fi
+	
+if [[ "$(hostname)" == "elx781652zl" ]]; then
+    bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+fi
+	
 
 ## Startup
 if [ ! -f /tmp/bspwm_startup ]
