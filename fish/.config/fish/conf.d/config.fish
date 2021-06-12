@@ -79,6 +79,9 @@ alias ls="exa -l"
 alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
 
+# use bat for man
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
 # pyenv
 status is-login; and pyenv init --path | source
 pyenv init - | source
