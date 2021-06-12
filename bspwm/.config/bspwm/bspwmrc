@@ -17,14 +17,15 @@ bspc config single_monocle       false
 bspc config focused_border_color "#ad8c79"
 bspc config focus_follows_pointer false
 
-## Rules
+# Rules
 bspc rule -a Emacs state=tiled
+bspc rule -a discord state=tiled desktop=^9 follow=off
 bspc rule -a Screenkey manage=off
 bspc rule -a rocket.chat+ desktop=^9
-bspc rule -a spotify desktop=^music
 bspc rule -a Zathura state=tiled
 bspc rule -a termite state=tiled
-bspc rule -a steam desktop=^7
+bspc rule -a Steam desktop=^8 follow=off
+bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
 ## Monitors
 if [[ "$(hostname)" == "station" ]]; then
