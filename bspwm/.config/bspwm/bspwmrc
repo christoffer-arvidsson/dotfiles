@@ -57,14 +57,22 @@ then
     sxhkd -c ~/.config/sxhkd/sxhkdrc &
 
     if [[ "$(hostname)" == "station" ]]; then
+        picom --config ~/.config/picom/picom.conf &
         polybar -r station-topbar &
         xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
         steam-native &
     fi
 
     if [[ "$(hostname)" == "shuttle" ]]; then
+        picom --config ~/.config/picom/picom.conf &
         polybar -r shuttle-topbar &
         xmodmap ~/.dotfiles/colemak/colemak-dh-ansi.xmodmap
+    fi
+
+    if [[ "$(hostname)" == "elx781652zl" ]]; then
+	compton &
+        polybar -r work-topbar &
+        # xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
     fi
 
     # Other applications
