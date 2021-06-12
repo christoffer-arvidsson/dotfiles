@@ -102,16 +102,56 @@ tray-detached = false
 
 wm-restack = bspwm
 
+[bar/work-topbar]
+monitor = eDP-1
+enable-ipc = true
+width = 100%
+height = 20
+offset-x = 0
+offset-y = 7
+radius = 0.0
+fixed-center = true
+
+background = ${colors.top-background}
+foreground = ${colors.top-foreground}
+
+line-size = 0
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 4
+padding-right = 4
+
+module-margin-left = 1
+module-margin-right = 1
+
+font-0 = iosevka:size=10
+font-1 = FontAwesome:size=10
+font-2 = Material\ Icons:size=10
+
+modules-left =
+modules-center = bspwm
+modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status wlan battery date time powermenu
+
+tray-position = left
+tray-padding = 10
+tray-background = ${self.background}
+tray-detached = false
+;tray-background = #0063ff
+
+wm-restack = bspwm
+
 [module/vpn-openvpn-status]
 type = custom/script
-exec = /home/eethern/.config/polybar/scripts/vpn/vpn-openvpn-status.sh
+exec = ~/.config/polybar/scripts/vpn/vpn-openvpn-status.sh
 interval = 5
 
 [module/do-not-disturb]
 type = custom/script
-exec = exec /home/eethern/.config/polybar/scripts/do_not_disturb/do_not_disturb_status.sh
+exec = exec ~/.config/polybar/scripts/do_not_disturb/do_not_disturb_status.sh
 interval = 3
-click-left = exec /home/eethern/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle.sh
+click-left = exec ~/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle.sh
 
 [module/bluetooth-menu]
 type = custom/menu
@@ -121,17 +161,17 @@ label-close = " %{F#ff95b4e6}: [Close]"
 label-separator = " | "
 
 menu-0-0 = Toggle
-menu-0-0-exec = exec /home/eethern/.config/polybar/scripts/bluetooth/toggle_bluetooth.sh
+menu-0-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_bluetooth.sh
 menu-0-1 = Paired devices
 menu-0-1-exec = menu-open-1
 
 menu-1-0 = Headset
-menu-1-0-exec = exec /home/eethern/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh
+menu-1-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh
 
 [module/bluetooth]
 type = custom/script
 ;format-prefix =
-exec = /home/eethern/.config/polybar/scripts/bluetooth/status.sh
+exec = ~/.config/polybar/scripts/bluetooth/status.sh
 
 [module/spotify]
 type = custom/script
@@ -547,10 +587,10 @@ interval = 100
 type = custom/script
 interval = 1000
 label-font = 1
-exec = /home/eethern/.config/polybar/scripts/crypto/crypto.sh
+exec = ~/.config/polybar/scripts/crypto/crypto.sh
 
 [module/unread-mail]
 type = custom/script
 interval = 10
 label-font = 1
-exec = /home/eethern/.config/polybar/scripts/mail/num_unread.sh
+exec = ~/.config/polybar/scripts/mail/num_unread.sh
