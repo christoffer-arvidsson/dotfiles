@@ -1,9 +1,10 @@
 #!/bin/sh
 
-xset r rate 250 35
+xset r rate 200 25
 xset +fp /home/eethern/.fonts
 xset fp rehash
 xset -b
+xsetroot -cursor_name left_ptr
 
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 

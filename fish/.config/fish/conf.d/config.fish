@@ -15,7 +15,7 @@ bind -s -M visual e down-line
 
 # Accept autocompletion with alt a
 # src: https://github.com/fish-shell/fish-shell/issues/3011
-bind -M insert \ea accept-autosuggestion
+bind -M insert \e\t accept-autosuggestion
 
 # Emulates vim's cursor shape behavior
 # Set the normal and visual mode cursors to a block
@@ -78,6 +78,9 @@ set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 alias ls="exa -l"
 alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
+
+# use bat for man
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # pyenv
 status is-login; and pyenv init --path | source
