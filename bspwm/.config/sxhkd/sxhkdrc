@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+#
 #
 # wm independent hotkeys
 #
@@ -23,11 +25,11 @@ super + alt + {_,shift + }{1-9,0}
 
 # Next monitor
 alt + w
-        bspc monitor -f next
+    bspc monitor -f next
 
 # Restart/quit bspwm
 super + alt + {_, shift} + Escape
-    rm -f /tmp/bspwm_startup && bspc {wm -r, quit}
+    bspc {wm -r, quit}
 
 # close and kill
 super + {_,shift + }w

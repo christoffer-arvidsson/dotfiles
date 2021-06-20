@@ -29,25 +29,34 @@ bspc rule -a Steam desktop=^8 follow=off
 bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
 ## Monitors
-if [[ "$(hostname)" == "station" ]]; then
+if [ $(hostname) == "station" ]; then
     ~/.screenlayout/Layout.sh
     bspc monitor DP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    bspc monitor DVI-D-0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    bspc monitor DVI-I-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    declare -A ARRANGEMENTS=(["DP-1"]="station-topbar" ["DVI-I-1"]="external")
+elif [ $(hostname) == "shuttle" ]; then
+    bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
+elif [ $(hostname) == "elx781652zl" ]; then
+    bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    declare -A ARRANGEMENTS=(["eDP-1"]="work-topbar")
 fi
 
-if [[ "$(hostname)" == "shuttle" ]]; then
-    bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-fi
-	
-if [[ "$(hostname)" == "elx781652zl" ]]; then
-    bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-fi
-	
+# Set bars ~ https://github.com/polybar/polybar/issues/763
+killall polybar
+for MONITOR in "${!ARRANGEMENTS[@]}"; do
+  # split at `,` into array
+  while IFS=',' read -ra BARLIST; do
+    # for each bar (seperated by `,`) at current key
+    for BAR in "${BARLIST[@]}"; do
+      MONITOR="$MONITOR" polybar --reload "$BAR" &
+    done
+  done <<< "${ARRANGEMENTS[$MONITOR]}"
+done
 
 ## Startup
-if [ ! -f /tmp/bspwm_startup ]
-then
-    touch /tmp/bspwm_startup
+if [ "$1" = 0 ]; then
+    # touch /tmp/bspwm_startup
 
     feh --bg-scale ~/.dotfiles/.img/space.jpg
 
@@ -58,22 +67,19 @@ then
     redshift-gtk &
     sxhkd -c ~/.config/sxhkd/sxhkdrc &
 
-    if [[ "$(hostname)" == "station" ]]; then
+    if [ "$(hostname)" = "station" ]; then
         picom --config ~/.config/picom/picom.conf &
-        polybar -r station-topbar &
         xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
         steam-native &
     fi
 
-    if [[ "$(hostname)" == "shuttle" ]]; then
+    if [ "$(hostname)" = "shuttle" ]; then
         picom --config ~/.config/picom/picom.conf &
-        polybar -r shuttle-topbar &
         xmodmap ~/.dotfiles/colemak/colemak-dh-ansi.xmodmap
     fi
 
-    if [[ "$(hostname)" == "elx781652zl" ]]; then
-	compton &
-        polybar -r work-topbar &
+    if [ "$(hostname)" = "elx781652zl" ]; then
+	    compton &
         # xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
     fi
 
