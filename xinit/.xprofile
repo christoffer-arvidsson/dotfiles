@@ -1,10 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 xset r rate 250 35
 xset +fp "$HOME/.fonts"
 xset fp rehash
 xset -b
 xsetroot -cursor_name left_ptr
+
+# Make sxhkd fast by not using fish
+export SXHKD_SHELL='/usr/bin/sh'
 
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
