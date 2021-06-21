@@ -553,8 +553,8 @@ animation-charging-font = 2
 
 [module/temperature]
 type = internal/temperature
-thermal-zone = 0
-warn-temperature = 70
+thermal-zone = 20
+warn-temperature = 80
 
 format = <ramp> <label>
 format-underline = #f50a4d
@@ -567,8 +567,11 @@ label = %temperature%
 label-warn = %temperature%
 label-warn-foreground = #CA407E
 
-ramp-0 = 
-ramp-font = 3
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
 ramp-foreground = ${colors/top-foreground}
 
 [module/powermenu]
@@ -576,12 +579,12 @@ type = custom/menu
 
 format-spacing = 1
 
-label-open = 
-label-open-padding = 1
+label-open = 
+label-open-padding = 0
 label-open-foreground = ${colors/top-foreground}
 
-label-close = 
-label-close-padding = 1
+label-close = 
+label-close-padding = 0
 label-close-foreground = ${colors/top-foreground}
 
 label-separator = |
