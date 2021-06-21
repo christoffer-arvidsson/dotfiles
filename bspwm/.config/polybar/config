@@ -22,6 +22,16 @@ inactive = #55BFA89E
 ; deep purple: #302833
 ; Orange tan: #DF946A
 
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+; vim:ft=dosini
+
+
 [bar/station-topbar]
 monitor = ${env:MONITOR}
 enable-ipc = true
@@ -591,15 +601,6 @@ menu-2-0 = power off
 menu-2-0-exec = poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
-
-[settings]
-screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
-
-; vim:ft=dosini
 
 [module/openweathermap-fullfeatured]
 type = custom/script
