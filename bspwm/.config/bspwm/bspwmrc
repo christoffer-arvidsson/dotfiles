@@ -22,7 +22,6 @@ bspc config focus_follows_pointer false
 bspc rule -a Emacs state=tiled
 bspc rule -a discord state=tiled desktop=^9 follow=off
 bspc rule -a Screenkey manage=off
-bspc rule -a rocket.chat+ desktop=^9
 bspc rule -a Zathura state=tiled
 bspc rule -a termite state=tiled
 bspc rule -a Steam desktop=^8 follow=off
@@ -32,7 +31,7 @@ bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 if [ $(hostname) == "station" ]; then
     ~/.screenlayout/Layout.sh
     bspc monitor DP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    bspc monitor DVI-I-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    bspc monitor DVI-I-1 -d ext1 ext2 ext3 ext4 ext5
     declare -A ARRANGEMENTS=(["DP-1"]="station-topbar" ["DVI-I-1"]="external")
 elif [ $(hostname) == "shuttle" ]; then
     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
@@ -45,19 +44,17 @@ fi
 # Set bars ~ https://github.com/polybar/polybar/issues/763
 killall polybar
 for MONITOR in "${!ARRANGEMENTS[@]}"; do
-  # split at `,` into array
-  while IFS=',' read -ra BARLIST; do
-    # for each bar (seperated by `,`) at current key
-    for BAR in "${BARLIST[@]}"; do
-      MONITOR="$MONITOR" polybar --reload "$BAR" &
-    done
-  done <<< "${ARRANGEMENTS[$MONITOR]}"
+    # split at `,` into array
+    while IFS=',' read -ra BARLIST; do
+        # for each bar (seperated by `,`) at current key
+        for BAR in "${BARLIST[@]}"; do
+        MONITOR="$MONITOR" polybar --reload "$BAR" &
+        done
+    done <<< "${ARRANGEMENTS[$MONITOR]}"
 done
 
 ## Startup
 if [ "$1" = 0 ]; then
-    # touch /tmp/bspwm_startup
-
     feh --bg-scale ~/.dotfiles/.img/space.jpg
 
     # Background applications
