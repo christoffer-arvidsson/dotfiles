@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 inner_gap=5
 outer_gap_vert=10
@@ -37,8 +37,10 @@ elif [ $(hostname) == "shuttle" ]; then
     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
     declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
 elif [ $(hostname) == "elx781652zl" ]; then
+    ~/.screenlayout/Layout.sh
     bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    declare -A ARRANGEMENTS=(["eDP-1"]="work-topbar")
+    bspc monitor HDMI-1 -d ext1 ext2 ext3 ext4 ext5
+    declare -A ARRANGEMENTS=(["eDP-1"]="work-topbar" ["HDMI-1"]="external")
 fi
 
 # Set bars ~ https://github.com/polybar/polybar/issues/763
@@ -55,6 +57,7 @@ done
 
 ## Startup
 if [ "$1" = 0 ]; then
+    echo "Running startup block"
     feh --bg-scale ~/.dotfiles/.img/space.jpg
 
     # Background applications
@@ -77,7 +80,8 @@ if [ "$1" = 0 ]; then
 
     if [ "$(hostname)" = "elx781652zl" ]; then
 	    compton &
-        # xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
+        setxkbmap -option caps:swapescape
+        xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
     fi
 
     # Other applications
@@ -85,4 +89,8 @@ if [ "$1" = 0 ]; then
     spotify --force-device-scale-factor=0.75 &
     mullvad-vpn &
     discord-canary &
+
+    bspc desktop --focus code && kitty &
 fi
+
+
