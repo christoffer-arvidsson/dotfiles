@@ -73,6 +73,7 @@ if [ "$1" = 0 ]; then
         steam-native &
     elif [ "$(hostname)" = "shuttle" ]; then
         picom --config ~/.config/picom/picom.conf &
+        setxkbmap -option caps:swapescape
         xmodmap ~/.dotfiles/colemak/colemak-dh-ansi.xmodmap
     elif [ "$(hostname)" = "elx781652zl" ]; then
 	    compton &
