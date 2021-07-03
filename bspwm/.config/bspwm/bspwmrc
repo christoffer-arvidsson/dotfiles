@@ -21,13 +21,14 @@ bspc config focus_follows_pointer false
 # Rules
 bspc rule -a Emacs state=tiled
 bspc rule -a discord state=tiled desktop=^9 follow=off
+bspc rule -a TelegramDesktop state=tiled desktop=^9 follow=off
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
 bspc rule -a termite state=tiled
 bspc rule -a Steam desktop=^8 follow=off
 bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
-## Monitors
+# Monitors
 if [ $(hostname) == "station" ]; then
     ~/.screenlayout/Layout.sh
     bspc monitor DP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
