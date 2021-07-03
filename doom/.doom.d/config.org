@@ -50,7 +50,7 @@ clients, file templates and snippets.
 *** Mu4e
 Use mu4e as mail handler, this loads from gmail. Each path is relative to
 =+mu4e-mu4e-mail-path=, which is =~/.mail= by default. Here, I set it to =~/Mail=
-#+begin_src elisp
+#+begin_src elisp :tangle (if (string= system-name "station") "yes" "no")
 (use-package! mu4e
   :config
   (setq +mu4e-mu4e-mail-path "~/.mail/gmail"
@@ -91,7 +91,7 @@ Use mu4e as mail handler, this loads from gmail. Each path is relative to
 
 *** Notifications with mu4e-alert
 Desktop notifications and modeline icon
-#+begin_src elisp
+#+begin_src elisp :tangle (if (string= system-name "station") "yes" "no")
 (use-package! mu4e-alert
   :config
   (setq mu4e-alert-email-notification-types '(subjects))
