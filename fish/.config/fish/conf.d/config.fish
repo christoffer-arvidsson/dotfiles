@@ -1,6 +1,6 @@
 # Disable greeting
 set fish_greeting
-
+fish_vi_key_bindings
 # Vi bindings for colemak (hacked together)
 bind -s m backward-char
 bind -s n down-or-search
@@ -80,8 +80,7 @@ alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
 
 # use bat for man
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # pyenv
-status is-login; and pyenv init --path | source
-pyenv init - | source
+status is-login; and pyenv init --path | source pyenv

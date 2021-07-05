@@ -150,7 +150,7 @@ be more obvious by darkening them.
 Iosevka and overpass fonts.
 
 #+begin_src elisp
-(setq doom-font (font-spec :family "iosevka" :size 14))
+(setq doom-font (font-spec :family "iosevka" :size 14 :slant 'normal :weight 'normal))
 #+end_src
 
 * Editor
@@ -430,6 +430,9 @@ Capture templates to easier file different tasks into the agenda file
         '(("t" "Personal todo" entry
            (file+headline +org-capture-todo-file "Inbox")
            "* [ ] %?\n%i\n%a" :prepend t)
+          ("j" "Journal" entry
+           (file+datetree +org-capture-journal-file)
+           "* %U %?\n" :prepend t)
           ("n" "Personal notes" entry
            (file+headline +org-capture-notes-file "Inbox")
            "* %u %?\n%i\n%a" :prepend t)
