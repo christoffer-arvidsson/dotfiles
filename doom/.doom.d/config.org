@@ -168,13 +168,12 @@ Following is a configuration for colemak-dh and its wide variant.
 *** Window navigation
 Fix window hopping
 #+begin_src elisp
-;; (after! evil
-;;   (map! :leader
-;;         "w m" 'evil-window-left
-;;         "w n" 'evil-window-down
-;;         "w e" 'evil-window-up
-;;         "w i" 'evil-window-right)
-  )
+(after! evil
+  (map! :leader
+        "w m" 'evil-window-left
+        "w n" 'evil-window-down
+        "w e" 'evil-window-up
+        "w i" 'evil-window-right))
 #+end_src
 
 *** Ivy
