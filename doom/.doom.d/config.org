@@ -154,53 +154,59 @@ Iosevka and overpass fonts.
 #+end_src
 
 * Editor
-** Colemac
+** Colemac :unused:
 Following is a configuration for colemak-dh and its wide variant.
 *** Evil
 #+begin_src elisp
-(use-package! evil-colemak-basics
-    :after evil
-    :hook (after-init . global-evil-colemak-basics-mode)
-    :config
-    (setq evil-colemak-basics-rotate-t-f-j nil))
+;; (use-package! evil-colemak-basics
+;;     :after evil
+;;     :hook (after-init . global-evil-colemak-basics-mode)
+;;     :config
+;;     (setq evil-colemak-basics-rotate-t-f-j nil))
 #+end_src
 
 *** Window navigation
 Fix window hopping
 #+begin_src elisp
-(after! evil
-  (map! :leader
-        "w m" 'evil-window-left
-        "w n" 'evil-window-down
-        "w e" 'evil-window-up
-        "w i" 'evil-window-right)
+;; (after! evil
+;;   (map! :leader
+;;         "w m" 'evil-window-left
+;;         "w n" 'evil-window-down
+;;         "w e" 'evil-window-up
+;;         "w i" 'evil-window-right)
   )
 #+end_src
 
 *** Ivy
 Minibuffer bugged out. This fixes that.
 #+begin_src elisp
-(after! ivy
-  (map! :map ivy-minibuffer-map
-        "C-n" 'ivy-next-line
-        "C-e" 'ivy-previous-line)
+;; (after! ivy
+;;   (map! :map ivy-minibuffer-map
+;;         "C-n" 'ivy-next-line
+;;         "C-e" 'ivy-previous-line)
 
-  ;; Makes it behave in the minibuffer
-  (map! :leader
-        "C-n" 'next-line
-        "C-e" 'previous-line))
+;;   ;; Makes it behave in the minibuffer
+;;   (map! :leader
+;;         "C-n" 'next-line
+;;         "C-e" 'previous-line))
 #+end_src
 
 *** TODO Magit
 Haven't been able to fix fetch and pull yet. Evil seems to take precedence
 #+begin_src elisp
-(after! magit
-  (map! :map magit-mode-map
-        "l" 'magit-log
-        "f" 'magit-fetch
-        "F" 'magit-pull)
-  )
+;; (after! evil-collection-magit
+;;   (map! (:map magit-mode-map
+;;         :nv "l" 'magit-log
+;;         :nv "f" 'magit-fetch
+;;         :nv "F" 'magit-pull)))
+
 #+end_src
+
+#+begin_src elisp
+;; (evil-define-key* '(normal visual) magit-mode-map
+;;   "l" #'magit-log)
+#+end_src
+
 
 #+RESULTS:
 ** Line numbers

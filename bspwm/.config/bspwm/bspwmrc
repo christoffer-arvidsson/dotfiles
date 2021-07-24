@@ -70,11 +70,10 @@ if [ "$1" = 0 ]; then
 
     if [ "$(hostname)" = "station" ]; then
         picom --config ~/.config/picom/picom.conf &
-        xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
+        pulseaudio-equalizer enable
         steam-native &
     elif [ "$(hostname)" = "shuttle" ]; then
         picom --config ~/.config/picom/picom.conf &
-        xmodmap ~/.dotfiles/colemak/colemak-dh-ansi.xmodmap
     elif [ "$(hostname)" = "elx781652zl" ]; then
 	    compton &
         setxkbmap -option caps:swapescape
