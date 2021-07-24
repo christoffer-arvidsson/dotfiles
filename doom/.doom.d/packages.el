@@ -33,5 +33,5 @@
 ;; MAIL
 (package! mu4e-alert) ; Desktop and emacs notifications when there is new mail
 
-(package! evil-colemak
-  :recipe (:local-repo "~/.dotfiles/doom/.doom.d/packages/evil-colemak/"))
+;; (package! evil-colemak
+;;   :recipe (:local-repo "~/.dotfiles/doom/.doom.d/packages/evil-colemak/"))
