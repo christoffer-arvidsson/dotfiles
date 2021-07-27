@@ -62,6 +62,7 @@ if [ "$1" = 0 ]; then
     feh --bg-scale ~/.dotfiles/.img/space.jpg
 
     # Background applications
+    inputplug -d -c ~/on_new_keyboard.sh &
     emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
     dunst &
