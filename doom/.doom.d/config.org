@@ -173,7 +173,12 @@ Fix window hopping
         "w m" 'evil-window-left
         "w n" 'evil-window-down
         "w e" 'evil-window-up
-        "w i" 'evil-window-right))
+        "w i" 'evil-window-right
+        "w M" '+evil/window-move-left
+        "w N" '+evil/window-move-down
+        "w E" '+evil/window-move-up
+        "w I" '+evil/window-move-right)
+  )
 #+end_src
 
 *** Ivy
