@@ -182,6 +182,9 @@ super + shift + c
 super + alt + shift + c
   emacs --bg-daemon=doom_server
 
+# super + ctrl + y
+  $HOME/.config/sxhkd/scripts/doom_capture -k j
+
 # Firefox
 super + b
   firefox
