@@ -142,7 +142,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left =
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status wlan battery date time powermenu
+modules-right = bspwm-modes do-not-disturb volume filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -634,3 +634,9 @@ type = custom/script
 interval = 10
 label-font = 1
 exec = ~/.config/polybar/scripts/mail/num_unread.sh
+
+[module/lsv-status]
+type = custom/script
+interval = 1
+label-font = 1
+exec = ~/.config/polybar/scripts/lsv/lsv_status.sh
