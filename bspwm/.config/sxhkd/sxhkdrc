@@ -142,26 +142,27 @@ super + v
     ~/.config/sxhkd/scripts/move_window.sh 3
 
 #
-# spotify controls
+# Media controls
 #
 
-# Spotify play-pause
 XF86AudioPlay
   playerctl play-pause
 
-# Spotify next
+XF86AudioStop
+  playerctl stop
+
 XF86AudioNext
   playerctl next
 
-# Spotify previous
 XF86AudioPrev
   playerctl previous
 
-# Volum up
+XF86AudioMute
+  pactl set-sink-mute 0 toggle
+
 XF86AudioRaiseVolume
   pactl set-sink-volume 0 +5%
 
-# Volume down
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -5%
 
