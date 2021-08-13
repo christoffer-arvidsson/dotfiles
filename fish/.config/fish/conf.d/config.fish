@@ -1,6 +1,7 @@
 # Disable greeting
 set fish_greeting
 fish_vi_key_bindings
+
 # Vi bindings for colemak (hacked together)
 bind -s m backward-char
 bind -s n down-or-search
@@ -78,6 +79,23 @@ set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 alias ls="exa -l"
 alias cat="bat"
 alias doom="~/.emacs.d/bin/doom"
+
+# Work aliase
+# function brun
+#     build -clin $argv[1] && $WS_ROOT/build/Linux_x86_64/bin/$argv[1]/$argv[1]_Linux_x86_64.elf $argv[2]
+# end
+
+# function bgrind
+#     build -clin $argv[1] && valgrind --tool=memcheck --leak-check=full --leak-resolution=high --error-exitcode=99 $WS_ROOT/build/Linux_x86_64/bin/$argv[1]/$argv[1]_Linux_x86_64.elf $argv[2]
+# end
+
+# function bgdb
+#     build -clin.debug $argv[1] && gdb --args $WS_ROOT/build/Linux_x86_64.debug/bin/$argv[1]/$argv[1]_Linux_x86_64.debug.elf -v $argv[2]
+# end
+
+# function bclang
+#     build -Dclin.clangsan $argv[1] && $WS_ROOT/build/Linux_x86_64.clangsan/bin/$argv[1]/$argv[1]_Linux_x86_64.clangsan.elf $argv[2]
+# end
 
 # use bat for man
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
