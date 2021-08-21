@@ -215,7 +215,7 @@ super + {_, shift} + Print
 
 # Lock
 super + ctrl + alt + l
-  dm-tool lock
+  betterlockscreen -l
 
 
 #
