@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 IFACE=$(ip addr | grep tun0: | awk '{print $2}')
 
 if [ "$IFACE" = "tun0:" ]; then

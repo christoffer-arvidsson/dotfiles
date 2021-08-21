@@ -50,7 +50,7 @@ clients, file templates and snippets.
 *** Mu4e
 Use mu4e as mail handler, this loads from gmail. Each path is relative to
 =+mu4e-mu4e-mail-path=, which is =~/.mail= by default. Here, I set it to =~/Mail=
-#+begin_src elisp
+#+begin_src elisp :tangle (if (string= system-name "station") "yes" "no")
 (use-package! mu4e
   :config
   (setq +mu4e-mu4e-mail-path "~/.mail/gmail"
@@ -91,7 +91,7 @@ Use mu4e as mail handler, this loads from gmail. Each path is relative to
 
 *** Notifications with mu4e-alert
 Desktop notifications and modeline icon
-#+begin_src elisp
+#+begin_src elisp :tangle (if (string= system-name "station") "yes" "no")
 (use-package! mu4e-alert
   :config
   (setq mu4e-alert-email-notification-types '(subjects))
@@ -150,19 +150,19 @@ be more obvious by darkening them.
 Iosevka and overpass fonts.
 
 #+begin_src elisp
-(setq doom-font (font-spec :family "iosevka" :size 14))
+(setq doom-font (font-spec :family "iosevka" :size 14 :slant 'normal :weight 'normal))
 #+end_src
 
 * Editor
-** Colemac
+** Colemac :unused:
 Following is a configuration for colemak-dh and its wide variant.
 *** Evil
 #+begin_src elisp
-(use-package! evil-colemak-basics
-    :after evil
-    :hook (after-init . global-evil-colemak-basics-mode)
-    :config
-    (setq evil-colemak-basics-rotate-t-f-j nil))
+;; (use-package! evil-colemak-basics
+;;     :after evil
+;;     :hook (after-init . global-evil-colemak-basics-mode)
+;;     :config
+;;     (setq evil-colemak-basics-rotate-t-f-j nil))
 #+end_src
 
 *** Window navigation
@@ -173,34 +173,44 @@ Fix window hopping
         "w m" 'evil-window-left
         "w n" 'evil-window-down
         "w e" 'evil-window-up
-        "w i" 'evil-window-right)
+        "w i" 'evil-window-right
+        "w M" '+evil/window-move-left
+        "w N" '+evil/window-move-down
+        "w E" '+evil/window-move-up
+        "w I" '+evil/window-move-right)
   )
 #+end_src
 
 *** Ivy
 Minibuffer bugged out. This fixes that.
 #+begin_src elisp
-(after! ivy
-  (map! :map ivy-minibuffer-map
-        "C-n" 'ivy-next-line
-        "C-e" 'ivy-previous-line)
+;; (after! ivy
+;;   (map! :map ivy-minibuffer-map
+;;         "C-n" 'ivy-next-line
+;;         "C-e" 'ivy-previous-line)
 
-  ;; Makes it behave in the minibuffer
-  (map! :leader
-        "C-n" 'next-line
-        "C-e" 'previous-line))
+;;   ;; Makes it behave in the minibuffer
+;;   (map! :leader
+;;         "C-n" 'next-line
+;;         "C-e" 'previous-line))
 #+end_src
 
 *** TODO Magit
 Haven't been able to fix fetch and pull yet. Evil seems to take precedence
 #+begin_src elisp
-(after! magit
-  (map! :map magit-mode-map
-        "l" 'magit-log
-        "f" 'magit-fetch
-        "F" 'magit-pull)
-  )
+;; (after! evil-collection-magit
+;;   (map! (:map magit-mode-map
+;;         :nv "l" 'magit-log
+;;         :nv "f" 'magit-fetch
+;;         :nv "F" 'magit-pull)))
+
 #+end_src
+
+#+begin_src elisp
+;; (evil-define-key* '(normal visual) magit-mode-map
+;;   "l" #'magit-log)
+#+end_src
+
 
 #+RESULTS:
 ** Line numbers
@@ -430,6 +440,9 @@ Capture templates to easier file different tasks into the agenda file
         '(("t" "Personal todo" entry
            (file+headline +org-capture-todo-file "Inbox")
            "* [ ] %?\n%i\n%a" :prepend t)
+          ("j" "Journal" entry
+           (file+datetree +org-capture-journal-file)
+           "* %U %?\n" :prepend t)
           ("n" "Personal notes" entry
            (file+headline +org-capture-notes-file "Inbox")
            "* %u %?\n%i\n%a" :prepend t)
