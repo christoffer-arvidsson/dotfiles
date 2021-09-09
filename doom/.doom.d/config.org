@@ -841,6 +841,18 @@ Configure python
   (setq eshell-term-name "kitty")
 )
 #+end_src
+** Octave mode
+#+begin_src elisp
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
+#+end_src
 * Bindings
 Collection of nice bindings I use throughout the emacs journey.
 #+BEGIN_SRC elisp
