@@ -3,7 +3,7 @@ Name=Doom Emacs Server
 GenericName=Text Editor
 Comment="Doom configuration for Emacs
 Icon=emacs
-Exec=emacs --bg-daemon=doom_server
+Exec=emacs --fg-daemon=doom_server
 TryExec=emacs
 Terminal=false
 Type=Application
