@@ -11,7 +11,7 @@ bspc config top_padding          $((-inner_gap+outer_gap_vert+bar_compensation))
 bspc config bottom_padding       $((-inner_gap+outer_gap_vert+bar_compensation))
 bspc config left_padding         $((-inner_gap+outer_gap_hori))
 bspc config right_padding        $((-inner_gap+outer_gap_hori))
-bspc config split_ratio          0.618
+bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config single_monocle       false
 bspc config normal_border_color  "#1c1e26"
