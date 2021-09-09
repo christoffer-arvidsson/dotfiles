@@ -275,6 +275,7 @@ change `org-directory'. It must be set before org loads!
         org-src-fontify-natively t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
+        org-id-track-globally t ;; Trach org ids globally for org-roam
         org-startup-truncated nil) ;; Force org to not truncate lines
 
   (setq org-latex-prefer-user-labels t)
@@ -601,127 +602,133 @@ setups org-roam and enables it.
 (use-package! org-roam
   :defer t
   :config
-  (setq org-roam-directory "~/Dropbox/org/org-roam")
-  (setq org-roam-db-location "~/Dropbox/org/org-roam/org-roam.db")
+  (setq org-roam-directory (file-truename "~/Dropbox/org/orbit/articles")
+        org-roam-db-location "~/.emacs.d/.local/etc/org-roam.db")
   (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
+
+#+end_src
+
+Patch ox-html to work with org roam v2
+#+begin_src elisp
+(defun org-html--reference (datum info &optional named-only)
+  "Return an appropriate reference for DATUM.
+    DATUM is an element or a `target' type object.  INFO is the
+    current export state, as a plist.
+    When NAMED-ONLY is non-nil and DATUM has no NAME keyword, return
+    nil.  This doesn't apply to headlines, inline tasks, radio
+    targets and targets."
+  (let* ((type (org-element-type datum))
+         (user-label
+          (org-element-property
+           (pcase type
+             ((or `headline `inlinetask) :CUSTOM_ID)
+             ((or `radio-target `target) :value)
+             (_ :name))
+           datum))
+         (user-label (or user-label
+                         (when-let ((path (org-element-property :ID datum)))
+                           (concat "ID-" path)))))
+    (cond
+     ((and user-label
+           (or (plist-get info :html-prefer-user-labels)
+               ;; Used CUSTOM_ID property unconditionally.
+               (memq type '(headline inlinetask))))
+      user-label)
+     ((and named-only
+           (not (memq type '(headline inlinetask radio-target target)))
+           (not user-label))
+      nil)
+     (t
+      (org-export-get-reference datum info)))))
 #+end_src
 
 Setup capture templates for org-roam. I made these load from template files for faster editing.
 #+begin_src elisp
+;; (after! org-roam
+;;   (setq org-roam-capture-templates
+;;         '(("l" "latex")
+;;           ("ld" "temporary note" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/draft.org")
+;;            :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
+;;            :unnarrowed t)
+;;           ("ll" "lecture note" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/lecture_note.org")
+;;            :file-name "lecture/%<%Y%m%d%H%M%S>-${slug}"
+;;            :unnarrowed t)
+;;           ("lp" "permanent note" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/latex.org")
+;;            :file-name "%<%Y%m%d%H%M%S>-${slug}"
+;;            :unnarrowed t)
+;;           ("la" "assignment" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/latex.org")
+;;            :file-name "assignment/%<%Y%m%d%H%M%S>-${slug}"
+;;            :unnarrowed t)
+;;           ("le" "exercise" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/exercise.org")
+;;            :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
+;;            :unnarrowed t)
+;;           ("p" "project" plain (function org-roam-capture--get-point)
+;;            (file "/home/eethern/.doom.d/templates/project.org")
+;;            :file-name "project/${slug}/README"
+;;            :unnarrowd t)
+;;            )
+;;           )
+;;         )
+
 (after! org-roam
   (setq org-roam-capture-templates
         '(("l" "latex")
-          ("ld" "temporary note" plain (function org-roam-capture--get-point)
+          ("ld" "temporary note" plain
            (file "/home/eethern/.doom.d/templates/draft.org")
-           :file-name "draft/%<%Y%m%d%H%M%S>-${slug}"
+           :if-new (file "draft/%<%Y%m%d%H%M%S>-${slug}.org")
            :unnarrowed t)
-          ("ll" "lecture note" plain (function org-roam-capture--get-point)
+          ("ll" "lecture note" plain
            (file "/home/eethern/.doom.d/templates/lecture_note.org")
-           :file-name "lecture/%<%Y%m%d%H%M%S>-${slug}"
+           :if-new (file "lecture/%<%Y%m%d%H%M%S>-${slug}.org")
            :unnarrowed t)
-          ("lp" "permanent note" plain (function org-roam-capture--get-point)
+          ("lp" "permanent note" plain
            (file "/home/eethern/.doom.d/templates/latex.org")
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
            :unnarrowed t)
-          ("la" "assignment" plain (function org-roam-capture--get-point)
-           (file "/home/eethern/.doom.d/templates/latex.org")
-           :file-name "assignment/%<%Y%m%d%H%M%S>-${slug}"
+          ("la" "assignment" plain
+           (file "/home/eethern/.doom.d/templates/assignment.org")
+           :head "/home/eethern/.doom.d/templates/header.org"
+           :if-new (file "assignment/%<%Y%m%d%H%M%S>-${slug}.org")
            :unnarrowed t)
-          ("le" "exercise" plain (function org-roam-capture--get-point)
+          ("le" "exercise" plain
            (file "/home/eethern/.doom.d/templates/exercise.org")
-           :file-name "exercise/%<%y%m%d%h%m%s>-${slug}"
+           :if-new (file "exercise/%<%y%m%d%h%m%s>-${slug}.org")
            :unnarrowed t)
-          ("p" "project" plain (function org-roam-capture--get-point)
+          ("p" "project" plain
            (file "/home/eethern/.doom.d/templates/project.org")
-           :file-name "project/${slug}/README"
+           :if-new (file "project/${slug}/README.org")
            :unnarrowd t)
-           )
           )
         )
+  )
+
 #+end_src
 
 And for dailies
 #+begin_src elisp
-(after! org-roam
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           #'org-roam-capture--get-point
-           "* %?"
-           :file-name "daily/%<%Y-%m-%d>"
-           :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
-           ))))
+;; (after! org-roam
+;;   (setq org-roam-dailies-capture-templates
+;;         '(("d" "default" entry
+;;            #'org-roam-capture--get-point
+;;            "* %?"
+;;            :file-name "daily/%<%Y-%m-%d>"
+;;            :head "#+title: %<%Y-%m-%d>\n\n#+ROAM_TAGS: Dailies\n"
+           ;; ))))
 #+end_src
 
-Setup org roam server. This does some nice styling and physics simulations to
-make the graph view much nicer.
-
 #+begin_src elisp
-(after! org-roam-server
-  (require 'json)
-  (setq org-roam-server-network-vis-options
-        (json-encode (list
-                      (cons 'physics
-                            (list
-                             (cons 'enabled t)
-                             (cons 'stabilization
-                                   (list
-                                    (cons 'enabled t)
-                                    (cons 'iterations 10)
-                                    (cons 'fit t)))
-                             (cons 'timestep 1.0)
-                             (cons 'maxVelocity 20)
-                             (cons 'solver "barnesHut")
-                             ;; (cons 'repulsion
-                             ;;       (list
-                             ;;        (cons 'nodeDistance 400)
-                             ;;        (cons 'centralGravity 0.5)
-                             ;;        (cons 'springLength 100)
-                             ;;        (cons 'springConstant 0.05)
-                             ;;        (cons 'damping 0.5)))))
-                             (cons 'barnesHut
-                                   (list
-                                    (cons 'theta 0.5)
-                                    (cons 'graviationalConstant -500000)
-                                    (cons 'centralGravity 0.1)
-                                    (cons 'springLength 1000)
-                                    (cons 'springConstant 0.01)
-                                    (cons 'damping 0.1)
-                                    (cons 'avoidOverlap 0)))))
-                      (cons 'edges
-                            (list
-                             (cons 'physics t)
-                             (cons 'length 20)
-                             (cons 'width 0.15)
-                             (cons 'hidden json-false)
-                             (cons 'smooth
-                                   (list
-                                    (cons 'enabled t)
-                                    (cons 'type "continuous")))
-                             (cons 'color
-                                   (list
-                                    (cons 'border "#ffffff")
-                                    (cons 'background "#ffffff")
-                                    (cons 'highlight "#6f5ecc")
-                                    (cons 'hover "#6f5ecc")))))
-                      (cons 'nodes
-                            (list
-                             (cons 'mass 2)
-                             (cons 'font
-                                   (list
-                                    (cons 'size 16)))
-                             (cons 'color
-                                   (list
-                                    (cons 'border "#222222")
-                                    (cons 'background "#bbbbbb")
-                                    (cons 'highlight "#6f5ecc")
-                                    (cons 'hover "#6f5ecc")))))
-                      (cons 'options
-                            (list
-                             (cons 'highlight-nearest
-                                   (list
-                                    (cons 'enabled t)
-                                    (cons 'degree 2))))))))
-  )
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 #+end_src
 
 ***** Bibliography
