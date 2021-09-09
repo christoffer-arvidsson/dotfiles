@@ -101,4 +101,5 @@ alias doom="~/.emacs.d/bin/doom"
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # pyenv
-status is-login; and pyenv init --path | source pyenv
+status --is-interactive; and pyenv init - | source
+status --is-interactive; and pyenv virtualenv-init - | source
