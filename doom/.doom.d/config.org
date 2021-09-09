@@ -765,7 +765,7 @@ you hover over. Also make the equations bigger scale with text scaling
                                         ; Scale depending on zoom level
   (defun update-org-latex-fragment-scale ()
     (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
-      (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor)))
+      (plist-put org-format-latex-options :scale (* 2.0 text-scale-factor)))
     )
   (add-hook 'text-scale-mode-hook 'update-org-latex-fragment-scale)
   )
