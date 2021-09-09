@@ -20,7 +20,7 @@
        ;;layout             ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +tng)       ; the ultimate code completion backend
+       (company)       ; the ultimate code completion backend
        ;;helm               ; the *other* search engine for love and life
        ;;ido                ; the other *other* search engine...
        (ivy
@@ -163,7 +163,7 @@
         +jupyter            ; ipython/jupyter support for babel
         +pandoc             ; export-with-pandoc support
         +pomodoro           ; be fruitful with the tomato technique
-        +roam
+        +roam2
         +present)           ; using org-mode for presentations
        ;;perl               ; write code no one else can comprehend
        ;;php                ; perl's insecure younger brother
