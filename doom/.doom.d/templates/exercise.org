@@ -1,8 +1,5 @@
-:metadata:
-#+setupfile: ../setup_file.org
-#+roam_tags: exercise
-#+created: %u
-:end:
+#+filetags: :exercise:
+
 #+title: ${title}
 
 %?

@@ -1,9 +1,4 @@
-# -*- mode: Org; org-download-image-dir: "./images/${title}"; -*-
-:metadata:
-#+roam_alias: "%^{roam alias|${title}}"
-#+roam_tags: draft
-#+created: %u
-:end:
+#+filetags: :draft:
 #+title: ${title}
 
 %?

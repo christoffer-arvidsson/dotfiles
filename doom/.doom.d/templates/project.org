@@ -1,14 +1,4 @@
-:metadata:
-#+setupfile: ./setup_file.org
-#+roam_alias: "%^{roam alias|${title}}"
-#+roam_tags: project
-#+created: %u
-:end:
+#+filetags: :project:
 #+title: ${title}
 
 %?
-
-* Material
-
-bibliography:../../bibliography/references.bib
-bibliographystyle:ieeetr
