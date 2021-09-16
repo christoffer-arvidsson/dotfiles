@@ -907,6 +907,7 @@ Configure python
 )
 #+end_src
 ** Octave mode
+In case you ever want to use GNU octave over python, which is commont in courses that force you to use matlab
 #+begin_src elisp
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))
@@ -917,6 +918,11 @@ Configure python
             (auto-fill-mode 1)
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
+
+(map! :map octave-mode-map
+      :localleader
+      "c" 'octave-send-buffer
+      "r" 'run-octave)
 #+end_src
 * Bindings
 Collection of nice bindings I use throughout the emacs journey.
