@@ -24,6 +24,7 @@ inactive = #55BFA89E
 
 [settings]
 screenchange-reload = true
+pseudo-transparency = true
 ;compositing-background = xor
 ;compositing-background = screen
 ;compositing-foreground = source
@@ -58,11 +59,12 @@ module-margin-right = 1
 
 font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
-font-2 = Material\ Icons:size=10
+font-2 = ForkAwesome:size=10
+font-3 = Material\ Icons:size=10
 
 modules-left = spotify
 modules-center = bspwm
-modules-right = bspwm-modes unread-mail do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -434,19 +436,16 @@ ramp-signal-foreground = ${colors/top-foreground}
 
 [module/eth]
 type = internal/network
-interface = enp0s20f0u3
+interface = enp5s0
 interval = 3.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = ""
+format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors/top-foreground}
-label-connected = %local_ip%
+label-connected = %ifname%
 
 format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors/top-foreground}
+format-connected = <label-connected>
 
 [module/time]
 type = internal/date
@@ -483,7 +482,7 @@ type = internal/alsa
 
 format-volume = <ramp-volume> <bar-volume>
 
-ramp-volume-0 =
+ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
 ramp-volume-foreground = ${colors/top-foreground}
