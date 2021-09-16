@@ -4,7 +4,3 @@
 
 %?
 
-* Material
-
-bibliography:../../bibliography/references.bib
-bibliographystyle:ieeetr
