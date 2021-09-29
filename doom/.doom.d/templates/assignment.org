@@ -1,5 +1,0 @@
-#+filetags: :assignment:%^{roam keys}:
-
-#+title: ${title}
-
-%?
