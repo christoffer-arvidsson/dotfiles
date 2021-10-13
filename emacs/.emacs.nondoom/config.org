@@ -1,7 +1,7 @@
 #+title: Emacs config
 #+startup: overview
-#+property: header-args:elisp :tangle init.el :cache yes :results silent :padline no
-#+property: header-args:emacs-lisp :tangle init.el :cache yes :results silent :padline no
+#+property: header-args:elisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
+#+property: header-args:emacs-lisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
 #+auto_tangle: t
 
 * Startup performance
@@ -32,6 +32,7 @@
 #+end_src
 
 * Package management
+** Archives
 #+begin_src elisp
 ;; Initialize package sources
 (require 'package)
@@ -46,6 +47,7 @@
   (package-refresh-contents))
 #+end_src
 
+** Straight
 Use straight.el
 
 #+begin_src elisp
@@ -66,67 +68,6 @@ Use straight.el
 (setq straight-use-package-by-default t)
 (straight-use-package '(org :local-repo nil))
 
-#+end_src
-* Keybinding system
-** Evil
-#+begin_src elisp
-(use-package evil
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-want-C-u-scroll t
-        evil-want-C-i-jump nil
-        evil-respect-visual-line-mode t)
-  :config
-  (evil-mode 1))
-#+end_src
-*** Evil collection
-#+begin_src elisp
-(use-package evil-collection
-  :after evil
-  :init
-  :custom
-  (evil-collection-outline-bind-tab-p nil)
-  :config
-  (delete 'lispy evil-collection-mode-list)
-  (delete 'org-present evil-collection-mode-list)
-  (evil-collection-init))
-#+end_src
-
-** Which-key
-#+begin_src elisp
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 0.3))
-#+end_src
-
-** General leader key
-#+begin_src elisp
-(use-package general
-  :config
-  (general-evil-setup t)
-
-  (general-create-definer eethern/leader-key-def
-    :keymaps '(normal visual emacs)
-    :prefix "SPC")
-
-  (general-create-definer eethern/local-leader-def
-    :keymaps '(normal visual emacs)
-    :prefix "SPC m")
-
-  (general-create-definer eethern/ctrl-c-keys
-    :prefix "C-c")
-
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "" '(nil :which-key "Leader")
-    "q" '(:ignore t :which-key "quit")
-    "q r" '(restart-emacs :which-key "Restart emacs")
-    "q q" '(quit-window :which-key "Quit emacs"))
-
-)
 #+end_src
 
 * General Configuration
@@ -175,6 +116,7 @@ Line numbers.
 ** Font
 Set the fonts.
 #+begin_src elisp
+
 (set-face-attribute 'default nil
                     :font "iosevka"
                     :weight 'normal
@@ -188,129 +130,58 @@ Set the fonts.
 (set-face-attribute 'variable-pitch nil
                     :font "Iosevka Aile"
                     :weight 'light
-                    :height 500)
+                    :height 120)
+
+;; Required so that emacs client changes font
+(setq default-frame-alist '((font . "iosevka")))
 #+end_src
 
 ** Home buffer
 I will make this use some kind of dashboard. For now, it's just an org file.
 #+begin_src elisp
-;; (use-package dashboard
-;;   :ensure t
-;;   :config
-;;   (dashboard-setup-startup-hook))
+(defun my/dashboard-banner ()
+  """Set a dashboard banner including information on package initialization
+       time and garbage collections."""
+  (setq dashboard-banner-logo-title
+        (format "Emacs ready in %.2f seconds with %d garbage collections."
+                (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
 
-(setq initial-buffer-choice (expand-file-name "start.org" user-emacs-directory))
+(use-package dashboard
+  :init
+  (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+  (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
+  :config
+  (setq dashboard-startup-banner 'logo)
+  (dashboard-setup-startup-hook))
+
+;; Makes emacsclient default to the dashboard
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+end_src
-* Navigation
-** Windows
+** Default applications
 #+begin_src elisp
-(defun +evil/window-move-left ()
-  "Swap windows to the left."
-  (interactive) (+evil--window-swap 'left))
-(defun +evil/window-move-right ()
-  "Swap windows to the right"
-  (interactive) (+evil--window-swap 'right))
-(defun +evil/window-move-up ()
-  "Swap windows upward."
-  (interactive) (+evil--window-swap 'up))
-(defun +evil/window-move-down ()
-  "Swap windows downward."
-  (interactive) (+evil--window-swap 'down))
-
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "TAB" '(evil-switch-to-windows-last-buffer :which-key "Previous buffer")
-    "w" '(nil :which-key "window")
-    "w m" '(evil-window-left :which-key "Select window left")
-    "w n" '(evil-window-down :which-key "Select window down")
-    "w e" '(evil-window-up :which-key "Select window up")
-    "w i" '(evil-window-right :which-key "Select window right")
-    "w M" '(+evil/window-move-left :which-key "Move window left")
-    "w N" '(+evil/window-move-down :which-key "Move window down")
-    "w E" '(+evil/window-move-up :which-key "Move window up")
-    "w I" '(+evil/window-move-right :which-key "Move window right")
-    "w v" '(evil-window-vsplit :which-key "Vertical window split")
-    "w s" '(evil-window-split :which-key "Horizontal window split")
-    "w q" '(evil-quit :which-key "Evil quit")
-    )
-
+(setq browse-url-browser-function 'browse-url-firefox)
 #+end_src
-* File and buffer
-** Delete current file
-[[https://kundeveloper.com/blog/buffer-files/][Source]]
-
+** Icons
 #+begin_src elisp
-  (defun eethern/delete-current-buffer-file ()
-    "Removes file connected to current buffer and kills buffer."
-    (interactive)
-    (let ((filename (buffer-file-name))
-          (buffer (current-buffer))
-          (name (buffer-name)))
-      (if (not (and filename (file-exists-p filename)))
-          (ido-kill-buffer)
-        (when (yes-or-no-p "Are you sure you want to remove this file? ")
-          (delete-file filename)
-          (kill-buffer buffer)
-          (message "File '%s' successfully removed" filename)))))
-
-  (defun eethern/rename-current-buffer-file ()
-    "Renames current buffer and file it is visiting."
-    (interactive)
-    (let ((name (buffer-name))
-          (filename (buffer-file-name)))
-      (if (not (and filename (file-exists-p filename)))
-          (error "Buffer '%s' is not visiting a file!" name)
-        (let ((new-name (read-file-name "New name: " filename)))
-          (if (get-buffer new-name)
-              (error "A buffer named '%s' already exists!" new-name)
-            (rename-file filename new-name 1)
-            (rename-buffer new-name)
-            (set-visited-file-name new-name)
-            (set-buffer-modified-p nil)
-            (message "File '%s' successfully renamed to '%s'"
-                     name (file-name-nondirectory new-name)))))))
+(use-package all-the-icons)
 #+end_src
-** Yes or no
-Make "write yes/no" prompts into "press y/n" instead.
+** Modeline
 #+begin_src elisp
-(defalias 'yes-or-no-p 'y-or-n-p)
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-height 15)
+  (doom-modeline-window-width-limit fill-column)
+  (doom-modeline-lsp t)
+  (doom-modeline-github nil)
+  (doom-modeline-env-enable-python t)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-persp-name t)
+  (doom-modeline-project-detection 'auto)
+  (doom-modeline-icon (display-graphic-p))
+  (doom-modeline-buffer-file-name-style 'truncate-except-project))
 #+end_src
-
-** Recentf
-Track recent files.
-#+begin_src elisp
-(recentf-mode)
-#+end_src
-
-** Noo junk please we are unix
-This will remove those pesky line-endings mac users seem blind to.
-#+begin_src elisp
-(defun no-junk-please-were-unixish ()
-  (let ((coding-str (symbol-name buffer-file-coding-system)))
-    (when (string-match "-\\(?:dos\\|mac\\)$" coding-str)
-      (set-buffer-file-coding-system 'unix))))
-
-(add-hook 'find-file-hooks 'no-junk-please-were-unixish)
-#+end_src
-
-** Keybindings
-
-#+begin_src elisp
-   (eethern/leader-key-def
-    :keymaps 'normal
-    "f" '(:ignore t :which-key "file")
-    "f f" '(find-file :which-key "Find file")
-    "f s" '(save-buffer :which-key "Save buffer")
-    "f S" '(write-file :which-key "Save buffer as...")
-    "f D" '(eethern/delete-current-buffer-file :which-key "Delete current file")
-    "f R" '(eethern/rename-current-buffer-file :which-key "Move current file")
-    "b" '(:ignore t :which-key "buffer")
-    "b s" '(save-buffer :which-key "Save buffer")
-    "b r" '(revert-buffer :which-key "Revert buffer")
-    "b d" '(kill-this-buffer :which-key "Kill current buffer")
-    )
-#+end_src
-
 * Editor
 ** General settings
 *** Tab width
@@ -323,13 +194,78 @@ This will remove those pesky line-endings mac users seem blind to.
 (setq-default indent-tabs-mode nil)
 #+end_src
 
-*** Nerd-commenter
+** General leader key
 #+begin_src elisp
-  (use-package evil-nerd-commenter
-    :config
-    (general-define-key
-     :states 'normal
-     "g c" '(evilnc-comment-operator :which-key "Comment operator")))
+(use-package general
+  :config
+  (general-evil-setup t)
+
+  (general-create-definer eethern/leader-key-def
+    :keymaps '(normal visual emacs)
+    :prefix "SPC")
+
+  (general-create-definer eethern/local-leader-def
+    :keymaps '(normal visual emacs)
+    :prefix "SPC m")
+
+  (general-create-definer eethern/ctrl-c-keys
+    :prefix "C-c")
+
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "" '(nil :wk "Leader")
+    "<escape>" 'keyboard-escape-quit
+    "o" '(:ignore t :wk "open")
+    "q" '(:ignore t :wk "quit")
+    "q r" '(restart-emacs :wk "Restart emacs")
+    "q q" '(quit-window :wk "Quit emacs"))
+  )
+#+end_src
+
+** Evil
+#+begin_src elisp
+(use-package evil
+  :init
+  (setq evil-want-integration t
+        evil-want-keybinding nil
+        evil-want-C-u-scroll t
+        evil-want-C-i-jump nil
+        evil-want-Y-yank-to-eol t
+        evil-respect-visual-line-mode t)
+  :config
+  (evil-mode 1))
+#+end_src
+*** Evil collection
+#+begin_src elisp
+(use-package evil-collection
+  :after evil
+  :init
+  :custom
+  (evil-collection-outline-bind-tab-p nil)
+  :config
+  (delete 'lispy evil-collection-mode-list)
+  (delete 'org-present evil-collection-mode-list)
+  (evil-collection-init)
+  )
+#+end_src
+
+** Which-key
+#+begin_src elisp
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+#+end_src
+
+** Nerd-commenter
+#+begin_src elisp
+(use-package evil-nerd-commenter
+  :config
+  (general-define-key
+   :states 'normal
+   "g c" '(evilnc-comment-operator :wk "Comment operator")))
 #+end_src
 
 ** Completion
@@ -343,11 +279,19 @@ This will remove those pesky line-endings mac users seem blind to.
 
 *** Orderless
 #+begin_src elisp
+(defun just-one-face (fn &rest args)
+  (let ((orderless-match-faces [completions-common-part]))
+    (apply fn args)))
+
 (use-package orderless
+  :after company
+  :custom
+  (completion-styles '(orderless))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion))))
+  (orderless-component-separator "[ &]")
   :config
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+  (advice-add 'company-capf--candidates :around #'just-one-face))
 #+end_src
 
 *** Marginalia
@@ -389,16 +333,21 @@ This will remove those pesky line-endings mac users seem blind to.
 *** Company
 #+begin_src elisp
 (use-package company
+  :custom
+  (company-minimum-prefix-length 2)
+  (completion-ignore-case t)
+  (company-idle-delay 0.5)
+  :hook (after-init . global-company-mode)
   :config
-  (global-company-mode 1))
+  (add-to-list 'company-backends 'company-capf))
 #+end_src
 ** Expand region
 #+begin_src elisp
 (use-package expand-region
   :config
   (eethern/leader-key-def
-   :keymaps 'normal
-   "v" '(er/expand-region :which-key "Expand region")))
+    :keymaps 'normal
+    "v" '(er/expand-region :wk "Expand region")))
 #+end_src
 
 ** Rainbow delimiters
@@ -413,6 +362,154 @@ This will remove those pesky line-endings mac users seem blind to.
   :config
   (smartparens-global-mode))
 #+end_src
+** Evil snipe
+#+begin_src elisp
+(use-package evil-snipe
+  :ensure t
+  :config
+  (evil-snipe-mode +1))
+#+end_src
+** Avy
+#+begin_src elisp
+(use-package avy
+  :config
+  (general-define-key
+   :states 'normal
+   "g s s" 'evil-avy-goto-char-2
+   "g s e" 'evil-avy-goto-char-2-above
+   "g s n" 'evil-avy-goto-char-2-below
+   ))
+#+end_src
+** iedit
+#+begin_src elisp
+(use-package iedit
+  :ensure t)
+#+end_src
+* Navigation
+** Windows
+
+#+begin_src elisp
+(defun +evil/window-move-left ()
+  "Swap windows to the left."
+  (interactive) (+evil--window-swap 'left))
+(defun +evil/window-move-right ()
+  "Swap windows to the right"
+  (interactive) (+evil--window-swap 'right))
+(defun +evil/window-move-up ()
+  "Swap windows upward."
+  (interactive) (+evil--window-swap 'up))
+(defun +evil/window-move-down ()
+  "Swap windows downward."
+  (interactive) (+evil--window-swap 'down))
+
+(eethern/leader-key-def
+  :keymaps 'normal
+  "TAB" '(evil-switch-to-windows-last-buffer :wk "Previous buffer")
+  "w" '(nil :wk "window")
+  "w m" '(evil-window-left :wk "Select window left")
+  "w n" '(evil-window-down :wk "Select window down")
+  "w e" '(evil-window-up :wk "Select window up")
+  "w i" '(evil-window-right :wk "Select window right")
+  "w M" '(+evil/window-move-left :wk "Move window left")
+  "w N" '(+evil/window-move-down :wk "Move window down")
+  "w E" '(+evil/window-move-up :wk "Move window up")
+  "w I" '(+evil/window-move-right :wk "Move window right")
+  "w v" '(evil-window-vsplit :wk "Vertical window split")
+  "w s" '(evil-window-split :wk "Horizontal window split")
+  "w q" '(evil-quit :wk "Evil quit")
+  "w =" '(balance-windows :wk "Balance windows")
+  )
+
+#+end_src
+
+* File and buffer
+** Delete current file
+[[https://kundeveloper.com/blog/buffer-files/][Source]]
+
+#+begin_src elisp
+(defun eethern/delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+(defun eethern/rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+#+end_src
+** Yes or no
+Make "write yes/no" prompts into "press y/n" instead.
+#+begin_src elisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** Recentf
+Track recent files.
+#+begin_src elisp
+(recentf-mode)
+#+end_src
+
+** Noo junk please we are unix
+This will remove those pesky line-endings mac users seem blind to.
+#+begin_src elisp
+(defun no-junk-please-were-unixish ()
+  (let ((coding-str (symbol-name buffer-file-coding-system)))
+    (when (string-match "-\\(?:dos\\|mac\\)$" coding-str)
+      (set-buffer-file-coding-system 'unix))))
+
+(add-hook 'find-file-hooks 'no-junk-please-were-unixish)
+#+end_src
+
+** Backup files
+#+begin_src elisp
+(setq backup-directory-alist '(("." . "~/.emacsbackups"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
+
+#+end_src
+** Keybindings
+
+#+begin_src elisp
+(eethern/leader-key-def
+  :keymaps 'normal
+  "f" '(:ignore t :wk "file")
+  "f f" '(find-file :wk "Find file")
+  "f s" '(save-buffer :wk "Save buffer")
+  "f p" '(find-file user-emacs-directory :wk "Find emacs config file")
+  "f S" '(write-file :wk "Save buffer as...")
+  "f D" '(eethern/delete-current-buffer-file :wk "Delete current file")
+  "f R" '(eethern/rename-current-buffer-file :wk "Move current file")
+  "b" '(:ignore t :wk "buffer")
+  "b s" '(save-buffer :wk "Save buffer")
+  "b r" '(revert-buffer :wk "Revert buffer")
+  "b d" '(kill-this-buffer :wk "Kill current buffer")
+  )
+#+end_src
+
 * Org mode
 ** Org configuration
 #+begin_src elisp
@@ -423,25 +520,30 @@ This will remove those pesky line-endings mac users seem blind to.
   (setq evil-auto-indent nil))
 
 (use-package org
-  :ensure t
-  :hook (org-mode . eethern/org-mode-setup)
+  :ensure org-plus-contrib
+  :hook 'eethern/org-mode-setup
+  (org-babel-after-execute . org-redisplay-inline-images)
   :config
-  (setq org-directory "~/Dropbox/org/"
-        org-id-locations-file "~/Dropbox/org/orbit/.orgids"
-        org-capture-todo-file "~/Dropbox/org/agenda.org"
+  (setq org-directory (file-truename "~/Dropbox/org/")
+        org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
+        org-id-locations-file (file-truename "~/Dropbox/org/orbit/.orgids")
+        org-id-track-globally t ;; Trach org ids globally for org-roam
         org-pretty-entities nil
         org-hide-emphasis-markers t
         org-startup-with-inline-images "inlineimages"
+        org-startup-indented t
         org-fontify-whole-heading-line t
-        org-src-fontify-natively t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
+        org-image-actual-width nil
         org-latex-prefer-user-labels t
-        org-id-track-globally t ;; Trach org ids globally for org-roam
+        org-src-fontify-natively t
+        org-src-preserve-indentation t
+        org-src-tab-acts-natively t
+        org-indent-mode t
+        org-edit-src-content-indentation 2
         org-startup-truncated nil) ;; Force org to not truncate lines
-#+end_src
 
-#+begin_src elisp
   (setq org-file-apps
         '((auto-mode . emacs)
           ("\\.mm\\'" . default)
@@ -450,49 +552,44 @@ This will remove those pesky line-endings mac users seem blind to.
           ("\\.png\\'" . viewnior)
           ("\\.jpg\\'" . viewnior)
           ("\\.svg\\'" . viewnior)))
-#+end_src
-#+begin_src elisp
-(set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.0)
-(dolist (face '((org-level-1 . 1.2)
-                (org-level-2 . 1.1)
-                (org-level-3 . 1.05)
-                (org-level-4 . 1.0)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'bold :height (cdr face)))
+  
+  (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.0)
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'bold :height (cdr face)))
 
-(require 'org-indent)
-(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+  (require 'org-indent)
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 
-(set-face-attribute 'org-column nil :background nil)
-(set-face-attribute 'org-column-title nil :background nil)
-#+end_src
-#+begin_src elisp
-;; End the usebackage org
-)
+  (set-face-attribute 'org-column nil :background nil)
+  (set-face-attribute 'org-column-title nil :background nil))
 #+end_src
 
 ** Visuals
 *** Superstar
 #+begin_src elisp
-  (use-package org-superstar
-    :after org
-    :hook (org-mode . org-superstar-mode)
-    :custom
-    (org-hide-leading-stars nil)
-    (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
-    (org-superstar-leading-bullet ?\s)
-    (org-indent-mode-turns-on-hiding-stars nil))
+(use-package org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode)
+  :custom
+  (org-hide-leading-stars nil)
+  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●"))
+  (org-superstar-leading-bullet ?\s)
+  (org-indent-mode-turns-on-hiding-stars nil))
 #+end_src
 
 *** Fancy priorities
@@ -517,10 +614,21 @@ This will remove those pesky line-endings mac users seem blind to.
 #+begin_src elisp
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
-(add-to-list 'org-structure-template-alist '("cc" . "src sh"))
 (add-to-list 'org-structure-template-alist '("el" . "src elisp"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("as" . "aside"))
+(add-to-list 'org-structure-template-alist '("al" . "algorithm"))
+(add-to-list 'org-structure-template-alist '("pr" . "proof"))
+(add-to-list 'org-structure-template-alist '("th" . "theorem"))
+(add-to-list 'org-structure-template-alist '("cs" . "columns"))
+(add-to-list 'org-structure-template-alist '("co" . "column"))
+
+(add-to-list 'org-tempo-keywords-alist '("on" . "name"))
+(add-to-list 'org-tempo-keywords-alist '("oc" . "caption"))
+(add-to-list 'org-tempo-keywords-alist '("oo" . "attr_org"))
+(add-to-list 'org-tempo-keywords-alist '("ol" . "attr_latex"))
 #+end_src
+
 ** Org download
 #+begin_src elisp
 (defun org-download-named-screenshot (fname)
@@ -545,7 +653,129 @@ This will remove those pesky line-endings mac users seem blind to.
         org-download-link-format (concat "[[file:" org-download-image-dir "/%s]]\n")
         org-download-timestamp "%Y-%m-%d_%H-%M-%S_"))
 #+end_src
-** Jupyter
+** Latex
+*** Auctex
+#+begin_src elisp
+(use-package auctex
+  :straight (:type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git"
+                   :pre-build ((shell-command "./autogen.sh && ./configure --without-texmf-dir --with-lispdir=. && make")))
+  :mode
+                                        ; https://www.mail-archive.com/auctex@gnu.org/msg07608.html
+                                        ; https://www.gnu.org/software/emacs/manual/html_node/reftex/Installation.html
+  ("\\.tex\\'" . latex-mode) ; Must first activate the inferior Emacs latex mode
+  :hook
+  (LaTeX-mode . TeX-PDF-mode)
+  (LaTeX-mode . company-mode)
+  (LaTeX-mode . flyspell-mode)
+  (LaTeX-mode . flycheck-mode)
+  (LaTeX-mode . LaTeX-math-mode)
+  (LaTeX-mode . turn-on-reftex)
+  (LaTeX-mode . turn-on-cdlatex)
+  :init
+  (load "auctex.el" nil t t) 
+  ;; (load "preview-latex.el" nil t t)
+  (require 'reftex) 
+
+  (setq-default TeX-master 'dwim)
+
+  (setq TeX-data-directory (straight--repos-dir "auctex")
+        TeX-lisp-directory TeX-data-directory                   
+
+                                        ; Or custom-set-variables as follows.
+                                        ; M-x describe-variable RET preview-TeX-style-dir RET
+                                        ;`(preview-TeX-style-dir ,(concat ".:" (straight--repos-dir "auctex") "latex:"))
+        preview-TeX-style-dir (concat ".:" (straight--repos-dir "auctex") "latex:")
+
+        TeX-parse-self t ; parse on load
+        TeX-auto-save t  ; parse on save
+        TeX-auto-untabify t ; Automatically remove all tabs from a file before saving it. 
+
+                                        ;Type of TeX engine to use.
+                                        ;It should be one of the following symbols:
+                                        ;* ‘default’
+                                        ;* ‘luatex’
+                                        ;* ‘omega’
+                                        ;* ‘xetex’
+        TeX-engine 'xetex
+        TeX-auto-local ".auctex-auto" ; Directory containing automatically generated TeX information.
+        TeX-style-local ".auctex-style" ; Directory containing hand generated TeX information.
+
+        ;; ##### Enable synctex correlation. 
+        ;; ##### From Okular just press `Shift + Left click' to go to the good line. 
+        ;; ##### From Evince just press `Ctrl + Left click' to go to the good line.      
+        TeX-source-correlate-mode t
+        TeX-source-correlate-method 'synctex
+        TeX-source-correlate-start-server t
+
+        ;; automatically insert braces after sub/superscript in math mode
+        TeX-electric-sub-and-superscript t 
+        ;; If non-nil, then query the user before saving each file with TeX-save-document.  
+        TeX-save-query nil
+
+        TeX-view-program-selection '((output-pdf "PDF Tools"))
+        ))
+#+end_src
+
+*** cdlatex
+#+begin_src elisp
+(use-package cdlatex
+  :ensure auctex
+  :hook (org-mode . org-cdlatex-mode)
+  )
+#+end_src
+*** Org fragtog
+#+begin_src elisp
+(defun update-org-latex-fragment-scale ()
+  (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
+    (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor))))
+
+(use-package org-fragtog
+  :config
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+  ;; (add-hook 'org-mode-hook 'update-org-latex-fragment-scale)
+  )
+#+end_src
+** Productivity
+*** Agenda settings
+#+begin_src elisp
+(setq org-agenda-files (list "~/Dropbox/org/agenda.org"))
+#+end_src
+*** Todo keywords
+#+begin_src elisp
+(setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+                          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+                          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+#+end_src
+*** Capture templates
+#+begin_src elisp
+(setq org-capture-templates
+      '(("t" "Personal todo" entry
+         (file+headline +org-capture-todo-file "Inbox")
+         "* [ ] %?\n%i\n%a" :prepend t)
+        ("j" "Journal" entry
+         (file+datetree +org-capture-journal-file)
+         "* %U %?\n" :prepend t)
+        ("n" "Personal notes" entry
+         (file+headline +org-capture-notes-file "Inbox")
+         "* %u %?\n%i\n%a" :prepend t)
+        ("r" "Research" entry
+         (file+headline +org-capture-todo-file "Research")
+         "* %u %?\n%i\n%a" :prepend t)
+        ("u" "University" entry
+         (file+headline +org-capture-todo-file "University")
+         "* [ ] %u %?\n%i\n%a" :prepend t)
+
+        ("p" "Templates for projects")
+        ("pt" "Project todo" entry
+         #'+org-capture-central-project-todo-file "* [ ] %?\n %i\n %a" :heading "Tasks" :prepend nil)
+        ("pn" "Project notes" entry
+         #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+        ("pc" "Project changelog" entry
+         #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
+#+end_src
+
+** Babel
+*** Jupyter
 Bread and butter for using python in org-mode for notebook style execution.
 Make a template for inserting jupyter blocks.
 #+begin_src elisp
@@ -562,7 +792,15 @@ Make a template for inserting jupyter blocks.
   (add-to-list 'org-src-lang-modes '("jupyter-python" . python))
   (add-to-list 'org-structure-template-alist '("ju" . "src jupyter-python")))
 #+end_src
-** Auto tangle
+*** Babel languages
+#+begin_src elisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python . t)
+   (jupyter . t)))
+#+end_src 
+*** Auto tangle
 Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
 #+begin_src elisp
 (use-package org-auto-tangle
@@ -573,25 +811,12 @@ Automatically tangle src blocks on save. Makes working with literate programming
   (setq org-auto-tangle-default nil))
 #+end_src
 
-** Org fragtog
-#+begin_src elisp
-  (defun update-org-latex-fragment-scale ()
-    (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
-      (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor))))
-
-  (use-package org-fragtog
-    :config
-    (add-hook 'org-mode-hook 'org-fragtog-mode)
-    ;; (add-hook 'org-mode-hook 'update-org-latex-fragment-scale)
-    )
-#+end_src
 ** Keybindings
 #+begin_src elisp
 (use-package evil-org
   :after org
   :hook ((org-mode . evil-org-mode)
          (org-agenda-mode . evil-org-mode)))
-
 
 #+end_src
 
@@ -613,7 +838,7 @@ Automatically tangle src blocks on save. Makes working with literate programming
 
 (defun +org/show-next-fold-level (&optional count)
   "Decrease the fold-level of the visible area of the buffer. This unfolds
-another level of headings on each invocation."
+    another level of headings on each invocation."
   (interactive "p")
   (let ((new-level (+ (+org--get-foldlevel) (or count 1))))
     (outline-hide-sublevels new-level)
@@ -633,76 +858,86 @@ another level of headings on each invocation."
     (outline-show-all)))
 
 (eethern/local-leader-def
- :states 'normal
- :keymaps 'org-mode-map
- "a C" 'org-download-named-screenshot
- "k s" 'org-babel-demarcate-block
- "i l" 'org-cdlatex-environment-indent
- "i p" 'academic-phrases
- "i s" 'org-insert-structure-template
- "i P" 'academic-phrases-by-section
- "e" 'org-export-dispatch)
+  :states 'normal
+  :keymaps 'org-mode-map
+  "a C" 'org-download-named-screenshot
+  "k s" 'org-babel-demarcate-block
+  "i l" 'org-cdlatex-environment-indent
+  "i p" 'academic-phrases
+  "i s" 'org-insert-structure-template
+  "i P" 'academic-phrases-by-section
+  "t" 'org-todo
+  "d s" 'org-schedule
+  "d d" 'org-deadline
+  "e" 'org-export-dispatch)
 
+(eethern/leader-key-def
+  "X" 'org-capture
+  "o a a" 'org-agenda)
 
 (general-define-key
  :states 'normal
  "z r" '+org/show-next-fold-level
- "z R" '+org/open-all-folds)
+ "z R" '+org/open-all-folds
+ "z i" 'org-toggle-inline-images)
 #+end_src
 
 * Org roam
 #+begin_src elisp
-  (use-package org-roam
-    :after org
-    :init
-    (setq org-roam-v2-ack t)
-    :custom
-    (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
-    (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-    (+org-roam-open-buffer-on-find-file nil)
-    (org-roam-auto-replace-fuzzy-links nil)
-    :config
-    (org-roam-db-autosync-mode t)
-    (eethern/leader-key-def
-      :keymaps 'normal
-      "n" '(nil :which-key "Org roam")
-      "n r" '(:ignore t :which-key "node")
-      "n r f" '(org-roam-node-find :which-key "Find node")
-      "n r s" '(org-roam-db-sync :which-key "Sync database")
-      "n r i" '(org-roam-node-insert :which-key "Insert node"))
-    (setq org-roam-capture-templates
-          '(("l" "latex")
-            ("ld" "temporary note" plain
-             (file "~/.doom.d/templates/draft.org")
-             :if-new (file "draft/%<%Y%m%d%H%M%S>-${slug}.org")
-             :unnarrowed t)
-            ("ll" "lecture note" plain
-             (file "~/.doom.d/templates/lecture_note.org")
-             :if-new (file "lecture/%<%Y%m%d%H%M%S>-${slug}.org")
-             :unnarrowed t)
-            ("lp" "permanent note" plain
-             (file "~/.doom.d/templates/latex.org")
-             :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
-             :unnarrowed t)
-            ("ln" "notebook" plain
-             (file "~/.doom.d/templates/notebook.org")
-             :if-new (file "notebook/%<%Y%m%d%H%M%S>-${slug}.org")
-             :unnarrowed t)
-            ("le" "exercise" plain
-             (file "~/.doom.d/templates/exercise.org")
-             :if-new (file "exercise/%<%y%m%d%h%m%s>-${slug}.org")
-             :unnarrowed t)
-            ("p" "project" plain
-             (file "~/.doom.d/templates/project.org")
-             :if-new (file "project/${slug}/README.org")
-             :unnarrowd t)
-            )))
+(use-package org-roam
+  :after org
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
+  (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+  (+org-roam-open-buffer-on-find-file nil)
+  (org-roam-auto-replace-fuzzy-links nil)
+  (org-roam-completion-everywhere t)
+  (org-roam-db-autosync-mode t)
+  :config
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "n" '(nil :wk "Org roam")
+    "n r" '(:ignore t :wk "node")
+    "n r f" '(org-roam-node-find :wk "Find node")
+    "n r a" '(org-roam-node-random :wk "Random node")
+    "n r s" '(org-roam-db-sync :wk "Sync database")
+    "n r i" '(org-roam-node-insert :wk "Insert node"))
+
+  (setq org-roam-capture-templates
+        '(("l" "latex")
+          ("ld" "temporary note" plain
+           (file "~/.doom.d/templates/draft.org")
+           :if-new (file "draft/%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("ll" "lecture note" plain
+           (file "~/.doom.d/templates/lecture_note.org")
+           :if-new (file "lecture/%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("lp" "permanent note" plain
+           (file "~/.doom.d/templates/latex.org")
+           :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("ln" "notebook" plain
+           (file "~/.doom.d/templates/notebook.org")
+           :if-new (file "notebook/%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("le" "exercise" plain
+           (file "~/.doom.d/templates/exercise.org")
+           :if-new (file "exercise/%<%y%m%d%h%m%s>-${slug}.org")
+           :unnarrowed t)
+          ("p" "project" plain
+           (file "~/.doom.d/templates/project.org")
+           :if-new (file "project/${slug}/README.org")
+           :unnarrowd t)
+          )))
 
 #+end_src
 ** Org roam ui
 #+begin_src elisp
 ;; (use-package org-roam-ui
-;;     :after org-roam ;; or :after org
+;;     :after org-roam 
 ;;     :config
 ;;     (setq org-roam-ui-sync-theme t
 ;;           org-roam-ui-follow t
@@ -712,112 +947,112 @@ another level of headings on each invocation."
 ** Orbit
 Personal wiki powered by org roam
 #+begin_src elisp
-  (setq orbit/directory "~/Dropbox/org/orbit"
-        orbit/articles-directory (expand-file-name "articles" orbit/directory)
-        orbit/assets-directory (expand-file-name "assets" orbit/directory)
-        orbit/publish-directory (expand-file-name "public" orbit/directory))
+(setq orbit/directory "~/Dropbox/org/orbit"
+      orbit/articles-directory (expand-file-name "articles" orbit/directory)
+      orbit/assets-directory (expand-file-name "assets" orbit/directory)
+      orbit/publish-directory (expand-file-name "public" orbit/directory))
 
- ;; (setq browse-url-browser-function 'browse-url-firefox
- ;;          browse-url-new-window-flag  t
- ;;          browse-url-firefox-new-window-is-tab t)
+(defvar site-attachments
+  (regexp-opt '("jpg" "jpeg" "gif" "png" "svg"
+                "ico" "cur" "css" "js" "woff" "html" "pdf")))
 
- ;;  (defun orbit/my-browse-url-mozilla-new-tab (url &optional new-window)
- ;;        ;; new-window ignored
- ;;        "Open URL in a new tab in Mozilla."
- ;;        (interactive (browse-url-interactive-arg "URL: "))
- ;;        (unless
- ;;            (string= "" 
- ;;                    (shell-command-to-string 
- ;;                      (concat "mozilla -remote 'openURL(" url ",new-tab)'")))
- ;;          (message "Starting Mozilla...")
- ;;          (start-process (concat "mozilla " url) nil "mozilla" url)
- ;;          (message "Starting Mozilla...done")))
+(setq orbit/html-preamble
+      "<div class=\"nav\">
+  <ul>
+  <li><a href=\"/articles/index.html\">Home</a></li>
+  <li><a href=\"/articles/about.html\">About</a></li>
+  <li><a href=\"https://github.com/christoffer-arvidsson\">GitHub</a></li>
+  </ul>
+  </div>")
 
- ;;  (defun orbit/open ()
- ;;    "Open the orbit index file"
- ;;    (interactive)
- ;;    (orbit/my-browse-url-mozilla-new-tab (expand-file-name "articles/index.html" orbit/publish-directory)))
+(defun orbit/sitemap (title list)
+  "Site map, as a string.
+      TITLE is the title of the site map.  LIST is an internal
+      representation for the files to include, as returned by
+      `org-list-to-lisp'.  PROJECT is the current project."
+  (concat "#+TITLE: " title "\n\n"
+          "#+subtitle: Hello" "\n\n"
+          (org-list-to-org list)))
 
- ;;  (eethern/leader-key-def
- ;;    :keymaps 'normal
- ;;    "n o" '(nil :which-key "Orbit")
- ;;    "n o o" '(orbit/open :which-key "Open index"))
+(setq orbit/backlinks-section "\n* Backlinks\n:PROPERTIES:\n:CUSTOM_ID: backlinks\n:END:\n\nNotes that link to this note.\n")
 
-  (defvar site-attachments
-    (regexp-opt '("jpg" "jpeg" "gif" "png" "svg"
-                  "ico" "cur" "css" "js" "woff" "html" "pdf")))
-  (defun orbit/sitemap (title list)
-    "Site map, as a string.
-    TITLE is the title of the site map.  LIST is an internal
-    representation for the files to include, as returned by
-    `org-list-to-lisp'.  PROJECT is the current project."
-    (concat "#+TITLE: " title "\n\n"
-            "#+subtitle: Hello" "\n\n"
-            (org-list-to-org list)))
+(defun orbit/collect-backlinks-string (backend)
+  "Insert backlinks into the end of the org file before parsing it."
+  (when (org-roam-node-at-point)
+    (goto-char (point-max))
+    ;; Add a new header for the references
+    (insert orbit/backlinks-section)
+    (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+      (dolist (backlink backlinks)
+        (let* ((source-node (org-roam-backlink-source-node backlink)))
+          (insert
+           (format "- [[./%s][%s]]\n"
+                   (file-name-nondirectory (org-roam-node-file source-node))
+                   (org-roam-node-title source-node))))))))
 
-  (setq orbit/backlinks-section "\n* Backlinks\n:PROPERTIES:\n:CUSTOM_ID: backlinks\n:END:\n\nNotes that link to this note.\n")
+(add-hook 'org-export-before-processing-hook 'orbit/collect-backlinks-string)
 
-  (defun orbit/collect-backlinks-string (backend)
-    "Insert backlinks into the end of the org file before parsing it."
-    (when (org-roam-node-at-point)
-      (goto-char (point-max))
-      ;; Add a new header for the references
-      (insert orbit/backlinks-section)
-      (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
-        (dolist (backlink backlinks)
-          (let* ((source-node (org-roam-backlink-source-node backlink)))
-            (insert
-             (format "- [[./%s][%s]]\n"
-                     (file-name-nondirectory (org-roam-node-file source-node))
-                     (org-roam-node-title source-node))))))))
-
-  (add-hook 'org-export-before-processing-hook 'orbit/collect-backlinks-string)
-
-  (setq org-publish-project-alist
-        (list
-         (list "site-org"
-               :auto-sitemap t
-               :base-directory orbit/articles-directory
-               :base-extension "org"
-               :exclude (regexp-opt '("README" "lecture" "draft" "old_notes" "daily" "project" "notebook"))
-               :html-head-extra"<link rel=\"icon\" type=\"image/gif\" href=\"../assets/favicon.gif\"/><link rel=\"stylesheet\" href=\"../assets/css/style.css\" type=\"text/css\"/>"
-               :html-postamble: t
-               :htmlized-source t
-               :publishing-directory (expand-file-name "articles" orbit/publish-directory)
-               :publishing-function '(org-html-publish-to-html)
-               :recursive t
-               :sitemap-file-entry-format "%d *%t*"
-               :sitemap-filename "index.org"
-               :sitemap-sort-files 'anti-chronologically
-               :sitemap-style 'list
-               :sitemap-function 'orbit/sitemap
-               :sitemap-title "Notes from university"
-               :with-toc t
-               :html-head-include-default-style nil
-               :html-head-include-scripts t)
-         (list "site-static"
-               :base-directory orbit/assets-directory
-               :exclude orbit/publish-directory
-               :base-extension site-attachments
-               :publishing-directory (expand-file-name "assets" orbit/publish-directory)
-               :publishing-function 'org-publish-attachment
-               :recursive t)
-         (list "site" :components '("site-org" "site-static"))))
+(setq org-publish-project-alist
+      (list
+       (list "orbit-articles"
+             :auto-sitemap t
+             :base-directory orbit/articles-directory
+             :base-extension "org"
+             :exclude (regexp-opt '("README" "lecture" "draft" "old_notes" "daily" "project" "notebook"))
+             :html-head-extra"<link rel=\"icon\" type=\"image/gif\" href=\"../assets/favicon.gif\"/><link rel=\"stylesheet\" href=\"../assets/css/style.css\" type=\"text/css\"/>"
+             :html-preamble orbit/html-preamble
+             :html-postamble: nil
+             :htmlized-source t
+             :publishing-directory (expand-file-name "articles" orbit/publish-directory)
+             :publishing-function '(org-html-publish-to-html)
+             :recursive t
+             :sitemap-file-entry-format "%d *%t*"
+             :sitemap-filename "index.org"
+             :sitemap-sort-files 'anti-chronologically
+             :sitemap-style 'list
+             :sitemap-function 'orbit/sitemap
+             :sitemap-title "Notes from university"
+             :with-toc t
+             :html-head-include-default-style nil
+             :html-head-include-scripts t)
+       (list "orbit-static"
+             :base-directory orbit/assets-directory
+             :exclude orbit/publish-directory
+             :base-extension site-attachments
+             :publishing-directory (expand-file-name "assets" orbit/publish-directory)
+             :publishing-function 'org-publish-attachment
+             :recursive t)
+       (list "orbit" :components '("orbit-articles" "orbit-static"))))
 #+end_src
 
 * Development
+** Eshell
+#+begin_src elisp
+(use-package eshell
+  :ensure t)
+
+(use-package eshell-toggle
+  :after eshell
+  :custom
+  (eshell-toggle-use-projectile t)
+  :config
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "o e" '(eshell-toggle :wk "Toggle eshell")
+    ))
+#+end_src
 ** Projectile
 #+begin_src elisp
 (use-package projectile
   :config
   (eethern/leader-key-def
-   :keymaps 'normal'
-   "SPC" '(projectile-commander :which-key "Find file in project")
-   "p" '(:ignore t :which-key "project")
-   "p c" '(projectile-compile-project :which-key "Compile project")
-   "p f" '(projectile-find-file :which-key "Find file in project")
-   "p r" '(projectile-recentf :which-key "Find recent file in project")
-   "p p" '(projectile-switch-project :which-key "Switch project"))
+    :keymaps 'normal
+    "SPC" '(projectile-find-file :wk "Find file in project")
+    "p" '(:ignore t :wk "project")
+    "p c" '(projectile-compile-project :wk "Compile project")
+    "p f" '(projectile-find-file :wk "Find file in project")
+    "p r" '(projectile-recentf :wk "Find recent file in project")
+    "p p" '(projectile-switch-project :wk "Switch project"))
 
   (projectile-mode 1))
 #+end_src
@@ -830,9 +1065,9 @@ Personal wiki powered by org roam
   (setq consult-project-root-function #'projectile-project-root)
   (eethern/leader-key-def
     :keymaps 'normal
-    "f r" '(consult-recent-file :which-key "Recent files")
-    "b b" '(consult-buffer :which-key "Switch buffer")
-    "s i" '(consult-imenu :which-key "Jump to symbol")))
+    "f r" '(consult-recent-file :wk "Recent files")
+    "b b" '(consult-buffer :wk "Switch buffer")
+    "s i" '(consult-imenu :wk "Jump to symbol")))
 #+end_src
 ** Version control
 *** Magit
@@ -840,22 +1075,16 @@ Personal wiki powered by org roam
 (use-package magit
   :config
   (eethern/leader-key-def
-   :keymaps 'normal
-   "g" '(:ignore t :which-key "git")
-   "g g" '(magit-status :which-key "Magit status")))
+    :keymaps 'normal
+    "g" '(:ignore t :wk "git")
+    "g g" '(magit-status :wk "Magit status")))
 #+end_src
-** Languages
-*** Python
+*** Git gutter
 #+begin_src elisp
-(use-package anaconda-mode
-  :defer t
-  :hook (python-mode . anaconda-mode))
-#+end_src
-*** C/C++
-#+begin_src elisp
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+(use-package git-gutter
+  :hook
+  (prog-mode . git-gutter-mode)
+  (text-mode . git-gutter-mode))
 #+end_src
 ** Syntax checking
 *** LSP
@@ -865,11 +1094,11 @@ Personal wiki powered by org roam
   :commands lsp
   :hook ((python-mode cc-mode) . lsp)
   :bind (:map lsp-mode-map
-         ("TAB" . completion-at-point))
+              ("TAB" . completion-at-point))
   :custom (lsp-headerline-breadcrumb-enable nil))
 
 (eethern/leader-key-def
-  "l"  '(:ignore t :which-key "lsp")
+  "l"  '(:ignore t :wk "lsp")
   "ld" 'xref-find-definitions
   "lr" 'xref-find-references
   "ln" 'lsp-ui-find-next-reference
@@ -883,9 +1112,11 @@ Personal wiki powered by org roam
   :straight t
   :hook (lsp-mode . lsp-ui-mode)
   :config
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-doc-position 'bottom
+        lsp-ui-doc-delay 0.8
+        )
   (lsp-ui-doc-show))
 #+end_src
 
@@ -895,9 +1126,73 @@ Personal wiki powered by org roam
   :defer t
   :hook (lsp-mode . flycheck-mode))
 #+end_src
+** Languages
+*** Python
+#+begin_src elisp
+(use-package python
+  :defer t
+  :custom
+  (python-indent-offset 4)
+  )
+(use-package anaconda-mode
+  :defer t
+  :hook (python-mode . anaconda-mode))
+
+(use-package lsp-jedi
+  :ensure t
+  :config
+  (with-eval-after-load "lsp-mode"
+    (add-to-list 'lsp-disabled-clients 'pyls)
+    (add-to-list 'lsp-enabled-clients 'jedi)))
+
+(use-package pyenv-mode
+  :ensure t
+  :config
+  (pyenv-mode))
+#+end_src
+*** C/C++
+#+begin_src elisp
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+#+end_src
+*** Matlab/octave
+#+begin_src elisp
+(use-package octave
+  :defer t
+  :config
+  (setq auto-mode-alist
+        (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+  (add-hook 'octave-mode-hook
+            (lambda ()
+              (abbrev-mode 1)
+              (auto-fill-mode 1)
+              (if (eq window-system 'x)
+                  (font-lock-mode 1))))
+  (add-hook 'octave-mode-hook (lambda () (auto-fill-mode 0)))
+
+  (eethern/leader-key-def
+    :keymaps 'matlab-mode-map
+    "m c" 'octave-send-buffer
+    "m r" 'run-octave))
+
+;; (use-package matlab-mode
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'auto-mode-alist '("\\.m$" . matlab-mode))
+;;   (setq matlab-indent-function t
+;;         matlab-shell-command "matlab")
+;;   (eethern/leader-key-def
+;;     :keymaps 'matlab-mode-map
+;;     "m c" 'matlab-shell-run-cell
+;;     "m r" 'matlab-shell))
+
+#+end_src
 * Runtime performance
 #+begin_src elisp
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 #+end_src
+
 
