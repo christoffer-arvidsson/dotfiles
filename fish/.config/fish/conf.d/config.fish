@@ -78,7 +78,7 @@ set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 # alias
 alias ls="exa -l"
 alias cat="bat"
-alias doom="~/.emacs.d/bin/doom"
+alias doom="~/.emacs.doom/bin/doom"
 
 # Work aliase
 # function brun
