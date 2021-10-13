@@ -31,9 +31,9 @@ bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 # Monitors
 if [ $(hostname) == "station" ]; then
     ~/.screenlayout/Layout.sh
-    bspc monitor DP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    bspc monitor DVI-I-1 -d ext1 ext2 ext3 ext4 ext5
-    declare -A ARRANGEMENTS=(["DP-1"]="station-topbar" ["DVI-I-1"]="external")
+    bspc monitor DP-0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+    # bspc monitor DVI-I-1 -d ext1 ext2 ext3 ext4 ext5
+    declare -A ARRANGEMENTS=(["DP-0"]="station-topbar")
 elif [ $(hostname) == "shuttle" ]; then
     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
     declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
