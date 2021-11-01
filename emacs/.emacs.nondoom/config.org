@@ -1044,6 +1044,9 @@ Personal wiki powered by org roam
           "#+subtitle: Hello" "\n\n"
           (org-list-to-org list)))
 
+(defun orbit/sitemap-file-entry-format ()
+  "%")
+
 (setq orbit/backlinks-section "\n* Backlinks\n:PROPERTIES:\n:CUSTOM_ID: backlinks\n:END:\n\nNotes that link to this note.\n")
 
 (defun orbit/collect-backlinks-string (backend)
@@ -1068,7 +1071,7 @@ Personal wiki powered by org roam
              :auto-sitemap t
              :base-directory orbit/articles-directory
              :base-extension "org"
-             :exclude (regexp-opt '("README" "lecture" "draft" "old_notes" "daily" "project" "notebook"))
+             :exclude (regexp-opt '("README" "lecture" "draft" "old_notes" "daily" "project"))
              :html-head-extra"<link rel=\"icon\" type=\"image/gif\" href=\"../assets/favicon.gif\"/><link rel=\"stylesheet\" href=\"../assets/css/style.css\" type=\"text/css\"/>"
              :html-preamble orbit/html-preamble
              :html-postamble: nil
@@ -1093,6 +1096,67 @@ Personal wiki powered by org roam
              :publishing-function 'org-publish-attachment
              :recursive t)
        (list "orbit" :components '("orbit-articles" "orbit-static"))))
+#+end_src
+** Org roam
+#+begin_src elisp
+(use-package org-roam
+  :after org
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
+  (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+  (+org-roam-open-buffer-on-find-file nil)
+  (org-roam-auto-replace-fuzzy-links nil)
+  (org-roam-completion-everywhere t)
+  (org-roam-db-autosync-mode t)
+  :config
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "n r" '(:ignore t :wk "Org roam")
+    "n r f" '(org-roam-node-find :wk "Find node")
+    "n r a" '(org-roam-node-random :wk "Random node")
+    "n r s" '(org-roam-db-sync :wk "Sync database")
+    "n r r" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
+    "n r i" '(org-roam-node-insert :wk "Insert node"))
+
+  (setq org-roam-capture-templates
+        '(("l" "latex")
+          ("ld" "temporary note" plain
+           (file "~/Dropbox/org/orbit/templates/draft.org")
+           :target (file "draft/%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("ll" "lecture note" plain
+           (file "~/Dropbox/org/orbit/templates/lecture_note.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("lp" "permanent note" plain
+           (file "~/Dropbox/org/orbit/templates/latex.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("ln" "notebook" plain
+           (file "~/Dropbox/org/orbit/templates/notebook.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("le" "exercise" plain
+           (file "~/Dropbox/org/orbit/templates/exercise.org")
+           :target (file "%<%y%m%d%h%m%s>-${slug}.org")
+           :unnarrowed t)
+          ("p" "project" plain
+           (file "~/Dropbox/org/orbit/templates/project.org")
+           :target (file "project/${slug}/README.org")
+           :unnarrowd t)
+          )))
+
+#+end_src
+** Org roam ui
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.nondoom/private/org-roam-ui")
+(load-library "org-roam-ui")
+(setq org-roam-ui-sync-theme t
+      org-roam-ui-follow t
+      org-roam-ui-update-on-save t
+      org-roam-ui-open-on-start t)
 #+end_src
 
 * Development
