@@ -498,6 +498,21 @@ This will remove those pesky line-endings mac users seem blind to.
       )
 
 #+end_src
+** Yank current file path
+Stolen from doom emacs
+#+begin_src elisp
+(defun doom/yank-buffer-path (&optional root)
+  "Copy the current buffer's path to the kill ring."
+  (interactive)
+  (if-let (filename (or (buffer-file-name (buffer-base-buffer))
+                        (bound-and-true-p list-buffers-directory)))
+      (message "Copied path to clipboard: %s"
+               (kill-new (abbreviate-file-name
+                          (if root
+                              (file-relative-name filename root)
+                            filename))))
+    (error "Couldn't find filename in current buffer")))
+#+end_src
 ** Keybindings
 
 #+begin_src elisp
@@ -507,6 +522,7 @@ This will remove those pesky line-endings mac users seem blind to.
   "f f" '(find-file :wk "Find file")
   "f s" '(save-buffer :wk "Save buffer")
   "f p" '(find-file user-emacs-directory :wk "Find emacs config file")
+  "f y" '(doom/yank-buffer-path :wk "Yank buffer path")
   "f S" '(write-file :wk "Save buffer as...")
   "f D" '(eethern/delete-current-buffer-file :wk "Delete current file")
   "f R" '(eethern/rename-current-buffer-file :wk "Move current file")
