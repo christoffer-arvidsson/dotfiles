@@ -341,9 +341,9 @@ I will make this use some kind of dashboard. For now, it's just an org file.
 #+begin_src elisp
 (use-package company
   :custom
-  (company-minimum-prefix-length 2)
+  (company-minimum-prefix-length 3)
   (completion-ignore-case t)
-  (company-idle-delay 0.5)
+  (company-idle-delay 0.2)
   :hook (after-init . global-company-mode)
   :config
   (add-to-list 'company-backends 'company-capf))
