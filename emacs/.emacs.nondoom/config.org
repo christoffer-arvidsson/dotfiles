@@ -540,41 +540,7 @@ Stolen from doom emacs
   (org-indent-mode)
   (auto-fill-mode 0)
   (visual-line-mode 1)
-  (setq evil-auto-indent nil))
-
-(use-package org
-  :ensure org-plus-contrib
-  :hook 'eethern/org-mode-setup
-  (org-babel-after-execute . org-redisplay-inline-images)
-  :config
-  (setq org-directory (file-truename "~/Dropbox/org/")
-        org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
-        org-id-locations-file (file-truename "~/Dropbox/org/orbit/.orgids")
-        org-id-track-globally t ;; Trach org ids globally for org-roam
-        org-pretty-entities nil
-        org-hide-emphasis-markers t
-        org-startup-with-inline-images "inlineimages"
-        org-startup-indented t
-        org-fontify-whole-heading-line t
-        org-fontify-done-headline t
-        org-fontify-quote-and-verse-blocks t
-        org-image-actual-width nil
-        org-latex-prefer-user-labels t
-        org-src-fontify-natively t
-        org-src-preserve-indentation t
-        org-src-tab-acts-natively t
-        org-indent-mode t
-        org-edit-src-content-indentation 2
-        org-startup-truncated nil) ;; Force org to not truncate lines
-
-  (setq org-file-apps
-        '((auto-mode . emacs)
-          ("\\.mm\\'" . default)
-          ("\\.x?html?\\'" . default)
-          ("\\.pdf\\'" . "zathura %s")
-          ("\\.png\\'" . viewnior)
-          ("\\.jpg\\'" . viewnior)
-          ("\\.svg\\'" . viewnior)))
+  (setq evil-auto-indent nil)
   
   (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.0)
   (dolist (face '((org-level-1 . 1.2)
@@ -600,6 +566,45 @@ Stolen from doom emacs
 
   (set-face-attribute 'org-column nil :background nil)
   (set-face-attribute 'org-column-title nil :background nil))
+
+(use-package org
+  :ensure org-plus-contrib
+  :hook 'eethern/org-mode-setup
+  (org-babel-after-execute . org-redisplay-inline-images)
+  (org-mode . turn-on-flyspell)
+  :config
+  (setq org-directory (file-truename "~/Dropbox/org/")
+        org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
+        org-drill-file (file-truename "~/Dropbox/org/drill.org")
+        org-id-locations-file (file-truename "~/Dropbox/org/orbit/.orgids")
+        org-id-track-globally t ;; Trach org ids globally for org-roam
+        org-pretty-entities nil
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images "inlineimages"
+        org-return-follows-link  t
+        org-startup-indented t
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-image-actual-width nil
+        org-latex-prefer-user-labels t
+        org-src-fontify-natively t
+        org-src-preserve-indentation t
+        org-src-tab-acts-natively t
+        org-export-use-babel t
+        org-indent-mode t
+        org-edit-src-content-indentation 2
+        org-startup-truncated nil) ;; Force org to not truncate lines
+
+  (setq org-file-apps
+        '((auto-mode . emacs)
+          ("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . "zathura %s")
+          ("\\.png\\'" . viewnior)
+          ("\\.jpg\\'" . viewnior)
+          ("\\.svg\\'" . viewnior))))
+  
 #+end_src
 
 ** Visuals
@@ -666,15 +671,12 @@ Stolen from doom emacs
 (use-package org-download
   :after org
   :config
-  (setq-default org-download-image-dir "../assets/images"
-                org-download-heading-lvl nil)
-
-  (setq org-download-image-dir "../assets/images")
-
   (setq org-download-screenshot-method "xfce4-screenshooter -r -o cat > %s"
         org-download-method 'directory
-        org-download-link-format (concat "[[file:" org-download-image-dir "/%s]]\n")
-        org-download-timestamp "%Y-%m-%d_%H-%M-%S_"))
+        org-download-timestamp "%Y-%m-%d_%H-%M-%S_")
+  (setq-default org-download-image-dir "../assets/images"
+                org-download-heading-lvl nil))
+
 #+end_src
 ** Latex
 *** Auctex
@@ -743,25 +745,62 @@ Stolen from doom emacs
 #+begin_src elisp
 (use-package cdlatex
   :ensure auctex
-  :hook (org-mode . org-cdlatex-mode)
-  )
+  :hook (org-mode . org-cdlatex-mode))
 #+end_src
+
 *** Org fragtog
 #+begin_src elisp
 (defun update-org-latex-fragment-scale ()
   (let ((text-scale-factor (expt text-scale-mode-step text-scale-mode-amount)))
-    (plist-put org-format-latex-options :scale (* 1.5 text-scale-factor))))
+    (plist-put org-format-latex-options :scale (* 1.8 text-scale-factor))))
 
 (use-package org-fragtog
+  :ensure t
   :config
   (add-hook 'org-mode-hook 'org-fragtog-mode)
-  ;; (add-hook 'org-mode-hook 'update-org-latex-fragment-scale)
-  )
+  (add-hook 'org-mode-hook 'update-org-latex-fragment-scale)
+  (setq org-fragtog-ignore-predicates '(org-at-table-p)))
+#+end_src
+*** Minted
+#+begin_src elisp
+(with-eval-after-load 'org
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+  (setq org-src-fontify-natively t))
 #+end_src
 ** Productivity
 *** Agenda settings
 #+begin_src elisp
-(setq org-agenda-files (list "~/Dropbox/org/agenda.org"))
+(setq org-agenda-files (list (file-truename "~/Dropbox/org/agenda.org"))
+      org-agenda-time-grid '((daily today require-timed) "----------------------" nil)
+      org-agenda-skip-scheduled-if-done nil
+      org-agenda-skip-deadline-if-done nil
+      org-agenda-include-deadlines t
+      org-agenda-include-diary t
+      org-agenda-block-separator t
+      org-agenda-compact-blocks t
+      org-agenda-start-with-log-mode t)
+
+#+end_src
+*** Super agenda
+#+begin_src elisp
+(use-package org-super-agenda
+  :ensure t
+  :defer t
+  :config
+  (setq org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:name "Today"  ; Optionally specify section name
+                :time-grid t  ; Items that appear on the time grid
+                :todo "TODAY")  ; Items that have this TODO keyword
+         (:name "University"
+                :tag "uni"
+                :todo "TODO"
+                :time-grid t
+                :priority "A")
+         ))
+  (org-super-agenda-mode 1))
 #+end_src
 *** Todo keywords
 #+begin_src elisp
@@ -769,51 +808,102 @@ Stolen from doom emacs
                           (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
                           (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
+*** Org-drill
+#+begin_src elisp
+(use-package org-drill
+  :after org)
+#+end_src
 *** Capture templates
 #+begin_src elisp
 (setq org-capture-templates
       '(("t" "Personal todo" entry
-         (file+headline +org-capture-todo-file "Inbox")
+         (file+headline org-capture-todo-file "Inbox")
          "* [ ] %?\n%i\n%a" :prepend t)
         ("j" "Journal" entry
-         (file+datetree +org-capture-journal-file)
+         (file+datetree org-capture-journal-file)
          "* %U %?\n" :prepend t)
         ("n" "Personal notes" entry
-         (file+headline +org-capture-notes-file "Inbox")
+         (file+headline org-capture-notes-file "Inbox")
          "* %u %?\n%i\n%a" :prepend t)
         ("r" "Research" entry
-         (file+headline +org-capture-todo-file "Research")
+         (file+headline org-capture-todo-file "Research")
          "* %u %?\n%i\n%a" :prepend t)
-        ("u" "University" entry
-         (file+headline +org-capture-todo-file "University")
-         "* [ ] %u %?\n%i\n%a" :prepend t)
-
+        ("u" "University")
+        ("ub" "Bioinformatics" entry
+         (file+headline org-capture-todo-file "Bioinformatics")
+         "* [ ] %u %? \n%i\n%a" :prepend t)
+        ("un" "Natural language processing" entry
+         (file+headline org-capture-todo-file "Natural language processing")
+         "* [ ] %u %? \n%i\n%a" :prepend t)
+        ("d" "Drill")
+        ("db" "Bioinformatics" entry
+         (file+headline org-drill-file "Bioinformatics")
+         "* %u %^{Question} :drill:\n%?\n** The Answer\n %^{Answer}" :prepend t)
+        ("dn" "Natural language processing" entry
+         (file+headline org-drill-file "Natural language processing")
+         "* %u %^{Question} :drill:\n%?\n** The Answer\n %^{Answer}" :prepend t)
         ("p" "Templates for projects")
-        ("pt" "Project todo" entry
-         #'+org-capture-central-project-todo-file "* [ ] %?\n %i\n %a" :heading "Tasks" :prepend nil)
-        ("pn" "Project notes" entry
-         #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
-        ("pc" "Project changelog" entry
-         #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)))
+        ("pi" "Idea" entry
+         (file+headline org-capture-todo-file "Project ideas")
+         "* %u %?\n%i\n%a" :prepend t)))
 #+end_src
 
+*** Pomodoro
+[[https://colekillian.com/posts/org-pomodoro-and-polybar/][Source]]
+#+begin_src elisp
+(use-package org-pomodoro
+  :ensure t
+  :defer nil
+  :commands (org-pomodoro eethern/org-pomodoro-time)
+  :config
+  (setq alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil))))
+  )
+(require 'org-pomodoro)
+
+  (defun eethern/org-pomodoro-time ()
+    "Return the remaining pomodoro time"
+    (if (org-pomodoro-active-p)
+        (cl-case org-pomodoro-state
+          (:pomodoro
+           (format "Pomo: %d minutes - %s" (/ (org-pomodoro-remaining-seconds) 60) org-clock-heading))
+          (:short-break
+           (format "Short break time: %d minutes" (/ (org-pomodoro-remaining-seconds) 60)))
+          (:long-break
+           (format "Long break time: %d minutes" (/ (org-pomodoro-remaining-seconds) 60)))
+          (:overtime
+           (format "Overtime! %d minutes" (/ (org-pomodoro-remaining-seconds) 60))))
+      ""))
+
+#+end_src
 ** Babel
+*** Library of babel
+#+begin_src elisp
+(org-babel-lob-ingest "~/Dropbox/org/orbit/templates/lob.org")
+#+end_src
 *** Jupyter
 Bread and butter for using python in org-mode for notebook style execution.
 Make a template for inserting jupyter blocks.
 #+begin_src elisp
 (use-package jupyter
   :after org
+  :defer t
   :config
   (setq org-babel-python-command "~/.pyenv/shims/python")
   (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
                                                        (:kernel . "python3")
-                                                       (:exports . "code")
+                                                       (:exports . "both")
                                                        (:session . "py")
                                                        (:eval . "never-export")))
-
   (add-to-list 'org-src-lang-modes '("jupyter-python" . python))
-  (add-to-list 'org-structure-template-alist '("ju" . "src jupyter-python")))
+  (add-to-list 'org-structure-template-alist '("ju" . "src jupyter-python"))
+  )
+
+;; Had to to this to properly use this function.
+;; This is nice to have as it makes github recognize the code blocks as python.
+;; Plus, I have no use for normal python blocks anyway
+(with-eval-after-load 'ob-jupyter
+  (org-babel-jupyter-override-src-block "python"))
+
 #+end_src
 *** Babel languages
 #+begin_src elisp
@@ -834,6 +924,19 @@ Automatically tangle src blocks on save. Makes working with literate programming
   (setq org-auto-tangle-default nil))
 #+end_src
 
+** Ispell
+From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
+#+begin_src elisp
+(defun endless/org-ispell ()
+  "Configure `ispell-skip-region-alist' for `org-mode'."
+  (make-local-variable 'ispell-skip-region-alist)
+  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
+(add-hook 'org-mode-hook #'endless/org-ispell)
+#+end_src
 ** Keybindings
 #+begin_src elisp
 (use-package evil-org
@@ -883,6 +986,7 @@ Automatically tangle src blocks on save. Makes working with literate programming
 (eethern/local-leader-def
   :states 'normal
   :keymaps 'org-mode-map
+  "a c" 'org-download-screenshot
   "a C" 'org-download-named-screenshot
   "k s" 'org-babel-demarcate-block
   "i l" 'org-cdlatex-environment-indent
@@ -902,78 +1006,21 @@ Automatically tangle src blocks on save. Makes working with literate programming
  :states 'normal
  "z r" '+org/show-next-fold-level
  "z R" '+org/open-all-folds
- "z i" 'org-toggle-inline-images)
+ "z i" 'org-toggle-inline-images
+ "C-n" 'org-babel-next-src-block
+ "C-e" 'org-babel-previous-src-block
+ )
 #+end_src
 
-* Org roam
-#+begin_src elisp
-(use-package org-roam
-  :after org
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
-  (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
-  (+org-roam-open-buffer-on-find-file nil)
-  (org-roam-auto-replace-fuzzy-links nil)
-  (org-roam-completion-everywhere t)
-  (org-roam-db-autosync-mode t)
-  :config
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "n" '(nil :wk "Org roam")
-    "n r" '(:ignore t :wk "node")
-    "n r f" '(org-roam-node-find :wk "Find node")
-    "n r a" '(org-roam-node-random :wk "Random node")
-    "n r s" '(org-roam-db-sync :wk "Sync database")
-    "n r i" '(org-roam-node-insert :wk "Insert node"))
-
-  (setq org-roam-capture-templates
-        '(("l" "latex")
-          ("ld" "temporary note" plain
-           (file "~/.doom.d/templates/draft.org")
-           :if-new (file "draft/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("ll" "lecture note" plain
-           (file "~/.doom.d/templates/lecture_note.org")
-           :if-new (file "lecture/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("lp" "permanent note" plain
-           (file "~/.doom.d/templates/latex.org")
-           :if-new (file "%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("ln" "notebook" plain
-           (file "~/.doom.d/templates/notebook.org")
-           :if-new (file "notebook/%<%Y%m%d%H%M%S>-${slug}.org")
-           :unnarrowed t)
-          ("le" "exercise" plain
-           (file "~/.doom.d/templates/exercise.org")
-           :if-new (file "exercise/%<%y%m%d%h%m%s>-${slug}.org")
-           :unnarrowed t)
-          ("p" "project" plain
-           (file "~/.doom.d/templates/project.org")
-           :if-new (file "project/${slug}/README.org")
-           :unnarrowd t)
-          )))
-
-#+end_src
-** Org roam ui
-#+begin_src elisp
-;; (use-package org-roam-ui
-;;     :after org-roam 
-;;     :config
-;;     (setq org-roam-ui-sync-theme t
-;;           org-roam-ui-follow t
-;;           org-roam-ui-update-on-save t
-;;           org-roam-ui-open-on-start t))
-#+end_src
+* Knowledge management
 ** Orbit
 Personal wiki powered by org roam
 #+begin_src elisp
 (setq orbit/directory "~/Dropbox/org/orbit"
       orbit/articles-directory (expand-file-name "articles" orbit/directory)
       orbit/assets-directory (expand-file-name "assets" orbit/directory)
-      orbit/publish-directory (expand-file-name "public" orbit/directory))
+      orbit/publish-directory (expand-file-name "public" orbit/directory)
+      orbit/templates-directory (expand-file-name "templates" orbit/directory))
 
 (defvar site-attachments
   (regexp-opt '("jpg" "jpeg" "gif" "png" "svg"
