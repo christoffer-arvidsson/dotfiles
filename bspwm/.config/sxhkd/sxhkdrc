@@ -5,7 +5,7 @@
 #
 
 # terminal emulator
-super + Return
+super + t
   kitty
 
 # program launcher
@@ -158,13 +158,13 @@ XF86AudioPrev
   playerctl previous
 
 XF86AudioMute
-  pactl set-sink-mute 0 toggle
+  pactl set-sink-mute 1 toggle
 
 XF86AudioRaiseVolume
-  pactl set-sink-volume 0 +5%
+  pactl set-sink-volume 1 +5%
 
 XF86AudioLowerVolume
-  pactl set-sink-volume 0 -5%
+  pactl set-sink-volume 1 -5%
 
 #
 # Programs
@@ -172,15 +172,15 @@ XF86AudioLowerVolume
 
 # Emacs client
 super + c
-  emacsclient -s doom_server -c
+  emacsclient -s nondoom -c
 
 # Emacs nonclient
 super + shift + c
-  emacs
+  emacs --with-profile nondoom
 
 # Emacs server
 super + alt + shift + c
-  emacs --bg-daemon=doom_server
+  emacs --with-profile nondoom --daemon=nondoom
 
 # super + ctrl + y
   $HOME/.config/sxhkd/scripts/doom_capture -k j
