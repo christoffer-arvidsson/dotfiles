@@ -1274,6 +1274,7 @@ Personal wiki powered by org roam
 
 (use-package lsp-jedi
   :ensure t
+  :defer t
   :config
   (with-eval-after-load "lsp-mode"
     (add-to-list 'lsp-disabled-clients 'pyls)
@@ -1281,6 +1282,7 @@ Personal wiki powered by org roam
 
 (use-package pyenv-mode
   :ensure t
+  :defer t
   :config
   (pyenv-mode))
 #+end_src
