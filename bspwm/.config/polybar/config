@@ -64,7 +64,7 @@ font-3 = Material\ Icons:size=10
 
 modules-left = spotify
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = emacs-pomodoro bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -639,3 +639,8 @@ type = custom/script
 interval = 1
 label-font = 1
 exec = ~/.config/polybar/scripts/lsv/lsv_status.sh
+
+[module/emacs-pomodoro]
+type = custom/script
+exec = ~/.config/polybar/scripts/emacs-pomodoro/pomodoro_bar.sh
+interval = 5
