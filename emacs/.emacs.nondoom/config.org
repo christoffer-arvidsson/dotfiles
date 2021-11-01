@@ -79,11 +79,18 @@ Use straight.el
 ** User Interface
 Hide ugly gui elements.
 #+begin_src elisp
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(set-fringe-mode 10)
+(set-fringe-mode 5)
 (menu-bar-mode -1)
+(setq-default display-line-numbers-width 3)
 (setq visible-bell t)
 #+end_src
 
