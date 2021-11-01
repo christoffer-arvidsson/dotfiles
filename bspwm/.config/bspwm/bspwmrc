@@ -32,8 +32,8 @@ bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 if [ $(hostname) == "station" ]; then
     ~/.screenlayout/Layout.sh
     bspc monitor DP-0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    # bspc monitor DVI-I-1 -d ext1 ext2 ext3 ext4 ext5
-    declare -A ARRANGEMENTS=(["DP-0"]="station-topbar")
+    bspc monitor HDMI-0 -d ext1 ext2 ext3 ext4 ext5
+    declare -A ARRANGEMENTS=(["DP-0"]="station-topbar" ["HDMI-0"]="external")
 elif [ $(hostname) == "shuttle" ]; then
     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
     declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
@@ -63,7 +63,6 @@ if [ "$1" = 0 ]; then
 
     # Background applications
     inputplug -d -c ~/on_new_keyboard.sh &
-    emacs --bg-daemon=doom_server &
     picom --config ~/.config/picom/picom.conf &
     dunst &
     redshift-gtk &
@@ -74,6 +73,7 @@ if [ "$1" = 0 ]; then
         picom --config ~/.config/picom/picom.conf &
         pulseaudio-equalizer enable
         steam-native &
+        emacs --with-profile nondoom --daemon=nondoom
     elif [ "$(hostname)" = "shuttle" ]; then
         picom --config ~/.config/picom/picom.conf &
     elif [ "$(hostname)" = "elx781652zl" ]; then
