@@ -247,6 +247,7 @@ I will make this use some kind of dashboard. For now, it's just an org file.
         evil-want-C-u-scroll t
         evil-want-C-i-jump nil
         evil-want-Y-yank-to-eol t
+        evil-kill-on-visual-paste nil
         evil-respect-visual-line-mode t)
   :config
   (evil-mode 1))
