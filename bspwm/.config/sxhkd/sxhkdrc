@@ -1,24 +1,50 @@
 #!/usr/bin/env sh
-#
-#
-# wm independent hotkeys
-#
 
-# terminal emulator
-super + t
-  kitty
+#
+# Programs
+#
 
 # program launcher
 super + {_,shift} + p
   rofi -show {drun, window} -show-icons
-
-# make sxhkd reload its configuration files:
-super + Escape
-    pkill -USR1 -x sxhkd
+# terminal emulator
+super + o ; Return
+  kitty
+# Launch program
+super + o ; t
+  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a kitty
+# Ranger
+super + o ; r
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' kitty
+# Htop
+super + o ; h
+  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' kitty
+# Volume
+super + o ; v
+  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
+# Browser
+super + o ; b
+  firefox
+# Bitwarden rofi, autolock after 1hour
+super + o ; p 
+  bwmenu  -auto-lock 86400
+# Emacs client
+super + o ; c
+  emacsclient -s nondoom -c
+# Emacs nonclient
+super + o; shift + c
+  emacs --with-profile nondoom
+# Emacs server
+super + o; alt + shift + c
+  emacs --with-profile nondoom --daemon=nondoom
 
 #
 # bspwm hotkeys
 #
+
+# make sxhkd reload its configuration files:
+super + Escape
+    pkill -USR1 -x sxhkd
 
 super + alt + {_,shift + }{1-9,0}
     bspc {desktop -f, window -d} $(bspc query -M -m)/{a,b,c}
@@ -36,8 +62,8 @@ super + {_,shift + }w
     bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-super + o
-    bspc desktop -l next
+# super + o
+#     bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
 super + y
@@ -137,103 +163,36 @@ super + alt + shift + {m,n,e,i}
 super + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# set window position to bottom right
-super + v
-    ~/.config/sxhkd/scripts/move_window.sh 3
-
 #
 # Media controls
 #
 
-XF86AudioPlay
-  playerctl play-pause
-
-XF86AudioStop
-  playerctl stop
-
-XF86AudioNext
-  playerctl next
-
-XF86AudioPrev
-  playerctl previous
+XF86Audio{Play,Stop,Next,Prev}
+  playerctl {play-pause,stop,next,previous}
 
 XF86AudioMute
   pactl set-sink-mute 1 toggle
 
-XF86AudioRaiseVolume
-  pactl set-sink-volume 1 +5%
-
-XF86AudioLowerVolume
-  pactl set-sink-volume 1 -5%
-
-#
-# Programs
-#
-
-# Emacs client
-super + c
-  emacsclient -s nondoom -c
-
-# Emacs nonclient
-super + shift + c
-  emacs --with-profile nondoom
-
-# Emacs server
-super + alt + shift + c
-  emacs --with-profile nondoom --daemon=nondoom
-
-# super + ctrl + y
-  $HOME/.config/sxhkd/scripts/doom_capture -k j
-
-# Firefox
-super + b
-  firefox
-
-# Termite drop
-super + ctrl + s
-  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a kitty
-
-# Ranger drop
-super + ctrl + r
-  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' kitty
-
-# Htop drop
-super + ctrl + p
-  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' kitty
-
-# Audia control drop
-super + ctrl + v
-  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
-
-# Bitwarden rofi, autolock after 1hour
-super + shift + o
-  bwmenu --auto-lock 86400
+XF86Audio{Lower,Raise}Volume
+  pactl set-sink-volume 1 {-,+}5%
 
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
-  xfce4-screenshooter {-c -r,-r}
+  xfce4-screenshooter {-r,-c -r}
 
 # Lock
 super + ctrl + alt + l
   betterlockscreen -l
 
-
 #
 # UI
 #
 
-# Increase gap
-super + plus
-  /home/eethern/.config/sxhkd/scripts/gap_inc.sh
+# inc/dec gap
+super + {plus, minus}
+  /home/eethern/.config/sxhkd/scripts/{gap_inc,gap_dec}.sh
 
-# Decrease gap
-super + minus
-  /home/eethern/.config/sxhkd/scripts/gap_dec.sh
+# inc/dec border
+super + shift + {plus, minus}
+  /home/eethern/.config/sxhkd/scripts/{border_inc,border_dec}.sh
 
-# Increase border
-super + shift + plus
-  /home/eethern/.config/sxhkd/scripts/border_inc.sh
-
-# Decrease border
-super + shift + minus
-  /home/eethern/.config/sxhkd/scripts/border_dec.sh
