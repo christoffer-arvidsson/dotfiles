@@ -1041,6 +1041,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "i p" 'academic-phrases
   "i s" 'org-insert-structure-template
   "i P" 'academic-phrases-by-section
+  "s n" 'org-toggle-narrow-to-subtree
   "t" 'org-todo
   "d s" 'org-schedule
   "d d" 'org-deadline
