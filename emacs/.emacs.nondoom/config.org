@@ -39,7 +39,7 @@
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
+                         ;; ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
@@ -127,17 +127,17 @@ Set the fonts.
 (set-face-attribute 'default nil
                     :font "iosevka"
                     :weight 'normal
-                    :height 120)
+                    :height 110)
 
 (set-face-attribute 'fixed-pitch nil
                     :font "iosevka"
                     :weight 'normal
-                    :height 120)
+                    :height 110)
 
 (set-face-attribute 'variable-pitch nil
                     :font "Iosevka Aile"
                     :weight 'light
-                    :height 120)
+                    :height 110)
 
 ;; Required so that emacs client changes font
 (setq default-frame-alist '((font . "iosevka")))
@@ -181,7 +181,7 @@ I will make this use some kind of dashboard. For now, it's just an org file.
   (doom-modeline-height 15)
   (doom-modeline-window-width-limit fill-column)
   (doom-modeline-lsp t)
-  (doom-modeline-github nil)
+  (doom-modeline-github t)
   (doom-modeline-env-enable-python t)
   (doom-modeline-minor-modes nil)
   (doom-modeline-persp-name t)
@@ -248,6 +248,7 @@ I will make this use some kind of dashboard. For now, it's just an org file.
         evil-want-C-i-jump nil
         evil-want-Y-yank-to-eol t
         evil-kill-on-visual-paste nil
+        evil-undo-system 'undo-tree
         evil-respect-visual-line-mode t)
   :config
   (evil-mode 1))
@@ -350,9 +351,9 @@ I will make this use some kind of dashboard. For now, it's just an org file.
 #+begin_src elisp
 (use-package company
   :custom
-  (company-minimum-prefix-length 3)
+  (company-minimum-prefix-length 4)
   (completion-ignore-case t)
-  (company-idle-delay 0.2)
+  (company-idle-delay 0.5)
   :hook (after-init . global-company-mode)
   :config
   (add-to-list 'company-backends 'company-capf))
@@ -383,7 +384,16 @@ I will make this use some kind of dashboard. For now, it's just an org file.
 (use-package evil-snipe
   :ensure t
   :config
-  (evil-snipe-mode +1))
+  (evil-snipe-mode +1)
+  (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode)
+  (evil-snipe-override-mode +1))
+#+end_src
+** Evil surround
+#+begin_src elisp
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 #+end_src
 ** Avy
 #+begin_src elisp
@@ -391,9 +401,7 @@ I will make this use some kind of dashboard. For now, it's just an org file.
   :config
   (general-define-key
    :states 'normal
-   "g s s" 'evil-avy-goto-char-2
-   "g s e" 'evil-avy-goto-char-2-above
-   "g s n" 'evil-avy-goto-char-2-below
+   "g s" 'evil-avy-goto-char-timer
    ))
 #+end_src
 ** iedit
@@ -634,7 +642,7 @@ Stolen from doom emacs
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
-        org-image-actual-width nil
+        org-image-actual-width 500
         org-latex-prefer-user-labels t
         org-src-fontify-natively t
         org-src-preserve-indentation t
@@ -923,6 +931,12 @@ Stolen from doom emacs
       ""))
 
 #+end_src
+** ipynnb
+#+begin_src elisp
+(use-package ox-ipynb
+  :straight (:host github :repo "jkitchin/ox-ipynb")
+  :after ox)
+#+end_src
 ** Babel
 *** Library of babel
 #+begin_src elisp
@@ -1095,10 +1109,26 @@ Personal wiki powered by org roam
           "#+subtitle: Hello" "\n\n"
           (org-list-to-org list)))
 
-(defun orbit/sitemap-file-entry-format ()
-  "%")
-
 (setq orbit/backlinks-section "\n* Backlinks\n:PROPERTIES:\n:CUSTOM_ID: backlinks\n:END:\n\nNotes that link to this note.\n")
+
+(defun orbit/format-tag (tag)
+  (if (string= "" tag)
+      tag
+    (format "=%s=" tag)))
+
+(defun orbit/sitemap-format-entry (entry style project)
+  "Default format for site map ENTRY, as a string.
+ENTRY is a file name.  STYLE is the style of the sitemap.
+PROJECT is the current project."
+  (cond ((not (directory-name-p entry))
+         (format "[[file:%s][%s]] %s"
+                 entry
+                 (org-publish-find-title entry project)
+                 (mapconcat 'orbit/format-tag (org-publish-find-property entry :filetags project) " ")))
+        ((eq style 'tree)
+         ;; Return only last subdir.
+         (file-name-nondirectory (directory-file-name entry)))
+	      (t entry)))
 
 (defun orbit/collect-backlinks-string (backend)
   "Insert backlinks into the end of the org file before parsing it."
@@ -1133,6 +1163,7 @@ Personal wiki powered by org roam
              :sitemap-file-entry-format "%d *%t*"
              :sitemap-filename "index.org"
              :sitemap-sort-files 'anti-chronologically
+             :sitemap-format-entry 'orbit/sitemap-format-entry
              :sitemap-style 'list
              :sitemap-function 'orbit/sitemap
              :sitemap-title "Notes from university"
@@ -1209,7 +1240,6 @@ Personal wiki powered by org roam
       org-roam-ui-update-on-save t
       org-roam-ui-open-on-start t)
 #+end_src
-
 * Development
 ** Eshell
 #+begin_src elisp
@@ -1420,5 +1450,6 @@ Personal wiki powered by org roam
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 #+end_src
+
 
 
