@@ -23,19 +23,21 @@ super + o ; h
 super + o ; v
   tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
 # Browser
-super + o ; b
+super + o ; b ; f
   firefox
+super + o ; b ; q
+  qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --enable-oop-rasterization
 # Bitwarden rofi, autolock after 1hour
 super + o ; p 
   bwmenu --auto-lock 86400
 # Emacs client
-super + o ; c
+super + o ; c ; c
   emacsclient -s nondoom -c
 # Emacs nonclient
-super + o; shift + c
+super + o; c ; n
   emacs --with-profile nondoom
 # Emacs server
-super + o; alt + shift + c
+super + o; c ; s
   emacs --with-profile nondoom --daemon=nondoom
 
 #
