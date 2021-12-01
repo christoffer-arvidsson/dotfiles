@@ -183,7 +183,7 @@ super + {_, shift} + Print
   xfce4-screenshooter {-r,-c -r}
 
 # Lock
-super + ctrl + alt + l
+super + o ; l
   betterlockscreen -l
 
 #
