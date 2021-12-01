@@ -86,6 +86,7 @@ Hide ugly gui elements.
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
 (scroll-bar-mode -1)
+(global-hl-line-mode +1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (set-fringe-mode 5)
