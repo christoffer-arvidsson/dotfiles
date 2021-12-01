@@ -26,7 +26,7 @@ super + o ; v
 super + o ; b ; f
   firefox
 super + o ; b ; q
-  qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --enable-oop-rasterization
+  qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization
 # Bitwarden rofi, autolock after 1hour
 super + o ; p 
   bwmenu --auto-lock 86400
