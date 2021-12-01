@@ -71,7 +71,7 @@ if [ "$1" = 0 ]; then
 
     if [ "$(hostname)" = "station" ]; then
         picom --config ~/.config/picom/picom.conf &
-        pulseaudio-equalizer enable
+        easyeffects --gapplication-service &
         steam-native &
         emacs --with-profile nondoom --daemon=nondoom
     elif [ "$(hostname)" = "shuttle" ]; then
