@@ -121,6 +121,13 @@ Line numbers.
   (doom-themes-org-config))
 #+end_src
 
+#+begin_src elisp
+(use-package solaire-mode
+  :ensure t
+  :config
+  (solaire-global-mode +1))
+#+end_src
+
 ** Font
 Set the fonts.
 #+begin_src elisp
