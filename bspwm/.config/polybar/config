@@ -184,7 +184,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left =
 modules-center = bspwm
-modules-right = bspwm-modes date time
+modules-right = bspwm-modes temperature date time powermenu
 
 wm-restack = bspwm
 
