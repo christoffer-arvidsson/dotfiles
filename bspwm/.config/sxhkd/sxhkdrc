@@ -51,9 +51,6 @@ super + Escape
 super + alt + {_,shift + }{1-9,0}
     bspc {desktop -f, window -d} $(bspc query -M -m)/{a,b,c}
 
-# Next monitor
-alt + w
-    bspc monitor -f next
 
 # Restart/quit bspwm
 super + alt + {_, shift} + Escape
@@ -95,9 +92,16 @@ super + ctrl + {m,x,y,z}
 # focus/swap
 #
 
-# focus the node in the given direction
-super + {_,shift + }{m,n,e,i}
-    bspc node -{f,s} {west,south,north,east}
+# focus the node in the given direction, or an empty monitor
+# src: https://www.reddit.com/r/bspwm/comments/jpiopk/focusing_empty_monitor_with_a_keybind/
+super + {m,n,e,i}
+    dir={west,south,north,east}; bspc node "$dir" -f || bspc monitor "$dir" -f
+
+# Swap a node in the given direction. If across a monitor, simply move it to that monitor
+super + shift + {m,n,e,i}
+	dir={west,south,north,east}; \
+	bspc node -s "$dir.local" --follow \
+	    || bspc node -m "$dir" --follow
 
 # focus the node for the given path jump
 # super + {p,b,comma,per od}
