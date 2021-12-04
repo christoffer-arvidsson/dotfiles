@@ -87,7 +87,7 @@ if [ "$1" = 0 ]; then
     mullvad-vpn &
     discord-canary &
 
-    bspc desktop --focus code && kitty &
+    # bspc desktop --focus code && kitty &
 fi
 
 
