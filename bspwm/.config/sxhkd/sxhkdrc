@@ -199,9 +199,9 @@ super + o ; l
 
 # inc/dec gap
 super + {plus, minus}
-  /home/eethern/.config/sxhkd/scripts/{gap_inc,gap_dec}.sh
+  ~/.config/sxhkd/scripts/{gap_inc,gap_dec}.sh
 
 # inc/dec border
 super + shift + {plus, minus}
-  /home/eethern/.config/sxhkd/scripts/{border_inc,border_dec}.sh
+  ~/.config/sxhkd/scripts/{border_inc,border_dec}.sh
 
