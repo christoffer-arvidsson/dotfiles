@@ -1619,6 +1619,16 @@ PROJECT is the current project."
 ;;     "m r" 'matlab-shell))
 
 #+end_src
+*** Rust
+#+begin_src elisp
+(use-package rust-mode
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook
+            (lambda () (setq indent-tabs-mode nil)))
+  (setq rust-format-on-save nil)
+  (add-hook 'rust-mode-hook #'lsp-rust-server))
+#+end_src
 * Runtime performance
 #+begin_src elisp
 ;; Make gc pauses faster by decreasing the threshold.
