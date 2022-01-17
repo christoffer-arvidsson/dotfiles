@@ -1,0 +1,11 @@
+[Unit]
+Description=Easyeffects
+
+[Service]
+Type=simple
+ExecStart=easyeffects --gapplication-service
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=default.target
