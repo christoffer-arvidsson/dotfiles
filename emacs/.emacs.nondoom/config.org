@@ -623,6 +623,11 @@ Stolen from doom emacs
                             filename))))
     (error "Couldn't find filename in current buffer")))
 #+end_src
+** Ranger
+#+begin_src elisp
+(use-package ranger
+  :defer t)
+#+end_src
 ** Keybindings
 
 #+begin_src elisp
@@ -640,6 +645,7 @@ Stolen from doom emacs
   "b s" '(save-buffer :wk "Save buffer")
   "b r" '(revert-buffer :wk "Revert buffer")
   "b d" '(kill-this-buffer :wk "Kill current buffer")
+  "o r" '(ranger :wk "Open ranger")
   )
 #+end_src
 
