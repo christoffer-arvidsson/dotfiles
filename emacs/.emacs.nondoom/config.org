@@ -1111,9 +1111,18 @@ Stolen from doom emacs
   :after ox)
 #+end_src
 ** Babel
+*** Code evaluation
+I write a lot of notebooks, and develop inside these notebooks. Therefore, allow python evaluation without asking.
+#+begin_src elisp
+(defun eethern/org-confirm-babel-evaluate (lang body)
+  (not (string= lang "python")))  ;don't ask for python
+
+(setq org-confirm-babel-evaluate #'eethern/org-confirm-babel-evaluate)
+#+end_src
 *** Library of babel
 #+begin_src elisp
-(org-babel-lob-ingest "~/Dropbox/org/orbit/templates/lob.org")
+(with-eval-after-load' org
+  (org-babel-lob-ingest "~/Dropbox/org/orbit/templates/lob.org"))
 #+end_src
 *** Jupyter
 Bread and butter for using python in org-mode for notebook style execution.
@@ -1148,7 +1157,8 @@ Make a template for inserting jupyter blocks.
  '((emacs-lisp . t)
    (python . t)
    (C . t)
-   (jupyter . t)))
+   (jupyter . t)
+   (shell . d)))
 #+end_src 
 *** Auto tangle
 Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
