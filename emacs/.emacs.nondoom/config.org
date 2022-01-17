@@ -1541,6 +1541,22 @@ PROJECT is the current project."
   :config
   (pyenv-mode))
 #+end_src
+
+Format according to YAPF rules
+#+begin_src elisp
+(use-package yapfify
+  :ensure t
+  :defer t
+  :hook (python-mode . yapf-mode))
+#+end_src
+
+#+begin_src elisp
+(eethern/local-leader-def
+  :states 'normal
+  :keymaps 'python-mode-map
+  "c" 'python-shell-send-buffer
+  "r" 'run-python)
+#+end_src
 *** C/C++
 #+begin_src elisp
 (use-package ccls
