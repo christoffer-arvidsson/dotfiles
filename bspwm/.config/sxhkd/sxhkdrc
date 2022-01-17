@@ -27,6 +27,9 @@ super + o ; b ; f
   firefox
 super + o ; b ; q
   qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization
+# n64 games :)
+super + o ; g ; e
+  ~/.config/emulation/rofi_roms.sh 
 # Bitwarden rofi, autolock after 1hour
 super + o ; p 
   bwmenu --auto-lock 86400
@@ -85,7 +88,7 @@ super + {t, shift + t, shift + f, f}
     bspc node -t {tiled, psuedo_tiled, floating, fullscreen}
 
 # set the node flags {marked,locked,sticy,private}
-super + ctrl + {m,x,y,z}
+super + ctrl + {k,x,y,z}
     bspc node -g {marked,locked,sticky,private}
 
 #
