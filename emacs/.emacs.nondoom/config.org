@@ -877,6 +877,26 @@ Stolen from doom emacs
   (add-hook 'org-mode-hook 'update-org-latex-fragment-scale)
   (setq org-fragtog-ignore-predicates '(org-at-table-p)))
 #+end_src
+*** Citar
+#+begin_src elisp
+(use-package citar
+  :no-require
+  :bind (:map minibuffer-local-map
+              ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography '("~/Dropbox/org/bibliography/references.bib"))
+  (org-cite-global-bibliography '("~/Dropbox/org/bibliography/references.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-symbols
+   `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+     (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+     (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (citar-symbol-separator "  ")
+  )
+
+#+end_src
 *** Minted
 #+begin_src elisp
 (with-eval-after-load 'org
@@ -1207,6 +1227,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "a C" 'org-download-named-screenshot
   "k s" 'org-babel-demarcate-block
   "i l" 'org-cdlatex-environment-indent
+  "i c" 'org-cite-insert
   "i p" 'academic-phrases
   "i s" 'org-insert-structure-template
   "i P" 'academic-phrases-by-section
