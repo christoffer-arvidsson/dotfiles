@@ -582,8 +582,8 @@ format-warn-underline = ${self.format-underline}
 
 hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 
-label = %temperature%
-label-warn = %temperature%
+label = %temperature-c%
+label-warn = %temperature-c%
 label-warn-foreground = #CA407E
 
 ramp-0 = 
