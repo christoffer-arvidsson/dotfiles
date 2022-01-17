@@ -177,7 +177,7 @@ super + {Left,Down,Up,Right}
 #
 
 XF86Audio{Play,Stop,Next,Prev}
-  playerctl {play-pause,stop,next,previous}
+  playerctl {play-pause,stop,next,previous} -p spotify
 
 XF86AudioMute
   pactl set-sink-mute 1 toggle
