@@ -62,7 +62,7 @@ font-1 = FontAwesome:size=10
 font-2 = ForkAwesome:size=10
 font-3 = Material\ Icons:size=10
 
-modules-left = spotify
+modules-left = spotify  spotify-prev spotify-play-pause spotify-next
 modules-center = bspwm
 modules-right = emacs-pomodoro bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
@@ -221,10 +221,30 @@ exec = ~/.config/polybar/scripts/bluetooth/status.sh
 
 [module/spotify]
 type = custom/script
-interval = 10
+tail = true
+; prefix symbol is shown before the text
 format-prefix = " "
 format = <label>
-exec = ~/.config/polybar/scripts/spotify/awesome-spotify.py -f '{artist}: {song}'
+exec = ~/.config/polybar/scripts/spotify/scroll_spotify_status.sh
+
+[module/spotify-prev]
+type = custom/script
+exec = echo ""
+format = <label>
+click-left = playerctl previous -p spotify
+
+[module/spotify-play-pause]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo ""
+initial = 1
+click-left = playerctl play-pause -p spotify
+
+[module/spotify-next]
+type = custom/script
+exec = echo ""
+format = <label>
+click-left = playerctl next -p spotify
 
 [module/bspwm-windows]
 type = custom/script
