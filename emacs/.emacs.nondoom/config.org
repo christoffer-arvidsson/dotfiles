@@ -1552,6 +1552,7 @@ PROJECT is the current project."
 (use-package cc-mode
   :config 
   (setq c-tab-always-indent t)
+  (setq-default c-basic-offset 4)
   (c-add-style
    "doom" '((c-comment-only-line-offset . 0)
             (c-hanging-braces-alist (brace-list-open)
