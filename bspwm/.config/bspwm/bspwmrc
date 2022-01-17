@@ -27,6 +27,8 @@ bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
 bspc rule -a termite state=tiled
 bspc rule -a Steam desktop=^8 follow=off
+bspc rule -a mupen64plus state=floating
+bspc rule -a org-fenix-llanfair-Llanfair state=floating
 bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
 # Monitors
