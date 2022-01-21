@@ -795,6 +795,15 @@ Stolen from doom emacs
 
 #+end_src
 ** Latex
+*** Wrap lines
+Wrap text when in latex mode. This is useful for version controlling
+latex, and making the text more readable in the editor.
+#+begin_src elisp
+(add-hook 'latex-mode-hook #'auto-fill-mode)
+(add-hook 'latex-mode-hook #'visual-line-mode)
+(add-hook 'latex-mode-hook #'visual-fill-column-mode)
+(add-hook 'latex-mode-hook (lambda () (set-fill-column 80)))
+#+end_src
 *** Auctex
 #+begin_src elisp
 (use-package auctex
