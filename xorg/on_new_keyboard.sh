@@ -9,4 +9,5 @@ event=$1 id=$2 type=$3
 case "$event $type" in
 'XIDeviceEnabled XISlaveKeyboard')
         xset r rate 200 50
+        setxkbmap us altgr-intl
 esac
