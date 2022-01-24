@@ -142,7 +142,7 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left =
+modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth
 modules-center = bspwm
 modules-right = bspwm-modes do-not-disturb volume filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
@@ -216,7 +216,7 @@ menu-1-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetoot
 
 [module/bluetooth]
 type = custom/script
-;format-prefix =
+format-prefix = "%{F#ff95b4e6} "
 exec = ~/.config/polybar/scripts/bluetooth/status.sh
 
 [module/spotify]

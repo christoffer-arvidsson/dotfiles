@@ -2,13 +2,16 @@
 
 name=`bluetoothctl info | grep "Name" | sed 's/^.*: //'`
 onoff=`bluetoothctl show | grep "Powered" | sed 's/^.*: //'`
+
 if [ $onoff = "yes" ]
 then
     if [ ! "$name" ]
     then
-        echo "%{F#ff95b4e6}on"
+        echo "on"
     else
-        echo "%{F#ff95b4e6}${name}"
+        level=`~/.config/polybar/scripts/bluetooth/battery_level/bluetooth_battery.py $(bluetoothctl info | awk '/^Device/ {print $2}')`
+        level=`echo ${level} | awk '{print $6}'`
+        echo "${name} [${level}]"
     fi
 else
     echo ""
