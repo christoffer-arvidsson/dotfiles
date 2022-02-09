@@ -135,7 +135,7 @@ Set the fonts.
 (set-face-attribute 'default nil
                     :font "iosevka"
                     :weight 'normal
-                    :height 110)
+                    :height 130)
 
 (set-face-attribute 'fixed-pitch nil
                     :font "iosevka"
@@ -1271,6 +1271,12 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
 #+end_src
 
 * Knowledge management
+** Hugo
+#+begin_src elisp
+(use-package ox-hugo
+  :ensure t
+  :after ox)
+#+end_src
 ** Orbit
 Personal wiki powered by org roam
 #+begin_src elisp
@@ -1325,17 +1331,18 @@ PROJECT is the current project."
 
 (defun orbit/collect-backlinks-string (backend)
   "Insert backlinks into the end of the org file before parsing it."
-  (when (org-roam-node-at-point)
-    (goto-char (point-max))
-    ;; Add a new header for the references
-    (insert orbit/backlinks-section)
-    (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
-      (dolist (backlink backlinks)
-        (let* ((source-node (org-roam-backlink-source-node backlink)))
-          (insert
-           (format "- [[./%s][%s]]\n"
-                   (file-name-nondirectory (org-roam-node-file source-node))
-                   (org-roam-node-title source-node))))))))
+  (when (org-export-derived-backend-p backend 'html)
+    (when (org-roam-node-at-point)
+      (goto-char (point-max))
+      ;; Add a new header for the references
+      (insert orbit/backlinks-section)
+      (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+        (dolist (backlink backlinks)
+          (let* ((source-node (org-roam-backlink-source-node backlink)))
+            (insert
+             (format "- [[./%s][%s]]\n"
+                     (file-name-nondirectory (org-roam-node-file source-node))
+                     (org-roam-node-title source-node)))))))))
 
 (add-hook 'org-export-before-processing-hook 'orbit/collect-backlinks-string)
 
@@ -1380,7 +1387,7 @@ PROJECT is the current project."
   (setq org-roam-v2-ack t)
   :custom
   (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
-  (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+  ;; (org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
   (+org-roam-open-buffer-on-find-file nil)
   (org-roam-auto-replace-fuzzy-links nil)
   (org-roam-completion-everywhere t)
@@ -1424,14 +1431,40 @@ PROJECT is the current project."
           )))
 
 #+end_src
+** Org roam - new
+#+begin_src elisp
+;; (use-package org-roam
+;;   :after org
+;;   :init
+;;   (setq org-roam-v2-ack t)
+;;   :custom
+;;   (org-roam-directory (file-truename "~/Repos/new-orbit/articles"))
+;;   (+org-roam-open-buffer-on-find-file nil)
+;;   (org-roam-auto-replace-fuzzy-links nil)
+;;   (org-roam-completion-everywhere t)
+;;   (org-roam-db-autosync-mode t)
+;;   :config
+;;   (eethern/leader-key-def
+;;     :keymaps 'normal
+;;     "n r" '(:ignore t :wk "Org roam")
+;;     "n r f" '(org-roam-node-find :wk "Find node")
+;;     "n r a" '(org-roam-node-random :wk "Random node")
+;;     "n r s" '(org-roam-db-sync :wk "Sync database")
+;;     "n r r" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
+;;     "n r i" '(org-roam-node-insert :wk "Insert node")))
+#+end_src
 ** Org roam ui
 #+begin_src elisp
-(add-to-list 'load-path "~/.emacs.nondoom/private/org-roam-ui")
-(load-library "org-roam-ui")
-(setq org-roam-ui-sync-theme t
-      org-roam-ui-follow t
-      org-roam-ui-update-on-save t
-      org-roam-ui-open-on-start t)
+;; (add-to-list 'load-path "~/.emacs.nondoom/private/org-roam-ui")
+;; (load-library "org-roam-ui")
+(use-package org-roam-ui
+  :after org-roam
+  :defer t
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start t))
 #+end_src
 * Development
 ** Eshell
