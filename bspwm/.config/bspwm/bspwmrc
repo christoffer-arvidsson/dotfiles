@@ -35,65 +35,85 @@ bspc rule -a org-fenix-llanfair-Llanfair state=floating
 bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
 # Monitors
-if [ $(hostname) == "station" ]; then
-    ~/.screenlayout/Layout.sh
-    bspc monitor DP-0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    bspc monitor HDMI-0 -d ext1 ext2 ext3 ext4 ext5
-    declare -A ARRANGEMENTS=(["DP-0"]="station-topbar" ["HDMI-0"]="external")
-elif [ $(hostname) == "shuttle" ]; then
-    bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
-elif [ $(hostname) == "elx781652zl" ]; then
-    ~/.screenlayout/Layout.sh
-    bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
-    bspc monitor HDMI-1 -d ext1 ext2 ext3 ext4 ext5
-    declare -A ARRANGEMENTS=(["eDP-1"]="work-topbar" ["HDMI-1"]="external")
-fi
+# if [ $(hostname) == "station" ]; then
+#     ~/.screenlayout/Layout.sh
+#     bspc monitor DP-0 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+#     bspc monitor HDMI-0 -d ext1 ext2 ext3 ext4 ext5
+#     declare -A ARRANGEMENTS=(["DP-0"]="station-topbar" ["HDMI-0"]="external")
+# elif [ $(hostname) == "shuttle" ]; then
+#     bspc monitor eDP1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+#     declare -A ARRANGEMENTS=(["eDP1"]="shuttle-topbar")
+# elif [ $(hostname) == "elx781652zl" ]; then
+#     ~/.screenlayout/Layout.sh
+#     bspc monitor eDP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+#     bspc monitor HDMI-1 -d ext1 ext2 ext3 ext4 ext5
+#     declare -A ARRANGEMENTS=(["eDP-1"]="work-topbar" ["HDMI-1"]="external")
+# elif [ $(hostname) == "u5cd01473rc" ]; then
+#     ~/.screenlayout/Layout.sh
+#     bspc monitor HDMI-0 -d ext1 ext2 ext3 ext4 ext5
+#     bspc monitor DP-1 -d web code opt1 opt2 opt3 opt4 opt5 opt6 msg music
+#     declare -A ARRANGEMENTS=(["DP-1"]="work-topbar" ["HDMI-0"]="external")
+# fi
 
 # Set bars ~ https://github.com/polybar/polybar/issues/763
-killall polybar
-for MONITOR in "${!ARRANGEMENTS[@]}"; do
-    # split at `,` into array
-    while IFS=',' read -ra BARLIST; do
-        # for each bar (seperated by `,`) at current key
-        for BAR in "${BARLIST[@]}"; do
-        MONITOR="$MONITOR" polybar --reload "$BAR" &
-        done
-    done <<< "${ARRANGEMENTS[$MONITOR]}"
-done
+# killall polybar
+# for MONITOR in "${!ARRANGEMENTS[@]}"; do
+#     # split at `,` into array
+#     while IFS=',' read -ra BARLIST; do
+#         # for each bar (seperated by `,`) at current key
+#         for BAR in "${BARLIST[@]}"; do
+#         MONITOR="$MONITOR" polybar --reload "$BAR" &
+#         done
+#     done <<< "${ARRANGEMENTS[$MONITOR]}"
+# done
+
+# Launch polybars on all monitors
+# autorandr -c
+# ~/.config/polybar/scripts/launch.sh 
+
+# Reloaa polybars
+~/.config/polybar/scripts/launch.sh
 
 ## Startup
-if [ "$1" = 0 ]; then
+uptime=$(cat /proc/uptime | awk '{printf "%0.f\n", $1}')
+startup_lock_file=/tmp/bspwm-startup.lock
+if [ ! -f $startup_lock_file ]; then
     echo "Running startup block"
-    feh --bg-scale ~/.dotfiles/.img/space.jpg
+    echo "$time" > $startup_lock_file
 
-    # Background applications
-    inputplug -d -c ~/on_new_keyboard.sh &
-    picom --config ~/.config/picom/picom.conf &
-    dunst &
-    redshift-gtk &
-    sxhkd -c ~/.config/sxhkd/sxhkdrc &
-    setxkbmap us algtr-intl
+    # Monitor
+    autorandr --change
 
-    if [ "$(hostname)" = "station" ]; then
-        picom --config ~/.config/picom/picom.conf &
-        easyeffects --gapplication-service &
-        steam-native &
-        emacs --with-profile nondoom --daemon=nondoom
-    elif [ "$(hostname)" = "shuttle" ]; then
-        picom --config ~/.config/picom/picom.conf &
-    elif [ "$(hostname)" = "elx781652zl" ]; then
-	    compton &
-        xmodmap ~/.dotfiles/colemak/colemak-dh-wide.xmodmap
-    fi
+    # # Background applications
+     inputplug -d -c ~/on_new_keyboard.sh &
+     sxhkd -c ~/.config/sxhkd/sxhkdrc &
+     setxkbmap us algtr-intl
+     dunst &
+     #redshift-gtk &
 
-    # Other applications
-    dropbox &
-    spotify --force-device-scale-factor=0.75 &
-    mullvad-vpn &
-    discord-canary &
+     if [ "$(hostname)" = "station" ]; then
+         picom --config ~/.config/picom/picom.conf &
+         easyeffects --gapplication-service &
+         steam-native &
+         emacs --with-profile nondoom --daemon=nondoom
+     elif [ "$(hostname)" = "shuttle" ]; then
+         picom --config ~/.config/picom/picom.conf &
+     elif [ "$(hostname)" = "elx781652zl" ]; then
+         compton &
+     elif [ "$(hostname)" = "u5cd01473rc" ]; then
+         feh --bg-scale ~/Pictures/Wallpapers/ZTWO_wallpaper_1920x1080.png 
+         emacs --with-profile nondoom --daemon=nondoom
+         slack &
+         compton &
+     fi
 
-    # bspc desktop --focus code && kitty &
+     # Other applications
+     dropbox &
+     spotify --force-device-scale-factor=0.75 &
+     # mullvad-vpn &
+     # discord-canary &
+     bspc desktop --focus code && kitty &
 fi
+
 
 
