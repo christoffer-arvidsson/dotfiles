@@ -17,7 +17,9 @@ bspc config single_monocle       false
 bspc config normal_border_color  "#1c1e26"
 bspc config focused_border_color "#ad8c79"
 bspc config focus_follows_pointer false
-bspc config ignore_ewmh_focus    true
+bspc config ignore_ewmh_focus     true
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
 
 # Rules
 bspc rule -a Emacs state=tiled
