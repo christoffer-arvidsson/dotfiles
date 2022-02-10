@@ -21,7 +21,8 @@ bspc config ignore_ewmh_focus    true
 
 # Rules
 bspc rule -a Emacs state=tiled
-bspc rule -a discord state=tiled desktop=^9 follow=off
+bspc rule -a discord state=tiled desktop=msg follow=off
+bspc rule -a Slack state=tiled desktop=msg follow=off
 bspc rule -a TelegramDesktop state=tiled desktop=^9 follow=off
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
