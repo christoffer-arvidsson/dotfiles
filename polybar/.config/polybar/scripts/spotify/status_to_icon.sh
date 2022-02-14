@@ -6,7 +6,7 @@ function status_to_icon {
     if [ "$status" = "Stopped" ]; then
       echo ""
     elif [ "$status" = "Paused"  ]; then
-      echo ""
+      echo ""
     else
       echo ""
     fi

@@ -235,7 +235,7 @@ click-left = playerctl previous -p spotify
 [module/spotify-play-pause]
 type = custom/script
 exec = ~/.config/polybar/scripts/spotify/status_to_icon.sh
-
+interval = 1
 click-left = playerctl play-pause -p spotify
 
 [module/spotify-next]
