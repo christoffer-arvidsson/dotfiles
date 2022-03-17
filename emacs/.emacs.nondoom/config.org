@@ -1613,6 +1613,9 @@ PROJECT is the current project."
   :config
   (pyenv-mode))
 
+(use-package pyimport
+  :ensure t)
+
 (use-package pyvenv
   :config
   (pyvenv-mode 1))
