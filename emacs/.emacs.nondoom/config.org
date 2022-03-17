@@ -1607,19 +1607,31 @@ PROJECT is the current project."
     (add-to-list 'lsp-disabled-clients 'pyls)
     (add-to-list 'lsp-enabled-clients 'jedi)))
 
+;; Handle different python versions
 (use-package pyenv-mode
   :ensure t
   :defer t
   :config
   (pyenv-mode))
 
+;; Remove unused imports on save
 (use-package pyimport
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'before-save-hook 'pyimport-remove-unused))
 
+;; Sort imports on save
+(use-package py-isort
+  :ensure t
+  :config
+  (add-hook 'before-save-hook 'py-isort-before-save))
+
+;; Handle venvs
 (use-package pyvenv
   :config
   (pyvenv-mode 1))
 
+;; Format buffer on save
 (use-package python-black
   :demand t
   :after python
