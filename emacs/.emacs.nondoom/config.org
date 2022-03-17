@@ -375,10 +375,14 @@ I will make this use some kind of dashboard. For now, it's just an org file.
     "v" '(er/expand-region :wk "Expand region")))
 #+end_src
 
-** Rainbow delimiters
+** Rainbow delimiters and rainbow mode
 #+begin_src elisp
 (use-package rainbow-delimiters
   :ghook 'prog-mode-hook)
+
+(use-package rainbow-mode
+  :hook ((prog-mode . rainbow-mode)
+         (conf-mode . rainbow-mode)))
 #+end_src
 
 ** Smartparens
