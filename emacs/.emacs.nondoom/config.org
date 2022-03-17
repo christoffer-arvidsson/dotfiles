@@ -1612,22 +1612,25 @@ PROJECT is the current project."
   :defer t
   :config
   (pyenv-mode))
-#+end_src
 
-Format according to YAPF rules
-#+begin_src elisp
-(use-package yapfify
-  :ensure t
-  :defer t
-  :hook (python-mode . yapf-mode))
+(use-package pyvenv
+  :config
+  (pyvenv-mode 1))
+
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
 #+end_src
 
 #+begin_src elisp
 (eethern/local-leader-def
-  :states 'normal
+  :states '(normal visual)
   :keymaps 'python-mode-map
+  "r" 'run-python
   "c" 'python-shell-send-buffer
-  "r" 'run-python)
+  "f" 'python-shell-send-defun
+  "v" 'python-shell-send-region)
 #+end_src
 *** C/C++
 #+begin_src elisp
