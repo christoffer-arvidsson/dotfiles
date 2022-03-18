@@ -1423,6 +1423,8 @@ PROJECT is the current project."
     "n r f" '(org-roam-node-find :wk "Find node")
     "n r a" '(org-roam-node-random :wk "Random node")
     "n r s" '(org-roam-db-sync :wk "Sync database")
+    "n r c" '(org-roam-capture :wk "Capture note")
+    "n r C" '(eethern/org-roam-node-from-cite :wk "Find cite note")
     "n r r" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
     "n r i" '(org-roam-node-insert :wk "Insert node"))
 
