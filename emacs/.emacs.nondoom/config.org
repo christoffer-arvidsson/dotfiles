@@ -178,8 +178,30 @@ I will make this use some kind of dashboard. For now, it's just an org file.
 #+end_src
 ** Icons
 #+begin_src elisp
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t
+  :custom
+  (doom-modeline-icon t))
+
+;; A workaround for missing all-the-icons in neotree when starting emacs in client mode
+;; Ref:
+;;   - https://github.com/jaypei/emacs-neotree/issues/194
+;;   - https://emacs.stackexchange.com/questions/24609/determine-graphical-display-on-startup-for-emacs-server-client
+(defun new-frame-setup (frame)
+  (if (display-graphic-p frame)
+      (setq neo-theme 'icons)))
+;; Run for already-existing frames (For single instance emacs)
+(mapc 'new-frame-setup (frame-list))
+;; Run when a new frame is created (For emacs in client/server mode)
+(add-hook 'after-make-frame-functions 'new-frame-setup)
+
+(use-package all-the-icons-completion
+  :ensure all-the-icons
+  :config
+  (all-the-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup))
 #+end_src
+
 ** Modeline
 #+begin_src elisp
 (use-package doom-modeline
