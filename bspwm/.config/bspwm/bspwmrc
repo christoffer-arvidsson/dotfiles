@@ -63,6 +63,7 @@ if [ ! -f $startup_lock_file ]; then
         dropbox &
         mullvad-vpn &
         discord-canary &
+        zotero --headless &
     elif [ "$(hostname)" = "shuttle" ]; then
         autorandr --change
         feh --bg-scale ~/.dotfiles/.img/space.jpg 
