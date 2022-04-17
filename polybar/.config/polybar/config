@@ -5,13 +5,17 @@ top-foreground = #CAfff9e8
 bottom-background = #00ffffff
 bottom-foreground = #CAfff9e8
 
-primary = #DF946A
-secondary = #78A1BB
-shaded = #15ffffff
-alert = #E75D5D
-highlight = #E39F72
-soft-highlight = #E1986D
-positive = #4fb069
+; alert = #E75D5D
+; highlight = #E39F72
+; soft-highlight = #E1986D
+; positive = #4fb069
+; inactive = #55BFA89E
+
+alert = ${xrdb:alert}
+highlight = ${xrdb:highlight}
+soft-highlight = ${xrdb:soft-highlight}
+positive = ${xrdb:positive}
+inactive-untrans = ${xrdb:inactive}
 inactive = #55BFA89E
 
 ; Dark blue: #283044
@@ -29,9 +33,6 @@ pseudo-transparency = true
 ;compositing-background = screen
 ;compositing-foreground = source
 ;compositing-border = over
-
-; vim:ft=dosini
-
 
 [bar/station-topbar]
 monitor = ${env:MONITOR}
@@ -62,7 +63,7 @@ font-1 = FontAwesome:size=10
 font-2 = ForkAwesome:size=10
 font-3 = Material\ Icons:size=10
 
-modules-left = spotify  spotify-prev spotify-play-pause spotify-next
+modules-left = spotify spotify-prev spotify-play-pause spotify-next
 modules-center = bspwm
 modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
@@ -276,13 +277,13 @@ format = <label-mode>
 
 label-separator-padding = 1
 label-monocle = "  "
-label-monocle-foreground = ${colors.soft-highlight}
+label-monocle-foreground = ${colors.highlight}
 label-floating = ""
-label-floating-foreground = ${colors.soft-highlight}
+label-floating-foreground = ${colors.highlight}
 label-locked = "  "
-label-locked-foreground = ${colors.soft-highlight}
+label-locked-foreground = ${colors.highlight}
 label-sticky = "  "
-label-sticky-foreground = ${colors.soft-highlight}
+label-sticky-foreground = ${colors.highlight}
 
 label-focused-font = 2
 label-occupied-font = 2
@@ -340,7 +341,7 @@ ws-icon-0 = music;
 ws-icon-default = 
 
 label-focused = %icon%
-label-focused-foreground = ${colors.soft-highlight}
+label-focused-foreground = ${colors.highlight}
 label-occupied = %icon%
 label-urgent = %icon%
 label-urgent-foreground = ${colors.alert}
@@ -377,11 +378,11 @@ ramp-font = 2
 
 bar-width = 5
 bar-indicator = 
-bar-indicator-foreground = ${colors.soft-highlight}
+bar-indicator-foreground = ${colors.highlight}
 bar-indicator-font = 4
 bar-fill = 
 bar-fill-font = 4
-bar-fill-foreground = ${colors.soft-highlight}
+bar-fill-foreground = ${colors.highlight}
 bar-empty = 
 bar-empty-font = 4
 bar-empty-foreground = ${colors.top-foreground}
@@ -506,22 +507,22 @@ ramp-volume-foreground = ${colors.top-foreground}
 
 format-muted-prefix = " "
 format-muted-foreground = ${colors.top-foreground}
-label-muted-foreground = ${colors.soft-highlight}
+label-muted-foreground = ${colors.highlight}
 label-muted = "muted"
 label-muted-font = 1
 
 bar-volume-width = 5
-bar-volume-foreground-0 = ${colors.soft-highlight}
-bar-volume-foreground-1 = ${colors.soft-highlight}
-bar-volume-foreground-2 = ${colors.soft-highlight}
-bar-volume-foreground-3 = ${colors.soft-highlight}
-bar-volume-foreground-4 = ${colors.soft-highlight}
-bar-volume-foreground-5 = ${colors.soft-highlight}
-bar-volume-foreground-6 = ${colors.soft-highlight}
+bar-volume-foreground-0 = ${colors.highlight}
+bar-volume-foreground-1 = ${colors.highlight}
+bar-volume-foreground-2 = ${colors.highlight}
+bar-volume-foreground-3 = ${colors.highlight}
+bar-volume-foreground-4 = ${colors.highlight}
+bar-volume-foreground-5 = ${colors.highlight}
+bar-volume-foreground-6 = ${colors.highlight}
 bar-volume-gradient = false
 bar-volume-indicator = 
 bar-volume-indicator-font = 4
-bar-volume-indicator-foreground = ${colors.soft-highlight}
+bar-volume-indicator-foreground = ${colors.highlight}
 bar-volume-fill = 
 bar-volume-fill-font = 4
 bar-volume-empty = 
