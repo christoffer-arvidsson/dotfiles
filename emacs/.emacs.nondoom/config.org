@@ -1464,6 +1464,7 @@ PROJECT is the current project."
                                      ":PROPERTIES:
 :ROAM_REFS: [cite:@${citekey}]
 :END:
+,#+filetags: :paper:
 ,#+title: ${title}\n")
                           :immediate-finish t
                           :unnarrowed t))
@@ -1482,6 +1483,10 @@ PROJECT is the current project."
   (org-roam-auto-replace-fuzzy-links nil)
   (org-roam-completion-everywhere t)
   (org-roam-db-autosync-mode t)
+  ;; (org-roam-node-display-template "${title:96}   ${tags:10}  ${file:48}")
+  (org-roam-node-display-template (format "${title:*} %s %s"
+                                          (propertize "${tags:10}" 'face 'font-lock-keyword-face)
+                                          (propertize "${file:48}" 'face 'org-tag)))
   :config
   (eethern/leader-key-def
     :keymaps 'normal
