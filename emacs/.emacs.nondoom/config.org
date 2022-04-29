@@ -1614,6 +1614,22 @@ PROJECT is the current project."
     "b b" '(consult-buffer :wk "Switch buffer")
     "s i" '(consult-imenu :wk "Jump to symbol")))
 #+end_src
+** Codebase navigation
+#+begin_src elisp
+(use-package dumb-jump
+    :ensure t
+    :custom
+    (dumb-jump-prefer-searcher 'rg)
+    :config
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+#+end_src
+
+#+begin_src elisp
+(use-package rg
+    :ensure t
+    :config
+   (rg-enable-default-bindings))
+#+end_src
 ** Version control
 *** Magit
 #+begin_src elisp
