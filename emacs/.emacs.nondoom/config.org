@@ -1926,6 +1926,45 @@ _k_: down      _a_: combine       _q_: quit
   (setq rust-format-on-save nil)
   (add-hook 'rust-mode-hook #'lsp-rust-server))
 #+end_src
+
+*** Yaml
+#+begin_src elisp
+(use-package yaml-mode
+  :ensure t)
+#+end_src
+
+** Debugging
+#+begin_src elisp
+(use-package realgud
+  :ensure t)
+
+(use-package dap-mode
+  :ensure t :after lsp-mode
+  :config
+  (require 'dap-python)
+  (require 'dap-ui)
+  (setq dap-python-debugger 'debugpy)
+  (setq dap-auto-configure-features '(sessions locals controls tooltip))
+  (add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
+  (dap-register-debug-template "Patch selection"
+    (list :type "python"
+          :args (list "configs/embed_small.yaml")
+          :cwd nil
+          :env '(("DEBUG" . "1") ("CUDA_LAUNCH_BLOCKING" . "1"))
+          :target-module (expand-file-name "~/repos/madame-web/projects/master_theses/thesis_patch_similarity_search/construct_index.py")
+          :request "launch"
+          :name "batch_patch"))
+
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode t)
+  (tooltip-mode t)
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "o d" '(dap-debug :wk "Open debugger")
+    ))
+#+end_src
 * Runtime performance
 #+begin_src elisp
 ;; Make gc pauses faster by decreasing the threshold.
