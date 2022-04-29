@@ -1770,9 +1770,10 @@ _k_: down      _a_: combine       _q_: quit
 
 (use-package yasnippet-snippets
   :ensure yasnippet)
+
+(eethern/leader-key-def
+  "i s" 'yas-insert-snippet)
 #+end_src
-
-
 ** Languages
 *** Python
 #+begin_src elisp
