@@ -1640,6 +1640,69 @@ PROJECT is the current project."
     "g" '(:ignore t :wk "git")
     "g g" '(magit-status :wk "Magit status")))
 #+end_src
+
+#+begin_src elisp
+(use-package gerrit
+  :ensure t
+  :custom
+  (gerrit-host "gerrit.cicd.autoheim.net")  ;; is needed for REST API calls
+  :config
+  (progn
+    (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t))
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "g r" '(:ignore t :wk "review")
+    "g r r" '(gerrit-dashboard :wk "Gerrit dashboard")
+    "g r u" '(gerrit-upload-transient :wk "Gerrit upload")
+    "g r d" '(gerrit-download-transient :wk "Gerrit download")))
+
+  ;; (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
+  ;; (global-set-key (kbd "C-x o") 'gerrit-download)))
+#+end_src
+*** smerge
+#+begin_src elisp
+(use-package hydra)
+(use-package smerge-mode
+  :config
+  (defhydra scimax-smerge (:color red :hint nil)
+    "
+Navigate       Keep               other
+----------------------------------------
+_p_: previous  _c_: current       _e_: ediff
+_n_: next      _m_: mine  <<      _u_: undo
+_j_: up        _o_: other >>      _r_: refine
+_k_: down      _a_: combine       _q_: quit
+               _b_: base
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("c" smerge-keep-current)
+    ("m" smerge-keep-mine)
+    ("o" smerge-keep-other)
+    ("b" smerge-keep-base)
+    ("a" smerge-keep-all)
+    ("e" smerge-ediff)
+    ("j" previous-line)
+    ("k" forward-line)
+    ("r" smerge-refine)
+    ("u" undo)
+    ("q" nil :exit t))
+
+  (defun enable-smerge-maybe ()
+    (when (and buffer-file-name (vc-backend buffer-file-name))
+      (save-excursion
+        (goto-char (point-min))
+        (when (re-search-forward "^<<<<<<< " nil t)
+          (smerge-mode +1)
+          (scimax-smerge/body)))))
+
+
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "g m" '(scimax-smerge/body :wk "Smerge hydra")))
+
+#+end_src
+
 *** Git gutter
 #+begin_src elisp
 (use-package git-gutter
