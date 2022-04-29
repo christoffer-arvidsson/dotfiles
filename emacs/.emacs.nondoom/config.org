@@ -1749,6 +1749,17 @@ _k_: down      _a_: combine       _q_: quit
 (use-package flycheck
   :defer t
   :hook (lsp-mode . flycheck-mode))
+*** Tree-sitter
+#+begin_src elisp
+(use-package tree-sitter
+  :ensure t
+  :config
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure tree-sitter)
+#+end_src
 #+end_src
 ** Snippets
 #+begin_src elisp
