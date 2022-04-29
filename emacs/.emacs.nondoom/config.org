@@ -1579,6 +1579,13 @@ PROJECT is the current project."
     "o e" '(eshell-toggle :wk "Toggle eshell")
     ))
 #+end_src
+** Calc
+#+begin_src elisp
+(eethern/leader-key-def
+  :keymaps 'normal
+  "o c" '(quick-calc :wk "Open quick calculator")
+  "o C" '(calc :wk "Open full calculator"))
+#+end_src
 ** Projectile
 #+begin_src elisp
 (use-package projectile
