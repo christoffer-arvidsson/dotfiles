@@ -1310,11 +1310,35 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
 #+end_src
 
 * Knowledge management
-** Hugo
+** Writeroom mode
 #+begin_src elisp
-(use-package ox-hugo
+(use-package visual-fill-column
+  :ensure t)
+
+(use-package writeroom-mode
   :ensure t
-  :after ox)
+  :custom
+  (writeroom-restore-window-config t)
+  (writeroom-fullscreen-effect 'maximized)
+  (writeroom-width 80))
+
+(defun eethern/writing-mode ()
+  (interactive)
+  (variable-pitch-mode 1)
+  (setq buffer-face-mode-face '(:family "Iosevka Aile" :height 150))
+  (buffer-face-mode)
+  (linum-mode 0)
+  (writeroom-mode 1)
+  (blink-cursor-mode 1)
+  (visual-line-mode 1)
+  (display-line-numbers-mode 0)
+  (setq truncate-line nil)
+  (setq-default line-spacing 5)
+  (setq global-hl-line-mode nil))
+
+(eethern/leader-key-def
+  :keymaps 'normal
+  "t z" '(eethern/writing-mode :wk "Writing mode"))
 #+end_src
 ** Orbit
 Personal wiki powered by org roam
@@ -1530,6 +1554,13 @@ PROJECT is the current project."
   (org-roam-ui-follow t)
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start t))
+#+end_src
+** Hugo
+#+begin_src elisp
+(use-package ox-hugo
+  :ensure t
+  :config
+  (setq org-hugo-base-dir orbit/directory))
 #+end_src
 * Development
 ** Eshell
