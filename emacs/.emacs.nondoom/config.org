@@ -110,49 +110,58 @@ Line numbers.
 #+begin_src elisp
 (use-package doom-themes
   :ensure t
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
+  (doom-horizon-brighter-comments t)
+  (doom-horizon-comment-bg nil)
+  (doom-themes-padded-modeline t)
   :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t
-        doom-horizon-brighter-comments t
-        doom-horizon-comment-bg nil)
 
   (load-theme 'doom-horizon t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+
 #+end_src
 
 #+begin_src elisp
-(use-package solaire-mode
-  :ensure t
-  :config
-  (solaire-global-mode +1))
+;; (use-package solaire-mode
+;;   :ensure t
+;;   :config
+;;   (solaire-global-mode +1))
 #+end_src
 
 ** Font
 Set the fonts.
 #+begin_src elisp
+(defun eethern/set-font-faces ()
+  (set-face-attribute 'default nil
+                      :font "Iosevka"
+                      :weight 'normal
+                      :height 120)
 
-(set-face-attribute 'default nil
-                    :font "iosevka"
-                    :weight 'normal
-                    :height 130)
+  (set-face-attribute 'fixed-pitch nil
+                      :font "Iosevka"
+                      :weight 'normal
+                      :height 110)
 
-(set-face-attribute 'fixed-pitch nil
-                    :font "iosevka"
-                    :weight 'normal
-                    :height 110)
-
-(set-face-attribute 'variable-pitch nil
-                    :font "Iosevka Aile"
-                    :weight 'light
-                    :height 110)
+  (set-face-attribute 'variable-pitch nil
+                      :font "Iosevka Aile"
+                      :weight 'light
+                      :height 110))
 
 ;; Required so that emacs client changes font
-(setq default-frame-alist '((font . "iosevka")))
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (setq doom-modeline-icon t)
+                (with-selected-frame frame
+                  (eethern/set-font-faces))))
+  (eethern/set-font-faces))
 #+end_src
 
 ** Home buffer
-I will make this use some kind of dashboard. For now, it's just an org file.
 #+begin_src elisp
 (defun my/dashboard-banner ()
   """Set a dashboard banner including information on package initialization
