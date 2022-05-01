@@ -1090,35 +1090,14 @@ latex, and making the text more readable in the editor.
 ** Productivity
 *** Agenda settings
 #+begin_src elisp
-(setq org-agenda-files (list (file-truename "~/Dropbox/org/agenda.org"))
-      org-agenda-time-grid '((daily today require-timed) "----------------------" nil)
-      org-agenda-skip-scheduled-if-done nil
-      org-agenda-skip-deadline-if-done nil
-      org-agenda-include-deadlines t
-      org-agenda-include-diary t
-      org-agenda-block-separator t
-      org-agenda-compact-blocks t
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+(setq org-agenda-files '("~/Dropbox/org/agenda.org")
+      org-habit-graph-column 60
+      
+      org-log-done 'time
+      org-log-into-drawer t
       org-agenda-start-with-log-mode t)
-
-#+end_src
-*** Super agenda
-#+begin_src elisp
-(use-package org-super-agenda
-  :ensure t
-  :defer t
-  :config
-  (setq org-super-agenda-groups
-       '(;; Each group has an implicit boolean OR operator between its selectors.
-         (:name "Today"  ; Optionally specify section name
-                :time-grid t  ; Items that appear on the time grid
-                :todo "TODAY")  ; Items that have this TODO keyword
-         (:name "University"
-                :tag "uni"
-                :todo "TODO"
-                :time-grid t
-                :priority "A")
-         ))
-  (org-super-agenda-mode 1))
 #+end_src
 *** Todo keywords
 #+begin_src elisp
