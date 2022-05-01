@@ -1286,7 +1286,8 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
 
 (eethern/leader-key-def
   "X" 'org-capture
-  "o a a" 'org-agenda)
+  "o a a" 'org-agenda
+  "o a l" 'org-agenda-list)
 
 (general-define-key
  :states 'normal
