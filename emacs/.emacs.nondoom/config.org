@@ -1292,10 +1292,21 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "t" 'org-todo
   "d s" 'org-schedule
   "d d" 'org-deadline
-  "e" 'org-export-dispatch)
+  "e" 'org-export-dispatch
+
+  ;; Clocks
+  "c -" 'org-clock-timestamps-down
+  "c =" 'org-clock-timestamps-up
+  "c e" 'org-clock-modipy-effort-esimate
+  "c g" 'org-clock-goto
+  "c i" 'org-clock-in
+  "c I" 'org-clock-in-last
+  "c o" 'org-clock-out
+  "c R" 'org-clock-report)
 
 (eethern/leader-key-def
   "X" 'org-capture
+  "o a /" 'consult-org-agenda
   "o a a" 'org-agenda
   "o a l" 'org-agenda-list)
 
