@@ -65,7 +65,7 @@ font-3 = Material\ Icons:size=10
 
 modules-left = spotify spotify-prev spotify-play-pause spotify-next
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = emacs-clock bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -145,7 +145,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
+modules-right = emacs-clock bspwm-modes do-not-disturb volume filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -662,3 +662,10 @@ exec = ~/.config/polybar/scripts/lsv/lsv_status.sh
 type = custom/script
 exec = ~/.config/polybar/scripts/emacs-pomodoro/pomodoro_bar.sh
 interval = 5
+
+[module/emacs-clock]
+type = custom/script
+exec = ~/.config/polybar/scripts/emacs-clock/emacs_clock.sh
+interval = 1
+
+

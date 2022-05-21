@@ -1,6 +1,5 @@
 #!/bin/sh
-function emacs_server_is_running()
-{
+emacs_server_is_running () {
     ps -ef | grep [e]macsserver > /dev/null
 }
 
