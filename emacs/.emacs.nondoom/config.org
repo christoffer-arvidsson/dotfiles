@@ -667,6 +667,16 @@ Track recent files.
 (recentf-mode)
 #+end_src
 
+** Supersave
+#+begin_src elisp
+(use-package super-save
+  :ensure t
+  :custom
+  (super-save-auto-save-when-idle t)
+  (auto-save-default nil)
+  :config
+  (super-save-mode +1))
+#+end_src
 ** Noo junk please we are unix
 This will remove those pesky line-endings mac users seem blind to.
 #+begin_src elisp
