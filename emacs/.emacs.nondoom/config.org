@@ -783,6 +783,7 @@ Stolen from doom emacs
   (setq org-auto-align-tags nil
         org-tags-column 0
         org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
+        org-capture-work-file (file-truename "~/Dropbox/org/work.org")
         org-drill-file (file-truename "~/Dropbox/org/drill.org")
         org-edit-src-content-indentation 2
         org-export-use-babel t
@@ -1081,7 +1082,7 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
-(setq org-agenda-files '("~/Dropbox/org/agenda.org")
+(setq org-agenda-files '("~/Dropbox/org/agenda.org" "~/Dropbox/org/work.org")
       org-habit-graph-column 60
       org-clock-idle-time 15
       org-log-done 'time
@@ -1106,7 +1107,7 @@ latex, and making the text more readable in the editor.
          (file+headline org-capture-todo-file "Inbox")
          "* [ ] %?\n%i\n%a" :prepend t)
         ("w" "Work" entry
-         (file+headline org-capture-todo-file "Work")
+         (file+headline org-capture-work-file "Work")
          "* [ ] %U %?\n" :prepend t)
         ("j" "Journal" entry
          (file+datetree org-capture-journal-file)
