@@ -1915,6 +1915,14 @@ _k_: down      _a_: combine       _q_: quit
     (setf (alist-get 'other c-default-style) "doom"))
   )
 #+end_src
+*** Cuda
+#+begin_src elisp
+(use-package cuda-mode
+  :ensure t
+  :config
+  (setq auto-mode-alist
+        (cons '("\\.cu$" . cuda-mode) auto-mode-alist)))
+#+end_src
 *** Matlab/octave
 #+begin_src elisp
 (use-package octave
