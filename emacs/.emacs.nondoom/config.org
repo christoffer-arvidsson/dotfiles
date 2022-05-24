@@ -1299,6 +1299,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "k s" 'org-babel-demarcate-block
   "i l" 'org-cdlatex-environment-indent
   "i c" 'org-cite-insert
+  "i f" 'org-footnote-new
   "i p" 'academic-phrases
   "i s" 'org-insert-structure-template
   "i P" 'academic-phrases-by-section
