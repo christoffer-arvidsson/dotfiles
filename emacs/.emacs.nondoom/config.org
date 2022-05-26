@@ -1176,6 +1176,15 @@ latex, and making the text more readable in the editor.
       ""))
 
 #+end_src
+*** Polybar widget for clock
+#+begin_src elisp
+(defun eethern/org-clocking-info ()
+  (if (org-clock-is-active)
+      (format " %d/%d min" 
+                      (- (org-clock-get-clocked-time) org-clock-total-time)
+                      (org-clock-get-clocked-time))
+    ""))
+#+end_src
 ** ipynnb
 #+begin_src elisp
 (use-package ox-ipynb
@@ -1338,6 +1347,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "o a l" 'org-agenda-list
 
   ;; clocks
+  "c g" 'org-clock-goto
   "c c" 'org-clock-cancel
   "c l" 'org-clock-in-last
   "c o" 'org-clock-out)
