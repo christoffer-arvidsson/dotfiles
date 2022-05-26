@@ -1091,9 +1091,18 @@ latex, and making the text more readable in the editor.
 #+end_src
 *** Todo keywords
 #+begin_src elisp
-(setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
-                          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-                          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|" "DONE(d)" "CANCELLED(c)")
+                          (sequence "[ ](T)" "[>](N)" "[?](W)" "|" "[X](D)" "[-](C)")))
+(setq org-todo-keyword-faces '(("TODO" . org-warning)
+                               ("NEXT" . org-priority)
+                               ("WAIT" . org-table)
+                               ("DONE" . org-done)
+                               ("CANCELLED" . org-distant-deadline)
+                               ("[ ]". org-warning)
+                               ("[>]" . org-priority)
+                               ("[?]" . org-table)
+                               ("[X]" . org-done)
+                               ("[-]" . org-distant-deadline)))
 #+end_src
 *** Org-drill
 #+begin_src elisp
@@ -1108,7 +1117,7 @@ latex, and making the text more readable in the editor.
          "* [ ] %?\n%i\n%a" :prepend t)
         ("w" "Work" entry
          (file+headline org-capture-work-file "Work")
-         "* [ ] %U %?\n" :prepend t)
+         "* [ ] %?\n" :prepend t)
         ("j" "Journal" entry
          (file+datetree org-capture-journal-file)
          "* %U %?\n" :prepend t)
@@ -1134,8 +1143,10 @@ latex, and making the text more readable in the editor.
          "* %u %^{Question} :drill:\n%?\n** The Answer\n %^{Answer}" :prepend t)
         ("p" "Templates for projects")
         ("pi" "Idea" entry
-         (file+headline org-capture-todo-file "Project ideas")
-         "* %u %?\n%i\n%a" :prepend t)))
+         (file+headline org-capture-todo-file "Project ideas"))
+        ("pt" "Project todo" entry
+         (file+headline org-capture-todo-file "Project todos")
+         "* [ ] %u %?\n%i\n%a" :prepend t)))
 #+end_src
 
 *** Pomodoro
