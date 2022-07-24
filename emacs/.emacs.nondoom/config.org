@@ -1833,6 +1833,7 @@ _k_: down      _a_: combine       _q_: quit
 #+begin_src elisp
 (use-package yasnippet
   :ensure t
+  :hook (lsp-mode . yas-minor-mode)
   :config
   (yas-global-mode 1))
 
