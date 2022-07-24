@@ -1711,6 +1711,10 @@ PROJECT is the current project."
   (setq org-hugo-base-dir orbit/directory))
 #+end_src
 * Development
+** Compilation
+#+begin_src elisp
+(setq complation-scroll-output t)
+#+end_src
 ** Eshell
 #+begin_src elisp
 (use-package eshell
