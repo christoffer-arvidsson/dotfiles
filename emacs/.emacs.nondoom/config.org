@@ -484,6 +484,13 @@ Set the fonts.
   :config
   (global-evil-surround-mode 1))
 #+end_src
+** Evil multiedit
+#+begin_src elisp
+(use-package evil-multiedit
+  :ensure t
+  :config
+  (evil-multiedit-default-keybinds))
+#+end_src
 ** Avy
 #+begin_src elisp
 (use-package avy
