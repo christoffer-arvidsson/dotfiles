@@ -1573,28 +1573,6 @@ PROJECT is the current project."
           )))
 
 #+end_src
-** Org roam - new
-#+begin_src elisp
-;; (use-package org-roam
-;;   :after org
-;;   :init
-;;   (setq org-roam-v2-ack t)
-;;   :custom
-;;   (org-roam-directory (file-truename "~/Repos/new-orbit/articles"))
-;;   (+org-roam-open-buffer-on-find-file nil)
-;;   (org-roam-auto-replace-fuzzy-links nil)
-;;   (org-roam-completion-everywhere t)
-;;   (org-roam-db-autosync-mode t)
-;;   :config
-;;   (eethern/leader-key-def
-;;     :keymaps 'normal
-;;     "n r" '(:ignore t :wk "Org roam")
-;;     "n r f" '(org-roam-node-find :wk "Find node")
-;;     "n r a" '(org-roam-node-random :wk "Random node")
-;;     "n r s" '(org-roam-db-sync :wk "Sync database")
-;;     "n r r" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
-;;     "n r i" '(org-roam-node-insert :wk "Insert node")))
-#+end_src
 ** Org roam ui
 #+begin_src elisp
 ;; (add-to-list 'load-path "~/.emacs.nondoom/private/org-roam-ui")
