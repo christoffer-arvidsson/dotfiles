@@ -80,10 +80,12 @@ Use straight.el
 Hide ugly gui elements.
 #+begin_src elisp
 (defun my/disable-scroll-bars (frame)
+  (load-theme 'doom-horizon t)
   (modify-frame-parameters frame
                            '((vertical-scroll-bars . nil)
                              (horizontal-scroll-bars . nil))))
-(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+
+(add-hook 'server-after-make-frame-functions 'my/disable-scroll-bars)
 
 (scroll-bar-mode -1)
 (global-hl-line-mode +1)
@@ -91,7 +93,7 @@ Hide ugly gui elements.
 (tooltip-mode -1)
 (set-fringe-mode 5)
 (menu-bar-mode -1)
-(setq-default display-line-numbers-width 3)
+(setq-default display-line-numbers-width 2)
 (setq visible-bell t)
 #+end_src
 
@@ -121,12 +123,11 @@ Line numbers.
   (load-theme 'doom-horizon t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
-
-
 #+end_src
 
 #+begin_src elisp
 ;; (use-package solaire-mode
+;;   :defer t
 ;;   :ensure t
 ;;   :config
 ;;   (solaire-global-mode +1))
@@ -139,7 +140,7 @@ Set the fonts.
   (set-face-attribute 'default nil
                       :font "Iosevka"
                       :weight 'normal
-                      :height 120)
+                      :height 95)
 
   (set-face-attribute 'fixed-pitch nil
                       :font "Iosevka"
@@ -202,18 +203,6 @@ Set the fonts.
   :custom
   (doom-modeline-icon t))
 
-;; A workaround for missing all-the-icons in neotree when starting emacs in client mode
-;; Ref:
-;;   - https://github.com/jaypei/emacs-neotree/issues/194
-;;   - https://emacs.stackexchange.com/questions/24609/determine-graphical-display-on-startup-for-emacs-server-client
-(defun new-frame-setup (frame)
-  (if (display-graphic-p frame)
-      (setq neo-theme 'icons)))
-;; Run for already-existing frames (For single instance emacs)
-(mapc 'new-frame-setup (frame-list))
-;; Run when a new frame is created (For emacs in client/server mode)
-(add-hook 'after-make-frame-functions 'new-frame-setup)
-
 (use-package all-the-icons-completion
   :ensure all-the-icons
   :config
@@ -238,6 +227,7 @@ Set the fonts.
   (doom-modeline-icon (display-graphic-p))
   (doom-modeline-buffer-file-name-style 'truncate-except-project))
 #+end_src
+
 * Editor
 ** General settings
 *** Tab width
@@ -1500,7 +1490,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   :custom
   (writeroom-restore-window-config t)
   (writeroom-fullscreen-effect 'maximized)
-  (writeroom-width 80))
+  (writeroom-width 100))
 
 (defun eethern/writing-mode ()
   (interactive)
