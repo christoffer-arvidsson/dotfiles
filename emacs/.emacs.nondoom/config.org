@@ -821,7 +821,11 @@ Stolen from doom emacs
 #+begin_src elisp
 (use-package org-modern
   :after org
-  :hook (org-mode . org-modern-mode))
+  :hook (org-mode . org-modern-mode)
+  :custom
+  (org-modern-label-border 1)
+  (org-modern-variable-pitch nil)
+  )
 #+end_src
 ** Block templates
 #+begin_src elisp
