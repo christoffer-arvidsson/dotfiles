@@ -1185,6 +1185,11 @@ latex, and making the text more readable in the editor.
                       (org-clock-get-clocked-time))
     ""))
 #+end_src
+*** Clock analyzer
+#+begin_src elisp
+(use-package org-analyzer
+  :ensure org)
+#+end_src
 ** ipynnb
 #+begin_src elisp
 (use-package ox-ipynb
