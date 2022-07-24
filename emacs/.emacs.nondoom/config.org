@@ -2007,6 +2007,17 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
   :ensure t)
 #+end_src
 
+*** Typescript
+#+begin_src elisp
+(use-package typescript-mode
+  :ensure t
+  :custom
+  (typescript-indent-level 2)
+  (js-indent-level 2)
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . js-jsx-mode)))
+#+end_src
+  
 ** Debugging
 #+begin_src elisp
 (use-package realgud
@@ -2039,17 +2050,6 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
     "o d" '(dap-debug :wk "Open debugger")
     ))
   #+end_src
-*** Typescript
-#+begin_src elisp
-(use-package typescript-mode
-  :ensure t
-  :custom
-  (typescript-indent-level 2)
-  (js-indent-level 2)
-  :config
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . js-jsx-mode)))
-#+end_src
-  
 * Runtime performance
 #+begin_src elisp
 ;; Make gc pauses faster by decreasing the threshold.
