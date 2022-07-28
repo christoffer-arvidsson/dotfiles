@@ -1,4 +1,0 @@
-#+filetags: :draft:
-#+title: ${title}
-
-%?

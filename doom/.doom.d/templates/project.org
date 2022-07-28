@@ -1,4 +1,0 @@
-#+filetags: :project:
-#+title: ${title}
-
-%?

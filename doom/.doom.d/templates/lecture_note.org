@@ -1,5 +1,0 @@
-#+filetags: :lecture:
-
-#+title: ${title}
-
-%?

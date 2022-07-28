@@ -1,5 +1,0 @@
-#+filetags: :exercise:
-
-#+title: ${title}
-
-%?

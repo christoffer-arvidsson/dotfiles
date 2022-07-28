@@ -1,5 +1,0 @@
-#+filetags: :notebook:%^{roam keys}:
-
-#+title: ${title}
-
-%?

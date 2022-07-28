@@ -1,2 +1,0 @@
-#+TITLE: Library of babel
-

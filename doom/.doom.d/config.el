@@ -1,28 +1,11 @@
-#+title: Config
-
-* User
-#+begin_src elisp
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
-#+end_src
 
-#+RESULTS:
-: john@doe.com
-
-* Ui
-#+begin_src elisp
 (setq doom-theme 'doom-horizon)
 (setq display-line-numbers-type t)
 (setq org-directory "~/Dropbox/org/")
 (setq doom-font (font-spec :family "iosevka" :size 13))
-#+end_src
 
-#+RESULTS:
-: #<font-spec nil nil iosevka nil nil nil nil nil 13 nil nil nil nil>
-
-* Window and buffer management
-#+begin_src elisp
 (after! evil
 
   )
-#+end_src
