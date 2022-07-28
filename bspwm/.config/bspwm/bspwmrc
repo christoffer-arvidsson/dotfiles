@@ -63,10 +63,9 @@ if [ ! -f $startup_lock_file ]; then
         steam-native &
         dropbox &
         mullvad-vpn &
-        discord-canary &
+        discord &
         zotero --headless &
     elif [ "$(hostname)" = "shuttle" ]; then
-        autorandr --change
         feh --bg-scale ~/.dotfiles/.img/space.jpg 
         picom --config ~/.config/picom/picom.conf &
         dropbox &
