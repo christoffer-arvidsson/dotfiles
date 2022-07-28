@@ -91,9 +91,9 @@ Hide ugly gui elements.
 (global-hl-line-mode +1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(set-fringe-mode 5)
+;; (set-fringe-mode 6)
 (menu-bar-mode -1)
-(setq-default display-line-numbers-width 2)
+(setq-default display-line-numbers-width 3)
 (setq visible-bell t)
 #+end_src
 
@@ -192,10 +192,6 @@ Set the fonts.
 ;; Makes emacsclient default to the dashboard
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+end_src
-** Default applications
-#+begin_src elisp
-(setq browse-url-browser-function 'browse-url-firefox)
-#+end_src
 ** Icons
 #+begin_src elisp
 (use-package all-the-icons
@@ -228,7 +224,7 @@ Set the fonts.
   (doom-modeline-buffer-file-name-style 'truncate-except-project))
 #+end_src
 
-* Editor
+* Keybind
 ** General settings
 *** Tab width
 #+begin_src elisp
@@ -315,6 +311,7 @@ Set the fonts.
   (setq which-key-idle-delay 0.3))
 #+end_src
 
+* Editor
 ** Nerd-commenter
 #+begin_src elisp
 (use-package evil-nerd-commenter
@@ -426,12 +423,12 @@ Set the fonts.
 #+begin_src elisp
 (use-package company
   :custom
-  (company-minimum-prefix-length 4)
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0)
   (completion-ignore-case t)
-  (company-idle-delay 0.5)
-  :hook (after-init . global-company-mode)
   :config
-  (add-to-list 'company-backends 'company-capf))
+  (add-to-list 'company-backends 'company-capf)
+  (global-company-mode))
 #+end_src
 ** Expand region
 #+begin_src elisp
@@ -574,7 +571,7 @@ the only window, use evil-window-move-* (e.g. `evil-window-move-far-left')."
   "w q" '(evil-quit :wk "Evil quit")
   "w =" '(balance-windows :wk "Balance windows")
 
-  ;; For standard vi bindings
+  ;; For standard vi bindings (incase of non-colemak kb)
   "w h" '(evil-window-left :wk "Select window left")
   "w j" '(evil-window-down :wk "Select window down")
   "w k" '(evil-window-up :wk "Select window up")
@@ -621,10 +618,14 @@ instead.
 
 ** Splitting priority
 #+begin_src elisp
-;; (setq split-width-threshold 0)
-;; (setq split-height-threshold  nil)
+(setq split-width-threshold 0)
+(setq split-height-threshold  nil)
 #+end_src
 * File and buffer
+** Default applications
+#+begin_src elisp
+(setq browse-url-browser-function 'browse-url-firefox)
+#+end_src
 ** Popup buffers
 #+begin_src elisp
 (use-package popper
@@ -826,6 +827,15 @@ Stolen from doom emacs
 #+begin_src elisp
 (use-package ranger
   :defer t)
+#+end_src
+** Very large files
+Asks to open large files in chunks when opening a large
+file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/vlfi][vlfi]]
+#+begin_src elisp
+(use-package vlf
+  :ensure t
+  :config
+  (require 'vlf-setup))
 #+end_src
 ** Keybindings
 
@@ -1036,7 +1046,7 @@ latex, and making the text more readable in the editor.
         ;; ##### From Evince just press `Ctrl + Left click' to go to the good line.      
         TeX-source-correlate-mode t
         TeX-source-correlate-method 'synctex
-        TeX-source-correlate-start-server t
+        TeX-source-correlate-server t
 
         ;; automatically insert braces after sub/superscript in math mode
         TeX-electric-sub-and-superscript t 
@@ -1326,25 +1336,25 @@ I write a lot of notebooks, and develop inside these notebooks. Therefore, allow
 Bread and butter for using python in org-mode for notebook style execution.
 Make a template for inserting jupyter blocks.
 #+begin_src elisp
-(use-package jupyter
-  :after org
-  :defer t
-  :config
-  (setq org-babel-python-command "~/.pyenv/shims/python")
-  (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
-                                                       (:kernel . "python3")
-                                                       (:exports . "both")
-                                                       (:session . "py")
-                                                       (:eval . "never-export")))
-  (add-to-list 'org-src-lang-modes '("jupyter-python" . python))
-  (add-to-list 'org-structure-template-alist '("ju" . "src jupyter-python"))
-  )
+;; (use-package jupyter
+;;   :after org
+;;   :defer t
+;;   :config
+;;   (setq org-babel-python-command "~/.pyenv/shims/python")
+;;   (setq org-babel-default-header-args:jupyter-python '((:async . "yes")
+;;                                                        (:kernel . "python3")
+;;                                                        (:exports . "both")
+;;                                                        (:session . "py")
+;;                                                        (:eval . "never-export")))
+;;   (add-to-list 'org-src-lang-modes '("jupyter-python" . python))
+;;   (add-to-list 'org-structure-template-alist '("ju" . "src jupyter-python"))
+;;   )
 
-;; Had to to this to properly use this function.
-;; This is nice to have as it makes github recognize the code blocks as python.
-;; Plus, I have no use for normal python blocks anyway
-(with-eval-after-load 'ob-jupyter
-  (org-babel-jupyter-override-src-block "python"))
+;; ;; Had to to this to properly use this function.
+;; ;; This is nice to have as it makes github recognize the code blocks as python.
+;; ;; Plus, I have no use for normal python blocks anyway
+;; (with-eval-after-load 'ob-jupyter
+;;   (org-babel-jupyter-override-src-block "python"))
 
 #+end_src
 
@@ -1355,7 +1365,7 @@ Make a template for inserting jupyter blocks.
  '((emacs-lisp . t)
    (python . t)
    (C . t)
-   (jupyter . t)
+   ;; (jupyter . t)
    (shell . d)))
 #+end_src 
 *** Auto tangle
@@ -1715,7 +1725,7 @@ PROJECT is the current project."
 #+begin_src elisp
 (setq complation-scroll-output t)
 #+end_src
-** Eshell
+** Terminal
 #+begin_src elisp
 (use-package eshell
   :ensure t)
@@ -1723,12 +1733,15 @@ PROJECT is the current project."
 (use-package eshell-toggle
   :after eshell
   :custom
-  (eshell-toggle-use-projectile t)
-  :config
-  (eethern/leader-key-def
-    :keymaps 'normal
+  (eshell-toggle-use-projectile t))
+
+(use-package vterm
+  :ensure t)
+
+(eethern/leader-key-def
+  :keymaps 'normal
     "o e" '(eshell-toggle :wk "Toggle eshell")
-    ))
+    "o t" '(vterm :wk "Open terminal"))
 #+end_src
 ** Calc
 #+begin_src elisp
@@ -1868,13 +1881,17 @@ _k_: down      _a_: combine       _q_: quit
   :ensure t
   :commands lsp
   :hook
-  ((python-mode cc-mode rust-mode) . lsp)
+  (python-mode . lsp)
+  (c++-mode . lsp)
+  (cc-mode . lsp)
+  (rust-mode . lsp)
   (lsp-mode . lsp-enable-which-key-integration)
   :bind (:map lsp-mode-map
               ("TAB" . completion-at-point)
               ("M-RET" . lsp-execute-code-action))
   :custom
   (lsp-headerline-breadcrumb-enable nil)
+  (lsp-idle-delay 0.500)
 
   ; Rust
   (lsp-rust-server 'rust-analyzer)
@@ -1889,11 +1906,6 @@ _k_: down      _a_: combine       _q_: quit
   (lsp-ui-doc-position 'bottom)
   :config
   (lsp-ui-doc-show))
-
-(use-package company-lsp
-  :ensure t
-  :config
-  (push 'company-lsp company-backends))
 
 (eethern/leader-key-def
   "l"  '(:ignore t :wk "lsp")
@@ -1941,15 +1953,6 @@ _k_: down      _a_: combine       _q_: quit
 
 (eethern/leader-key-def
   "i s" 'yas-insert-snippet)
-#+end_src
-** Very large files
-Asks to open large files in chunks when opening a large
-file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/vlfi][vlfi]]
-#+begin_src elisp
-(use-package vlf
-  :ensure t
-  :config
-  (require 'vlf-setup))
 #+end_src
 ** Languages
 *** Python
@@ -2018,51 +2021,54 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
   "f" 'python-shell-send-defun
   "v" 'python-shell-send-region)
 #+end_src
+
 *** C/C++
+
 #+begin_src elisp
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+;; (use-package ccls
+;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;;          (lambda () (require 'ccls) (lsp))))
 #+end_src
 
 #+begin_src elisp
 (use-package cc-mode
-  :config 
-  (setq c-tab-always-indent t)
-  (setq-default c-basic-offset 4)
-  (c-add-style
-   "doom" '((c-comment-only-line-offset . 0)
-            (c-hanging-braces-alist (brace-list-open)
-                                    (brace-entry-open)
-                                    (substatement-open after)
-                                    (block-close . c-snug-do-while)
-                                    (arglist-cont-nonempty))
-            (c-cleanup-list brace-else-brace)
-            (c-offsets-alist
-             (knr-argdecl-intro . 0)
-             (substatement-open . 0)
-             (substatement-label . 0)
-             (statement-cont . +)
-             (case-label . +)
-             ;; align args with open brace OR don't indent at all (if open
-             ;; brace is at eolp and close brace is after arg with no trailing
-             ;; comma)
-             (brace-list-intro . 0)
-             (brace-list-close . -)
-             (arglist-intro . +)
-             (arglist-close +cc-lineup-arglist-close 0)
-             ;; don't over-indent lambda blocks
-             (inline-open . 0)
-             (inlambda . 0)
-             ;; indent access keywords +1 level, and properties beneath them
-             ;; another level
-             (access-label . -)
-             (inclass +cc-c++-lineup-inclass +)
-             (label . 0))))
+  :ensure t)
+  ;; :config 
+  ;; (setq c-tab-always-indent t)
+  ;; (setq-default c-basic-offset 4))
+  ;; (c-add-style
+  ;;  "doom" '((c-comment-only-line-offset . 0)
+  ;;           (c-hanging-braces-alist (brace-list-open)
+  ;;                                   (brace-entry-open)
+  ;;                                   (substatement-open after)
+  ;;                                   (block-close . c-snug-do-while)
+  ;;                                   (arglist-cont-nonempty))
+  ;;           (c-cleanup-list brace-else-brace)
+  ;;           (c-offsets-alist
+  ;;            (knr-argdecl-intro . 0)
+  ;;            (substatement-open . 0)
+  ;;            (substatement-label . 0)
+  ;;            (statement-cont . +)
+  ;;            (case-label . +)
+  ;;            ;; align args with open brace OR don't indent at all (if open
+  ;;            ;; brace is at eolp and close brace is after arg with no trailing
+  ;;            ;; comma)
+  ;;            (brace-list-intro . 0)
+  ;;            (brace-list-close . -)
+  ;;            (arglist-intro . +)
+  ;;            (arglist-close +cc-lineup-arglist-close 0)
+  ;;            ;; don't over-indent lambda blocks
+  ;;            (inline-open . 0)
+  ;;            (inlambda . 0)
+  ;;            ;; indent access keywords +1 level, and properties beneath them
+  ;;            ;; another level
+  ;;            (access-label . -)
+  ;;            (inclass +cc-c++-lineup-inclass +)
+  ;;            (label . 0))))
 
-  (when (listp c-default-style)
-    (setf (alist-get 'other c-default-style) "doom"))
-  )
+  ;; (when (listp c-default-style)
+  ;;   (setf (alist-get 'other c-default-style) "doom"))
+  ;; )
 #+end_src
 *** Cuda
 #+begin_src elisp
@@ -2106,6 +2112,12 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
 
 #+end_src
 *** Rust
+=rustic-mode= adds useful cargo commands and nicer run/compile buffers
+than =rust-mode=. It also allows running test at point rather than all
+tests in project.
+
+Completion uses =LSP= with =rust-analyzer=, see the =LSP= section.
+
 #+begin_src elisp
 (use-package rustic
   :ensure t)
@@ -2158,14 +2170,14 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
   (setq dap-auto-configure-features '(sessions locals controls tooltip))
   (add-hook 'dap-stopped-hook
           (lambda (arg) (call-interactively #'dap-hydra)))
-  (dap-register-debug-template "Patch selection"
-    (list :type "python"
-          :args (list "configs/embed_small.yaml")
-          :cwd nil
-          :env '(("DEBUG" . "1") ("CUDA_LAUNCH_BLOCKING" . "1"))
-          :target-module (expand-file-name "~/repos/madame-web/projects/master_theses/thesis_patch_similarity_search/construct_index.py")
-          :request "launch"
-          :name "batch_patch"))
+  ;; (dap-register-debug-template "Patch selection"
+  ;;   (list :type "python"
+  ;;         :args (list "configs/embed_small.yaml")
+  ;;         :cwd nil
+  ;;         :env '(("DEBUG" . "1") ("CUDA_LAUNCH_BLOCKING" . "1"))
+  ;;         :target-module (expand-file-name "~/repos/madame-web/projects/master_theses/thesis_patch_similarity_search/construct_index.py")
+  ;;         :request "launch"
+  ;;         :name "batch_patch"))
 
   (dap-mode t)
   (dap-ui-mode t)
@@ -2179,7 +2191,8 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
 * Runtime performance
 #+begin_src elisp
 ;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold (* 2 1000 1000))
+(setq gc-cons-threshold (* 100 1000 1000))
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 #+end_src
 
 
