@@ -496,7 +496,7 @@ label-font = 2
 click-left = exec gsimplecal
 
 [module/volume]
-type = internal/alsa
+type = internal/pulseaudio
 
 format-volume = <ramp-volume> <bar-volume>
 
