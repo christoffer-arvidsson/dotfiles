@@ -126,11 +126,10 @@ Line numbers.
 #+end_src
 
 #+begin_src elisp
-;; (use-package solaire-mode
-;;   :defer t
-;;   :ensure t
-;;   :config
-;;   (solaire-global-mode +1))
+(use-package solaire-mode
+  :ensure t
+  :config
+  (solaire-global-mode +1))
 #+end_src
 
 ** Font
