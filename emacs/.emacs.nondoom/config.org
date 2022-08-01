@@ -912,6 +912,7 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
         org-tags-column 0
         org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
         org-capture-work-file (file-truename "~/Dropbox/org/work.org")
+        org-capture-journal-file (file-truename "~/Dropbox/org/journal.org")
         org-drill-file (file-truename "~/Dropbox/org/drill.org")
         org-edit-src-content-indentation 2
         org-export-use-babel t
@@ -1214,7 +1215,7 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
-(setq org-agenda-files '("~/Dropbox/org/agenda.org" "~/Dropbox/org/work.org")
+(setq org-agenda-files (list org-capture-todo-file org-capture-work-file)
       org-habit-graph-column 60
       org-clock-idle-time 15
       org-log-done 'time
@@ -1223,8 +1224,8 @@ latex, and making the text more readable in the editor.
 #+end_src
 *** Todo keywords
 #+begin_src elisp
-(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "|" "DONE(d)" "CANCELLED(c)")
-                          (sequence "[ ](T)" "[>](N)" "[?](W)" "|" "[X](D)" "[-](C)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")
+                          (sequence "[ ](T)" "[>](N)" "[?](W@/!)" "|" "[X](D!)" "[-](C@)")))
 (setq org-todo-keyword-faces '(("TODO" . org-warning)
                                ("NEXT" . org-priority)
                                ("WAIT" . org-table)
@@ -1243,22 +1244,34 @@ latex, and making the text more readable in the editor.
 #+end_src
 *** Capture templates
 #+begin_src elisp
+;; This hook makes %? go into insert mode!
+(add-hook 'org-capture-mode-hook 'evil-insert-state)
+
 (setq org-capture-templates
       '(("t" "Personal todo" entry
          (file+headline org-capture-todo-file "Inbox")
          "* [ ] %?\n%i\n%a" :prepend t)
-        ("w" "Work" entry
-         (file+headline org-capture-work-file "Work")
-         "* [ ] %?\n" :prepend t)
+        ("c" "To clocked task" item
+         (clock)
+         "- %?")
         ("j" "Journal" entry
          (file+datetree org-capture-journal-file)
-         "* %U %?\n" :prepend t)
-        ("n" "Personal notes" entry
-         (file+headline org-capture-notes-file "Inbox")
-         "* %u %?\n%i\n%a" :prepend t)
-        ("r" "Research" entry
-         (file+headline org-capture-todo-file "Research")
-         "* %u %?\n%i\n%a" :prepend t)
+         "* %U %?" :prepend t)
+        
+        ("w" "Work")
+        ("ww" "Work inbox" entry
+         (file+headline org-capture-work-file "Inbox")
+         "* %?" :prepend t)
+        ("wt" "Work Todo" entry
+         (file+headline org-capture-work-file "Todos")
+         "* [ ] %?" :prepend t)
+        ("wT" "Work Clocked Todo" entry
+         (file+headline org-capture-work-file "Todos")
+         "* NEXT %?" :prepend t :clock-in t)
+        ("wm" "Work Meeting notes" entry
+         (file+headline org-capture-work-file "Meeting notes")
+         "* %U %?\n" :prepend t :clock-in t)
+        
         ("u" "University")
         ("ub" "Bioinformatics" entry
          (file+headline org-capture-todo-file "Bioinformatics")
@@ -1321,6 +1334,13 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (use-package org-analyzer
   :ensure org)
+
+;; Adjust TODO after clocking out
+(add-hook 'org-clock-out-hook
+          (lambda ()
+            (org-todo
+             (upcase
+              (completing-read "Task status" '("done" "todo" "wait" "cancelled"))))))
 #+end_src
 ** ipynnb
 #+begin_src elisp
