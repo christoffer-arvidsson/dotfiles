@@ -427,7 +427,7 @@ Set the fonts.
   (completion-ignore-case t)
   :config
   (add-to-list 'company-backends 'company-capf)
-  (global-company-mode))
+  (global-company-mode '(not shell-script-mode)))
 #+end_src
 ** Expand region
 #+begin_src elisp
