@@ -950,11 +950,29 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
 #+begin_src elisp
 (use-package org-modern
   :after org
-  :hook (org-mode . org-modern-mode)
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
   :custom
+  (org-modern-hide-stars nil)
   (org-modern-label-border 1)
-  (org-modern-variable-pitch nil)
-  )
+  (org-modern-variable-pitch nil))
+#+end_src
+
+#+begin_src elisp
+(use-package org-modern-indent
+  ;; :straight or :load-path here, to taste
+  :straight (:type git :host nil :repo "https://github.com/jdtsmith/org-modern-indent")
+  :hook
+  (org-indent-mode . org-modern-indent-mode))
+#+end_src
+
+#+begin_src elisp
+(use-package org-bullets-mode
+  :straight (:type git :host nil :repo "https://github.com/sabof/org-bullets")
+  :ensure org-bullets
+  :config
+  :hook org-mode)
 #+end_src
 ** Block templates
 #+begin_src elisp
