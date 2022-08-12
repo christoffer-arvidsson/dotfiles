@@ -193,6 +193,12 @@ super + {_, shift} + Print
 super + o ; l
   betterlockscreen -l
 
+# Brightness
+XF86MonBrightnessDown
+	xbacklight -dec 10
+XF86MonBrightnessUp
+	xbacklight -inc 10
+
 #
 # UI
 #
