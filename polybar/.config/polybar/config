@@ -613,6 +613,8 @@ menu-0-1 = power
 menu-0-1-exec = poweroff
 menu-0-2 = logout
 menu-0-2-exec = bspc quit
+menu-0-3 = kitty
+menu-0-3-exec = kitty
 
 ; menu-0-0 = reboot
 ; menu-0-0-exec = menu-open-1
