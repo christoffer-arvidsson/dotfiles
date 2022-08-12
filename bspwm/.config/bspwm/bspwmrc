@@ -62,18 +62,18 @@ if [ "$(hostname)" = "station" ]; then
     run picom --config ~/.config/picom/picom.conf &
     run easyeffects --gapplication-service &
     run steam-native &
-    run dropbox &
+    run dropbox start &
     run mullvad-vpn &
     run discord &
     run zotero --headless &
 elif [ "$(hostname)" = "shuttle" ]; then
     run picom --config ~/.config/picom/picom.conf &
-    run dropbox &
+    run dropbox start &
     run mullvad-vpn &
     run discord-canary &
 elif [ "$(hostname)" = "ucnd1387l61" ]; then
     run compton &
-    run dropbox &
+    run dropbox start &
     run slack &
     run teams &
 fi
