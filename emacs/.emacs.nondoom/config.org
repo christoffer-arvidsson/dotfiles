@@ -1312,6 +1312,36 @@ latex, and making the text more readable in the editor.
          "* [ ] %u %?\n%i\n%a" :prepend t)))
 #+end_src
 
+*** Clock select task
+#+begin_src elisp
+(defun eethern/org-clock-in-select-recent ()
+  """Select recent clock to clock in."""
+  (interactive)
+  (let (res)
+    (dolist (i org-clock-history)
+      (with-current-buffer
+      (org-base-buffer (marker-buffer i))
+    (org-with-wide-buffer
+     (ignore-errors
+       (goto-char (marker-position i))
+       (push `(,(org-get-heading 'notags) . ,i) res)))))
+    (let* ((l (reverse (mapcar 'car res)))
+       (task (cdr (assoc (completing-read "Recent Clocks: " l) res))))
+      (when task
+    (with-current-buffer
+        (org-base-buffer (marker-buffer task))
+      (org-with-wide-buffer
+       (goto-char (marker-position task))
+       (org-clock-in)))))))
+#+end_src
+*** Set todo on clock out
+#+begin_src elisp
+(add-hook 'org-clock-out-hook
+          (lambda ()
+            (org-todo
+             (upcase
+              (completing-read (format "Task status of: \"%s\"" org-clock-heading) '("done" "todo" "wait" "cancelled"))))))
+#+end_src
 *** Pomodoro
 [[https://colekillian.com/posts/org-pomodoro-and-polybar/][Source]]
 #+begin_src elisp
@@ -1514,6 +1544,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "c i" 'org-clock-in
   "c l" 'org-clock-in-last
   "c o" 'org-clock-out
+  "c r" 'eethern/org-clock-in-select-recent
   "c R" 'org-clock-report)
 
 (eethern/leader-key-def
@@ -1523,6 +1554,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "o a l" 'org-agenda-list
 
   ;; clocks
+  "c r" 'eethern/org-clock-in-select-recent
   "c g" 'org-clock-goto
   "c c" 'org-clock-cancel
   "c l" 'org-clock-in-last
