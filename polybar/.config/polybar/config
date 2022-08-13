@@ -681,8 +681,10 @@ interval = 5
 
 [module/emacs-clock]
 type = custom/script
-label = %output:10:26%
-exec = ~/.config/polybar/scripts/emacs-clock/emacs_clock.sh
+tail = true
+format-prefix = "%{u#99c2ff}%{+u}  "
+format = <label>
+exec = ~/.config/polybar/scripts/emacs-clock/scroll_clock.sh
 interval = 1
 
 

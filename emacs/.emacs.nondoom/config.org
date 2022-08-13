@@ -1343,9 +1343,10 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (defun eethern/org-clocking-info ()
   (if (org-clock-is-active)
-      (format " %d/%d min" 
+      (format "%d/%d min (%s)" 
                       (- (org-clock-get-clocked-time) org-clock-total-time)
-                      (org-clock-get-clocked-time))
+                      (org-clock-get-clocked-time)
+                      org-clock-heading)
     ""))
 #+end_src
 *** Clock analyzer
