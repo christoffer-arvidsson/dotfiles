@@ -2080,14 +2080,20 @@ _k_: down      _a_: combine       _q_: quit
   (add-to-list 'company-backends 'company-anaconda)
   (add-to-list 'python-shell-extra-pythonpaths "~/repos/madame_web"))
 
-(use-package lsp-jedi
+(use-package lsp-pyright
   :ensure t
-  :defer t
-  :config
-  (setq lsp-pyls-plugins-pycodestyle-max-line-length 100)
-  (with-eval-after-load "lsp-mode"
-    (add-to-list 'lsp-disabled-clients 'pyls)
-    (add-to-list 'lsp-enabled-clients 'jedi)))
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+;; (use-package lsp-jedi
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (setq lsp-pyls-plugins-pycodestyle-max-line-length 100)
+;;   (with-eval-after-load "lsp-mode"
+;;     (add-to-list 'lsp-disabled-clients 'pyls)
+;;     (add-to-list 'lsp-enabled-clients 'jedi)))
 
 ;; Handle different python versions
 (use-package pyenv-mode
