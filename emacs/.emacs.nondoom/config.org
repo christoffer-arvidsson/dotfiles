@@ -279,7 +279,7 @@ Set the fonts.
   (setq evil-want-integration t
         evil-want-keybinding nil
         evil-want-C-u-scroll t
-        evil-want-C-i-jump nil
+        evil-want-C-i-jump t
         evil-want-Y-yank-to-eol t
         evil-kill-on-visual-paste nil
         evil-undo-system 'undo-tree
