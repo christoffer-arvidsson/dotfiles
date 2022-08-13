@@ -681,6 +681,7 @@ interval = 5
 
 [module/emacs-clock]
 type = custom/script
+label = %output:10:26%
 exec = ~/.config/polybar/scripts/emacs-clock/emacs_clock.sh
 interval = 1
 
