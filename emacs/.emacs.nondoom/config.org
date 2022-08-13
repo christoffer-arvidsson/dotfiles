@@ -1840,16 +1840,31 @@ PROJECT is the current project."
 #+end_src
 ** Projectile
 #+begin_src elisp
+;; (use-package projectile
+;;   :config
+;;   (eethern/leader-key-def
+;;     :keymaps 'normal
+;;     "SPC" '(projectile-find-file :wk "Find file in project")
+;;     "p" '(:ignore t :wk "project")
+;;     "p c" '(projectile-compile-project :wk "Compile project")
+;;     "p f" '(projectile-find-file :wk "Find file in project")
+;;     "p r" '(projectile-recentf :wk "Find recent file in project")
+;;     "p p" '(projectile-switch-project :wk "Switch project")
+;;     "p s" '(projectile-ripgrep :wk "Search project"))
+
+;;   (projectile-mode 1))
+
 (use-package projectile
   :config
   (eethern/leader-key-def
     :keymaps 'normal
-    "SPC" '(projectile-find-file :wk "Find file in project")
     "p" '(:ignore t :wk "project")
-    "p c" '(projectile-compile-project :wk "Compile project")
-    "p f" '(projectile-find-file :wk "Find file in project")
+    "p c" '(project-compile :wk "Compile project")
+    "p f" '(project-find-file :wk "Find file in project")
     "p r" '(projectile-recentf :wk "Find recent file in project")
-    "p p" '(projectile-switch-project :wk "Switch project"))
+    "p p" '(project-switch-project :wk "Switch project")
+    "p b" '(project-switch-to-buffer :wk "Switch to project buffer")
+    "p s" '(projectile-ripgrep :wk "Search project"))
 
   (projectile-mode 1))
 #+end_src
