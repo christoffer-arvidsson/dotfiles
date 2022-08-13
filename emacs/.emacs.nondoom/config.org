@@ -2058,6 +2058,11 @@ _k_: down      _a_: combine       _q_: quit
   "i s" 'yas-insert-snippet)
 #+end_src
 ** Languages
+*** Fish
+#+begin_src elisp
+(use-package fish-mode
+  :ensure t)
+#+end_src
 *** Python
 #+begin_src elisp
 (use-package python
