@@ -1238,8 +1238,14 @@ latex, and making the text more readable in the editor.
       org-clock-idle-time 15
       org-log-done 'time
       org-log-into-drawer t
+      org-log-state-notes-insert-after-drawers t
       org-agenda-start-with-log-mode t)
+
+(defun org-agenda-open-todos (&optional arg)
+(interactive "P")
+(org-agenda arg "t"))
 #+end_src
+
 *** Todo keywords
 #+begin_src elisp
 (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")
@@ -1551,6 +1557,7 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "X" 'org-capture
   "o a /" 'consult-org-agenda
   "o a a" 'org-agenda
+  "o a t" 'org-agenda-open-todos
   "o a l" 'org-agenda-list
 
   ;; clocks
