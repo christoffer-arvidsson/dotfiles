@@ -1274,7 +1274,7 @@ latex, and making the text more readable in the editor.
 (setq org-capture-templates
       '(("t" "Personal todo" entry
          (file+headline org-capture-todo-file "Inbox")
-         "* [ ] %?\n%i\n%a" :prepend t)
+         "* TODO %?\n%i\n%a" :prepend t)
         ("c" "To clocked task" item
          (clock)
          "- %?")
@@ -1288,7 +1288,7 @@ latex, and making the text more readable in the editor.
          "* %?" :prepend t)
         ("wt" "Work Todo" entry
          (file+headline org-capture-work-file "Todos")
-         "* [ ] %?" :prepend t)
+         "* TODO %?" :prepend t)
         ("wT" "Work Clocked Todo" entry
          (file+headline org-capture-work-file "Todos")
          "* NEXT %?" :prepend t :clock-in t)
@@ -1299,10 +1299,10 @@ latex, and making the text more readable in the editor.
         ("u" "University")
         ("ub" "Bioinformatics" entry
          (file+headline org-capture-todo-file "Bioinformatics")
-         "* [ ] %u %? \n%i\n%a" :prepend t)
+         "* TODO %u %? \n%i\n%a" :prepend t)
         ("un" "Natural language processing" entry
          (file+headline org-capture-todo-file "Natural language processing")
-         "* [ ] %u %? \n%i\n%a" :prepend t)
+         "* TODO %u %? \n%i\n%a" :prepend t)
         ("d" "Drill")
         ("db" "Bioinformatics" entry
          (file+headline org-drill-file "Bioinformatics")
@@ -1315,30 +1315,38 @@ latex, and making the text more readable in the editor.
          (file+headline org-capture-todo-file "Project ideas"))
         ("pt" "Project todo" entry
          (file+headline org-capture-todo-file "Project todos")
-         "* [ ] %u %?\n%i\n%a" :prepend t)))
+         "* TODO %u %?\n%i\n%a" :prepend t)))
 #+end_src
 
 *** Clock select task
 #+begin_src elisp
-(defun eethern/org-clock-in-select-recent ()
-  """Select recent clock to clock in."""
-  (interactive)
-  (let (res)
-    (dolist (i org-clock-history)
-      (with-current-buffer
-      (org-base-buffer (marker-buffer i))
-    (org-with-wide-buffer
-     (ignore-errors
-       (goto-char (marker-position i))
-       (push `(,(org-get-heading 'notags) . ,i) res)))))
-    (let* ((l (reverse (mapcar 'car res)))
-       (task (cdr (assoc (completing-read "Recent Clocks: " l) res))))
-      (when task
-    (with-current-buffer
-        (org-base-buffer (marker-buffer task))
-      (org-with-wide-buffer
-       (goto-char (marker-position task))
-       (org-clock-in)))))))
+;;; To save the clock history across Emacs sessions, use
+(use-package org-mru-clock
+  :after org
+  :custom
+  (org-mru-clock-keep-formatting t)
+  (org-mru-clock-how-many 100)
+  (org-mru-clock-completing-read #'completing-read-default))
+
+;; (defun eethern/org-clock-in-select-recent ()
+;;   """Select recent clock to clock in."""
+;;   (interactive)
+;;   (let (res)
+;;     (dolist (i org-clock-history)
+;;       (with-current-buffer
+;;       (org-base-buffer (marker-buffer i))
+;;     (org-with-wide-buffer
+;;      (ignore-errors
+;;        (goto-char (marker-position i))
+;;        (push `(,(org-get-heading 'notags) . ,i) res)))))
+;;     (let* ((l (reverse (mapcar 'car res)))
+;;        (task (cdr (assoc (completing-read "Recent Clocks: " l) res))))
+;;       (when task
+;;     (with-current-buffer
+;;         (org-base-buffer (marker-buffer task))
+;;       (org-with-wide-buffer
+;;        (goto-char (marker-position task))
+;;        (org-clock-in)))))))
 #+end_src
 *** Set todo on clock out
 #+begin_src elisp
