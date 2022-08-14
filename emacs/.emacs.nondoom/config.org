@@ -1557,8 +1557,9 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "o a l" 'org-agenda-list
 
   ;; clocks
-  "c r" 'eethern/org-clock-in-select-recent
+  "c r" 'org-mru-clock-in
   "c g" 'org-clock-goto
+  "c G" 'org-mru-clock-goto
   "c c" 'org-clock-cancel
   "c l" 'org-clock-in-last
   "c o" 'org-clock-out)
