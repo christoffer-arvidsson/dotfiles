@@ -76,6 +76,7 @@ Use straight.el
 (setq user-full-name "Christoffer Arvidsson"
       user-mail-address "christoffer@arvidson.nu")
 #+end_src
+* UI
 ** User Interface
 Hide ugly gui elements.
 #+begin_src elisp
@@ -161,36 +162,6 @@ Set the fonts.
   (eethern/set-font-faces))
 #+end_src
 
-** Home buffer
-#+begin_src elisp
-(defun my/dashboard-banner ()
-  """Set a dashboard banner including information on package initialization
-       time and garbage collections."""
-  (setq dashboard-banner-logo-title
-        (format "Emacs ready in %.2f seconds with %d garbage collections."
-                (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
-
-(use-package dashboard
-  :init
-  (add-hook 'after-init-hook 'dashboard-refresh-buffer)
-  (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
-  :config
-  (setq dashboard-startup-banner 'logo
-        dashboard-center-content t
-        dashboard-set-heading-icons t
-        dashboard-set-file-icons t
-        dashboard-set-navigator t
-        dashboard-items '((recents . 5)
-                          (bookmarks . 5)
-                          (projects . 5)
-                          (agenda . 5)
-                          (registers . 5)))
-  
-  (dashboard-setup-startup-hook))
-
-;; Makes emacsclient default to the dashboard
-(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-#+end_src
 ** Icons
 #+begin_src elisp
 (use-package all-the-icons
@@ -621,6 +592,36 @@ instead.
 (setq split-height-threshold  nil)
 #+end_src
 * File and buffer
+** Home buffer
+#+begin_src elisp
+(defun my/dashboard-banner ()
+  """Set a dashboard banner including information on package initialization
+       time and garbage collections."""
+  (setq dashboard-banner-logo-title
+        (format "Emacs ready in %.2f seconds with %d garbage collections."
+                (float-time (time-subtract after-init-time before-init-time)) gcs-done)))
+
+(use-package dashboard
+  :init
+  (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+  (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
+  :config
+  (setq dashboard-startup-banner 'logo
+        dashboard-center-content t
+        dashboard-set-heading-icons t
+        dashboard-set-file-icons t
+        dashboard-set-navigator t
+        dashboard-items '((recents . 5)
+                          (bookmarks . 5)
+                          (projects . 5)
+                          (agenda . 5)
+                          (registers . 5)))
+  
+  (dashboard-setup-startup-hook))
+
+;; Makes emacsclient default to the dashboard
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+#+end_src
 ** Default applications
 #+begin_src elisp
 (setq browse-url-browser-function 'browse-url-firefox)
@@ -1828,14 +1829,44 @@ PROJECT is the current project."
     "o e" '(eshell-toggle :wk "Toggle eshell")
     "o t" '(vterm :wk "Open terminal"))
 #+end_src
-** Calc
+** Apps
+*** Calc
 #+begin_src elisp
 (eethern/leader-key-def
   :keymaps 'normal
   "o c" '(quick-calc :wk "Open quick calculator")
   "o C" '(calc :wk "Open full calculator"))
 #+end_src
-** Projectile
+** Project
+#+begin_src elisp
+(use-package dumb-jump
+    :ensure t
+    :custom
+    (dumb-jump-prefer-searcher 'rg)
+    :config
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+#+end_src
+
+#+begin_src elisp
+(use-package rg
+    :ensure t
+    :config
+   (rg-enable-default-bindings))
+#+end_src
+*** Consult
+#+begin_src elisp
+(use-package consult
+  :demand t
+  :config
+  (autoload 'projectile-project-root "projectile")
+  (setq consult-project-root-function #'projectile-project-root)
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "f r" '(consult-recent-file :wk "Recent files")
+    "b b" '(consult-buffer :wk "Switch buffer")
+    "s i" '(consult-imenu :wk "Jump to symbol")))
+#+end_src
+*** Projectile
 #+begin_src elisp
 ;; (use-package projectile
 ;;   :config
@@ -1864,35 +1895,6 @@ PROJECT is the current project."
     "p s" '(projectile-ripgrep :wk "Search project"))
 
   (projectile-mode 1))
-#+end_src
-** Consult
-#+begin_src elisp
-(use-package consult
-  :demand t
-  :config
-  (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root)
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "f r" '(consult-recent-file :wk "Recent files")
-    "b b" '(consult-buffer :wk "Switch buffer")
-    "s i" '(consult-imenu :wk "Jump to symbol")))
-#+end_src
-** Codebase navigation
-#+begin_src elisp
-(use-package dumb-jump
-    :ensure t
-    :custom
-    (dumb-jump-prefer-searcher 'rg)
-    :config
-    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-#+end_src
-
-#+begin_src elisp
-(use-package rg
-    :ensure t
-    :config
-   (rg-enable-default-bindings))
 #+end_src
 ** Version control
 *** Magit
