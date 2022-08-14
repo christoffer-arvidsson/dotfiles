@@ -1393,18 +1393,6 @@ latex, and making the text more readable in the editor.
                       org-clock-heading)
     ""))
 #+end_src
-*** Clock analyzer
-#+begin_src elisp
-(use-package org-analyzer
-  :ensure org)
-
-;; Adjust TODO after clocking out
-(add-hook 'org-clock-out-hook
-          (lambda ()
-            (org-todo
-             (upcase
-              (completing-read "Task status" '("done" "todo" "wait" "cancelled"))))))
-#+end_src
 ** ipynnb
 #+begin_src elisp
 (use-package ox-ipynb
