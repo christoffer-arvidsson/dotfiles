@@ -362,7 +362,7 @@ Set the fonts.
 *** Persist history
 #+begin_src elisp
 (use-package savehist
-  :config
+  :init
   (savehist-mode))
 #+end_src
 
