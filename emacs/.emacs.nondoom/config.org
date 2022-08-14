@@ -1,5 +1,4 @@
 #+title: Emacs config
-#+startup: overview
 #+property: header-args:elisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
 #+property: header-args:emacs-lisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
 #+auto_tangle: t
