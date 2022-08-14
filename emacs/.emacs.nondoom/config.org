@@ -124,6 +124,10 @@ Line numbers.
   (load-theme 'doom-horizon t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+;; brighter line numbers
+(custom-set-faces
+  `(line-number ((t (:foreground ,(doom-color 'magenta))))))
 #+end_src
 
 #+begin_src elisp
