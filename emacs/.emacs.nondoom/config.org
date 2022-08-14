@@ -595,6 +595,16 @@ instead.
 (setq split-width-threshold 0)
 (setq split-height-threshold  nil)
 #+end_src
+** Bookmarks
+#+begin_src elisp
+(setq bookmark-default-file "~/.emacs.d/bookmarks")  ;;define file to use.
+(setq bookmark-save-flag 1)  ;save bookmarks to .emacs.bmk after each entry
+
+(eethern/leader-key-def
+  :keymaps 'normal
+  "RET" 'consult-bookmark)
+)
+#+end_src
 * File and buffer
 ** Home buffer
 #+begin_src elisp
