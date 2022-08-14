@@ -1971,10 +1971,18 @@ _k_: down      _a_: combine       _q_: quit
 
 *** Git gutter
 #+begin_src elisp
-(use-package git-gutter
-  :hook
-  (prog-mode . git-gutter-mode)
-  (text-mode . git-gutter-mode))
+(use-package git-gutter-fringe
+  :config
+  ;; places the git gutter outside the margins.
+  (setq-default fringes-outside-margins t)
+  ;; thin fringe bitmaps
+  (define-fringe-bitmap 'git-gutter-fr:added [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
+    nil nil 'bottom)
+  (global-git-gutter-mode +1))
 #+end_src
 ** Syntax checking
 *** LSP
