@@ -315,9 +315,9 @@ Set the fonts.
 (use-package orderless
   :after company
   :custom
-  (completion-styles '(orderless))
+  (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-overrides '((file (styles basic partial-completion))))
   (orderless-component-separator "[ &]")
   :config
   (advice-add 'company-capf--candidates :around #'just-one-face))
