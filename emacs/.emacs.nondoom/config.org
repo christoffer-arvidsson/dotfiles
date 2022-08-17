@@ -1420,24 +1420,23 @@ latex, and making the text more readable in the editor.
 (setq mixed-pitch-fixed-pitch-faces
       (quote (line-number-current-line line-number font-lock-comment-face org-done org-todo org-todo-keyword-outd org-todo-keyword-kill org-todo-keyword-wait org-todo-keyword-done org-todo-keyword-habt org-todo-keyword-todo org-tag org-ref-cite-face org-property-value org-special-keyword org-date diff-added org-drawer diff-context diff-file-header diff-function diff-header diff-hunk-header diff-removed font-latex-math-face font-latex-sedate-face font-latex-warning-face font-latex-sectioning-5-face font-lock-builtin-face font-lock-comment-delimiter-face font-lock-constant-face font-lock-doc-face font-lock-function-name-face font-lock-keyword-face font-lock-negation-char-face font-lock-preprocessor-face font-lock-regexp-grouping-backslash font-lock-regexp-grouping-construct font-lock-string-face font-lock-type-face font-lock-variable-name-face markdown-code-face markdown-gfm-checkbox-face markdown-inline-code-face markdown-language-info-face markdown-language-keyword-face markdown-math-face message-header-name message-header-to message-header-cc message-header-newsgroups message-header-xheader message-header-subject message-header-other mu4e-header-key-face mu4e-header-value-face mu4e-link-face mu4e-contact-face mu4e-compose-separator-face mu4e-compose-header-face org-block org-block-begin-line org-block-end-line org-document-info-keyword org-code org-indent org-latex-and-related org-checkbox org-formula org-meta-line org-table org-verbatim)))
 
-(setq org-agenda-block-separator (string-to-char " "))
-(setq org-agenda-format-date 'my-org-agenda-format-date-aligned)
-(setq org-agenda-block-separator nil)
-(setq org-agenda-start-with-entry-text-mode t)
-(setq org-habit-today-glyph ?◌)
-(setq org-habit-graph-column 40)
-(setq org-habit-following-days 1)
-(setq org-habit-show-habits t)
-(setq org-habit-completed-glyph ?●)
-(setq org-habit-preceding-days 10)
-(setq org-habit-show-habits-only-for-today t)
-(setq org-habit-missed-glyph ?○)
-(setq org-agenda-hidden-separator "‌‌ ")
-(setq 
-  org-fontify-done-headline t
-  org-fontify-whole-heading-line t
-  org-fontify-quote-and-verse-blocks t)
+(setq org-agenda-block-separator (string-to-char " ")
+      org-agenda-block-separator nil
+      org-agenda-start-with-entry-text-mode t
+      org-habit-today-glyph ?◌
+      org-habit-graph-column 40
+      org-habit-following-days 1
+      org-habit-show-habits t
+      org-habit-completed-glyph ?●
+      org-habit-preceding-days 10
+      org-habit-show-habits-only-for-today t
+      org-habit-missed-glyph ?○
+      org-agenda-hidden-separator "‌‌ "
+      org-fontify-done-headline t
+      org-fontify-whole-heading-line t
+      org-fontify-quote-and-verse-blocks t)
 
+;; Make the entries nicer looking
 (custom-set-faces
   `(org-agenda-done ((t (:foreground ,(doom-color 'teal))))))
 
