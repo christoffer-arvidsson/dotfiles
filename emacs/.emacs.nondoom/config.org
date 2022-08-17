@@ -602,7 +602,6 @@ instead.
 (eethern/leader-key-def
   :keymaps 'normal
   "RET" 'consult-bookmark)
-)
 #+end_src
 * File and buffer
 ** Home buffer
