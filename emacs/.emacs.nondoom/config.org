@@ -1532,7 +1532,7 @@ latex, and making the text more readable in the editor.
                       (org-agenda-timegrid-use-ampm nil)
                       (org-agenda-skip-timestamp-if-done t)
                       (org-agenda-skip-deadline-if-done t)
-                      (org-agenda-entry-text-leaders " hi")
+                     (org-agenda-entry-text-leaders "")
                       (org-agenda-start-day "+0d")
                       (org-agenda-span 2)
                       (org-agenda-log-mode-items '(clock))
