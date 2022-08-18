@@ -1440,7 +1440,9 @@ latex, and making the text more readable in the editor.
 
 (setq org-agenda-block-separator (string-to-char " ")
       org-agenda-block-separator nil
-      org-agenda-start-with-entry-text-mode t
+     org-agenda-start-with-entry-text-mode nil
+      org-agenda-breadcrumbs-separator " ❱ "
+      org-agenda-entry-text-leaders "        "
       org-habit-today-glyph ?◌
       org-habit-graph-column 40
       org-habit-following-days 1
@@ -1536,9 +1538,9 @@ latex, and making the text more readable in the editor.
                       (org-agenda-start-day "+0d")
                       (org-agenda-span 2)
                       (org-agenda-log-mode-items '(clock))
-                      (org-agenda-overriding-header "⚡ Calendar")
+                     (org-agenda-overriding-header "\n⚡ Calendar")
                       (org-agenda-remove-tags t)
-                      (org-agenda-prefix-format "   %i %?-2 t %?-8T %s")
+                      (org-agenda-prefix-format "    %i %?-2 t %?-8T %s")
                       ;; (org-agenda-prefix-format "  %-3i  %-15b%t %s")
                       ;; (concat "  %-3i  %-15b %t%s" org-agenda-hidden-separator))
                       ;; (org-agenda-todo-keyword-format " ☐ ")
@@ -1555,28 +1557,27 @@ latex, and making the text more readable in the editor.
                                            (org-agenda-remove-tags t)
                                            ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                                            (org-agenda-todo-ignore-scheduled 'all)
-                                           (org-agenda-prefix-format "   %-2i %?b")))
-
+                                           (org-agenda-prefix-format "   %-2i ")))
           (tags "+CATEGORY=\"work\"+TODO=\"NEXT\"" (
                                            (org-agenda-overriding-header "\n⚡ Next")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            (org-agenda-todo-ignore-scheduled 'all)
-                                           (org-agenda-prefix-format "   %-2i %?b")
-                                           (org-agenda-todo-keyword-format "")))
+                                           (org-agenda-todo-keyword-format "")
+                                           (org-agenda-prefix-format "    %-2i ")))
           (tags "+CATEGORY=\"work\"+TODO=\"WAIT\"" (
                                            (org-agenda-overriding-header "\n⚡ Waiting")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            (org-agenda-todo-ignore-scheduled 'all)
-                                           (org-agenda-prefix-format "   %-2i %?b")))
+                                           (org-agenda-prefix-format "    %-2i ")))
 
           (tags "LEVEL>1+project+CATEGORY=\"work\"" (
                                               (org-agenda-overriding-header "\n⚡ Projects")
                                              (org-agenda-remove-tags t)
                                              (org-tags-match-list-sublevels 'indentend)
                                              (org-agenda-show-inherited-tags nil)
-                                             (org-agenda-prefix-format "%l%l")))))))
+                                            (org-agenda-prefix-format "%l%l%i ")))))))
 #+end_src
 
 ** ipynnb
