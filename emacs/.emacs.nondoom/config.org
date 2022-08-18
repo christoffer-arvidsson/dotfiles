@@ -1246,7 +1246,13 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
+
 (setq org-agenda-files (list org-capture-todo-file org-capture-work-file)
+      org-refile-targets '((org-agenda-files :maxlevel . 2))
+      org-refile-allow-creating-parent-nodes 'confirm
+      org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil
+      
       org-habit-graph-column 60
       ;; org-clock-idle-time 15
       org-log-done 'time
@@ -1293,6 +1299,14 @@ latex, and making the text more readable in the editor.
 ;; This hook makes %? go into insert mode!
 (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
+(defun eethern/org-capture-to-project-heading ()
+(interactive)
+  (let ((projects
+          (org-map-entries `(lambda () (nth 4 (org-heading-components)))
+                           "+project+LEVEL=2" (list org-capture-work-file))))
+    (setq choice (completing-read "Project: " projects nil t nil nil))
+    (org-capture-set-target-location (list 'file+headline org-capture-work-file choice))))
+
 (setq org-capture-templates
       '(("t" "Personal todo" entry
          (file+headline org-capture-todo-file "Inbox")
@@ -1303,7 +1317,7 @@ latex, and making the text more readable in the editor.
         ("j" "Journal" entry
          (file+datetree org-capture-journal-file)
          "* %U %?" :prepend t)
-        
+
         ("w" "Work")
         ("ww" "Work inbox" entry
          (file+headline org-capture-work-file "Inbox")
@@ -1316,8 +1330,12 @@ latex, and making the text more readable in the editor.
          "* NEXT %?" :prepend t :clock-in t)
         ("wm" "Work Meeting notes" entry
          (file+headline org-capture-work-file "Meeting notes")
-         "* %U %?\n" :prepend t :clock-in t)
-        
+         "* %?\n<%<%Y-%m-%d %a %H:00>>" :prepend t :clock-in t)
+        ("wp" "Project Todo" entry (file+function org-capture-work-file eethern/org-capture-to-project-heading)
+                                "* TODO %?\n" :prepend t)
+        ("wP" "Project Todo Clocked" entry (file+function org-capture-work-file eethern/org-capture-to-project-heading)
+                                "* TODO %?\n" :prepend t :clock-in t)
+
         ("u" "University")
         ("ub" "Bioinformatics" entry
          (file+headline org-capture-todo-file "Bioinformatics")
@@ -1531,8 +1549,8 @@ latex, and making the text more readable in the editor.
                       (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
                       (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
 
-          (tags "+CATEGORY=\"work\"+TODO=\"TODO\"" (
-                                           (org-agenda-overriding-header "\n⚡ To Do")
+          (tags "+CATEGORY=\"work\"+TODO=\"TODO\"-project" (
+                                           (org-agenda-overriding-header "\n⚡ Inbox")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
@@ -1553,14 +1571,14 @@ latex, and making the text more readable in the editor.
                                            (org-agenda-todo-ignore-scheduled 'all)
                                            (org-agenda-prefix-format "   %-2i %?b")))
 
-          (tags "+project+CATEGORY=\"work\"" (
+          (tags "LEVEL>1+project+CATEGORY=\"work\"" (
                                               (org-agenda-overriding-header "\n⚡ Projects")
-                                              (org-agenda-remove-tags t)
-                                              (org-tags-match-list-sublevels nil)
-                                              (org-agenda-show-inherited-tags nil)
-                                              (org-agenda-prefix-format "   %-2i %?b")
-                                              (org-agenda-todo-keyword-format "")))))))
+                                             (org-agenda-remove-tags t)
+                                             (org-tags-match-list-sublevels 'indentend)
+                                             (org-agenda-show-inherited-tags nil)
+                                             (org-agenda-prefix-format "%l%l")))))))
 #+end_src
+
 ** ipynnb
 #+begin_src elisp
 (use-package ox-ipynb
