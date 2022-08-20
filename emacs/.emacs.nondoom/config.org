@@ -2098,6 +2098,9 @@ PROJECT is the current project."
     :keymaps 'normal
     "g" '(:ignore t :wk "git")
     "g g" '(magit-status :wk "Magit status")))
+
+; needed for magit to grab keys
+(setenv SSH_AUTH_SOCK RET /run/user/1000/keyring/ssh)
 #+end_src
 
 *** smerge
