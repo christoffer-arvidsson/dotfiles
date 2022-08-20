@@ -76,6 +76,7 @@ elif [ "$(hostname)" = "ucnd1387l61" ]; then
     run dropbox start &
     run slack &
     run teams &
+    run zotero --headless &
 fi
 
 feh --bg-scale ~/.dotfiles/.img/space.jpg 
