@@ -1360,33 +1360,51 @@ latex, and making the text more readable in the editor.
 
 *** Clock select task
 #+begin_src elisp
-;;; To save the clock history across Emacs sessions, use
-(use-package org-mru-clock
-  :after org
-  :custom
-  (org-mru-clock-keep-formatting t)
-  (org-mru-clock-how-many 100)
-  (org-mru-clock-completing-read #'completing-read-default))
+(setq org-clock-persist t)
+(with-eval-after-load 'org
+  (org-clock-persistence-insinuate))
 
-;; (defun eethern/org-clock-in-select-recent ()
-;;   """Select recent clock to clock in."""
-;;   (interactive)
-;;   (let (res)
-;;     (dolist (i org-clock-history)
-;;       (with-current-buffer
-;;       (org-base-buffer (marker-buffer i))
-;;     (org-with-wide-buffer
-;;      (ignore-errors
-;;        (goto-char (marker-position i))
-;;        (push `(,(org-get-heading 'notags) . ,i) res)))))
-;;     (let* ((l (reverse (mapcar 'car res)))
-;;        (task (cdr (assoc (completing-read "Recent Clocks: " l) res))))
-;;       (when task
-;;     (with-current-buffer
-;;         (org-base-buffer (marker-buffer task))
-;;       (org-with-wide-buffer
-;;        (goto-char (marker-position task))
-;;        (org-clock-in)))))))
+(defun consult-clock-in ()
+  "Clock into an Org agenda heading."
+  (interactive)
+  (save-window-excursion
+    (consult-org-agenda)
+    (org-clock-in)))
+
+(defun consult-clock-in-recent (&optional match scope resolve)
+  "Clock into an Org heading."
+  (interactive (list nil nil current-prefix-arg))
+  (require 'org-clock)
+  (org-clock-load)
+  (save-window-excursion
+    (consult-org-heading
+     match
+     (or scope
+         (thread-last org-clock-history
+                      (mapcar 'marker-buffer)
+                      (mapcar 'buffer-file-name)
+                      (delete-dups)
+                      (delq nil))
+         (user-error "No recent clocked tasks")))
+    (org-clock-in nil (when resolve
+                        (org-resolve-clocks)
+                        (org-read-date t t)))))
+
+(with-eval-after-load 'consult
+  (consult-customize consult-clock-in
+                     :prompt "Clock in: "
+                     :preview-key (kbd "M-."))
+  (consult-customize consult-clock-in-recent
+                     :prompt "Clock in: "
+                     :preview-key (kbd "M-.")
+                     :group
+                     (lambda (cand transform)
+                       (let* ((marker (get-text-property 0 'consult--candidate cand))
+                              (name (if (member marker org-clock-history)
+                                        "*Recent*"
+                                      (buffer-name (marker-buffer marker)))))
+                         (if transform (substring cand (1+ (length name))) name)))))
+
 #+end_src
 *** Set todo on clock out
 #+begin_src elisp
@@ -1730,11 +1748,10 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "c c" 'org-clock-cancel
   "c e" 'org-clock-modify-effort-esimate
   "c g" 'org-clock-goto
-  "c i" 'org-clock-in
-  "c l" 'org-clock-in-last
+ "c i" 'org-clock-in
+ "c l" 'org-clock-in-last
   "c o" 'org-clock-out
-  "c r" 'eethern/org-clock-in-select-recent
-  "c R" 'org-clock-report)
+ "c R" 'org-clock-report)
 
 (eethern/leader-key-def
   "X" 'org-capture
@@ -1744,11 +1761,11 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
   "o a w" 'org-agenda-open-work
   "o a p" 'org-agenda-open-personal
 
-  ;; clocks
-  "c r" 'org-mru-clock-in
+ ;; clocks
+ "c i" 'consult-clock-in
+ "c r" 'consult-clock-in
   "c g" 'org-clock-goto
-  "c G" 'org-mru-clock-goto
-  "c c" 'org-clock-cancel
+ "c c" 'org-clock-cancel
   "c l" 'org-clock-in-last
   "c o" 'org-clock-out)
 
