@@ -1900,7 +1900,7 @@ PROJECT is the current project."
 (require 'citar)
 (defun eethern/org-roam-node-from-cite (keys-entries)
   (citar-refresh)
-  (interactive (list (citar-select-ref :multiple nil :rebuild-cache t)))
+  (interactive (list (citar-select-ref)))
   (let ((title (citar--format-entry-no-widths (cdr keys-entries)
                                               "${author editor} :: ${title}")))
     (org-roam-capture- :templates
@@ -2043,8 +2043,8 @@ PROJECT is the current project."
 
 #+begin_src elisp
 (use-package project
-:config
-(add-to-list 'project-switch-commands '(magit-project-status "Magit")))
+  :config
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 #+end_src
 *** Consult
 #+begin_src elisp
