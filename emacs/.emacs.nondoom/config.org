@@ -2061,6 +2061,7 @@ PROJECT is the current project."
 #+begin_src elisp
 (use-package project
   :config
+  (define-key project-prefix-map "m" #'magit-project-status)
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 #+end_src
 *** Consult
