@@ -5,10 +5,10 @@
 killall polybar
 
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar >/dev/null
-do
-    sleep 0.1
-done
+# while pgrep -u $UID -x polybar >/dev/null
+# do
+#     sleep 0.1
+# done
 
 # determine if this is a laptop
 acpi | grep Battery > /dev/null 2> /dev/null
@@ -40,5 +40,3 @@ do
 done
 
 echo "Bars launched..."
-
-# notify-send -u low "autorandr: restarted polybar"

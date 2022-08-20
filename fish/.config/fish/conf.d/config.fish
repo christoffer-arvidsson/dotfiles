@@ -76,9 +76,9 @@ set -U fish_pager_color_prefix        'white' '--bold' '--underline'
 set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 
 # alias
-alias ls="exa -l"
-alias cat="bat"
-alias doom="~/.emacs.doom/bin/doom"
+#alias ls="exa -l"
+#alias cat="bat"
+#alias doom="~/.emacs.doom/bin/doom"
 
 # Work aliase
 # function brun
@@ -101,5 +101,5 @@ alias doom="~/.emacs.doom/bin/doom"
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # pyenv
-status --is-interactive; and pyenv init - | source
-status --is-interactive; and pyenv virtualenv-init - | source
+# status --is-interactive; and pyenv init - | source
+# status --is-interactive; and pyenv virtualenv-init - | source

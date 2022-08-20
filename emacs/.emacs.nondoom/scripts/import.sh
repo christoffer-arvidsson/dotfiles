@@ -6,7 +6,7 @@ WGET=wget
 ICS2ORG=./ical2org.awk
 ICSFILE=./test.ics
 ORGFILE=./test.org
-URL=https://cloud.timeedit.net/chalmers/web/public/ri6Y73QQZ65Zn1Q14853Q6Z75640y.ics
+URL=https://outlook.office365.com/owa/calendar/f63aaf79ff554ae79b80595a576995f8@zenseact.com/c9dc46005e094eaa8dd2425b0e678be1389213827165747739/calendar.ics
 
 # no customization needed below
 

@@ -28,7 +28,7 @@ inactive = #55BFA89E
 
 [settings]
 screenchange-reload = true
-pseudo-transparency = true
+pseudo-transparency = false
 ;compositing-background = xor
 ;compositing-background = screen
 ;compositing-foreground = source
@@ -143,9 +143,9 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth
+modules-left = spotify spotify-prev spotify-play-pause spotify-next
 modules-center = bspwm
-modules-right = emacs-clock bspwm-modes do-not-disturb volume filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
+modules-right = bspwm-modes do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -185,7 +185,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left =
 modules-center = bspwm
-modules-right = bspwm-modes temperature date time powermenu
+modules-right = emacs-clock bspwm-modes temperature date time powermenu
 
 wm-restack = bspwm
 
@@ -368,10 +368,10 @@ label-unmounted-foreground = ${colors.top-foreground}
 
 [module/backlight]
 type = internal/backlight
-card = intel_backlight
+card = nvidia_0
+enable-scroll = true
 
 format = <ramp> <bar>
-
 
 ramp-0 = 
 ramp-font = 2
@@ -470,28 +470,28 @@ type = internal/date
 interval = 1
 
 time = " %H:%M"
-time-alt = "%H:%M:%S"
+time-alt = " %H:%M:%S"
 
 format-prefix-foreground = ${colors.top-foreground}
 format-underline = ${colors.top-foreground}
 
 format = <label>
 label = %time%
-label-font = 2
+label-font = 1
 
 [module/date]
 type = internal/date
 interval = 1
 
 date = " %a %e %b"
-; date-alt = " %Y-%m-%d"
+date-alt = " %Y-%m-%d"
 
 format-prefix-foreground = ${colors.top-foreground}
 format-underline = ${colors.top-foreground}
 
 format =%{A1:gsimplecal:} <label> %{A}
 label = %date%
-label-font = 2
+label-font = 1
 
 click-left = exec gsimplecal
 
@@ -615,28 +615,6 @@ menu-0-2 = logout
 menu-0-2-exec = bspc quit
 menu-0-3 = kitty
 menu-0-3-exec = kitty
-
-; menu-0-0 = reboot
-; menu-0-0-exec = menu-open-1
-; menu-0-1 = power off
-; menu-0-1-exec = menu-open-2
-; menu-0-2 = log out
-; menu-0-2-exec = menu-open-3
-
-; menu-1-0 = cancel
-; menu-1-0-exec = menu-open-0
-; menu-1-1 = reboot
-; menu-1-1-exec = reboot
-
-; menu-2-0 = power off
-; menu-2-0-exec = poweroff
-; menu-2-1 = cancel
-; menu-2-1-exec = menu-open-0
-
-; menu-3-0 = log out
-; menu-3-0-exec = bspc quit
-; menu-3-1 = cancel
-; menu-3-1-exec = menu-open-0
 
 [module/openweathermap-fullfeatured]
 type = custom/script

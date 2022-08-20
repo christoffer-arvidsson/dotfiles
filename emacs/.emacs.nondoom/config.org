@@ -80,7 +80,7 @@ Use straight.el
 Hide ugly gui elements.
 #+begin_src elisp
 (defun my/disable-scroll-bars (frame)
-  (load-theme 'doom-horizon t)
+  ;; (load-theme 'doom-horizon t)
   (modify-frame-parameters frame
                            '((vertical-scroll-bars . nil)
                              (horizontal-scroll-bars . nil))))
@@ -110,6 +110,14 @@ Line numbers.
 
 ** Theme
 #+begin_src elisp
+(use-package solaire-mode
+  :defer t
+  :ensure t
+  :config
+  (solaire-global-mode +1))
+#+end_src
+
+#+begin_src elisp
 (use-package doom-themes
   :ensure t
   :custom
@@ -127,13 +135,6 @@ Line numbers.
 ;; brighter line numbers
 (custom-set-faces
   `(line-number ((t (:foreground ,(doom-color 'magenta))))))
-#+end_src
-
-#+begin_src elisp
-(use-package solaire-mode
-  :ensure t
-  :config
-  (solaire-global-mode +1))
 #+end_src
 
 ** Font
@@ -963,9 +964,9 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
 #+begin_src elisp
 (use-package org-modern
   :after org
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda)
+  ;; :hook
+  ;; (org-mode . org-modern-mode)
+  ;; (org-agenda-finalize . org-modern-agenda)
   :custom
   (org-modern-hide-stars nil)
   (org-modern-label-border 1)
@@ -1246,7 +1247,6 @@ latex, and making the text more readable in the editor.
 #+begin_src elisp
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
-
 (setq org-agenda-files (list org-capture-todo-file org-capture-work-file)
       org-refile-targets '((org-agenda-files :maxlevel . 2))
       org-refile-allow-creating-parent-nodes 'confirm
@@ -2040,6 +2040,12 @@ PROJECT is the current project."
     :config
    (rg-enable-default-bindings))
 #+end_src
+
+#+begin_src elisp
+(use-package project
+:config
+(add-to-list 'project-switch-commands '(magit-project-status "Magit")))
+#+end_src
 *** Consult
 #+begin_src elisp
 (use-package consult
@@ -2094,24 +2100,6 @@ PROJECT is the current project."
     "g g" '(magit-status :wk "Magit status")))
 #+end_src
 
-#+begin_src elisp
-(use-package gerrit
-  :ensure t
-  :custom
-  (gerrit-host "gerrit.cicd.autoheim.net")  ;; is needed for REST API calls
-  :config
-  (progn
-    (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t))
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "g r" '(:ignore t :wk "review")
-    "g r r" '(gerrit-dashboard :wk "Gerrit dashboard")
-    "g r u" '(gerrit-upload-transient :wk "Gerrit upload")
-    "g r d" '(gerrit-download-transient :wk "Gerrit download")))
-
-  ;; (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
-  ;; (global-set-key (kbd "C-x o") 'gerrit-download)))
-#+end_src
 *** smerge
 #+begin_src elisp
 (use-package hydra)
@@ -2170,6 +2158,42 @@ _k_: down      _a_: combine       _q_: quit
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
     nil nil 'bottom)
   (global-git-gutter-mode +1))
+#+end_src
+*** egerrit
+#+begin_src elisp
+;; (add-to-list 'load-path (expand-file-name "~/.emacs.nondoom/private/"))
+;; (use-package egerrit
+;;   :straight (:type git :host nil :repo "https://git.sr.ht/~niklaseklund/egerrit")
+;;   :commands egerrit-dashboard
+;;   :custom
+;;   (egerrit-request-url "https://gerrit.cicd.autoheim.net/")
+;;   (egerrit-project-roots
+;;         '((:name "src" :code-repo "~/repos/src")
+;;           (:name "mw" :code-repo "~/repos/madame-web")))
+;;   )
+
+;; (use-package zenutil
+;;   :straight nil
+;;   :load-path "private/emacs/packages/zenutil"
+;;   :ensure nil)
+
+;; (use-package zengerrit
+;;   :load-path "private/emacs/packages/zengerrit"
+;;   :straight nil
+;;   :ensure nil
+;;   :after egerrit
+;;   :config
+  ;; The certificate file is important in order for the Zuul integration to work
+  ;; (setq zengerrit-zuul-ca-certificate
+  ;;       (let* ((ca-certificate-directory "~/repos/src/support/ci_helpers")
+  ;;              (default-directory ca-certificate-directory))
+  ;;         (thread-last (directory-files ".")
+  ;;                      (seq-find
+  ;;                       (lambda (file)
+  ;;                         (string-match "\.crt" file)))
+  ;;                      (expand-file-name))))
+  ;; (zengerrit-setup))
+
 #+end_src
 ** Syntax checking
 *** LSP
@@ -2469,32 +2493,32 @@ Completion uses =LSP= with =rust-analyzer=, see the =LSP= section.
 (use-package realgud
   :ensure t)
 
-(use-package dap-mode
-  :ensure t :after lsp-mode
-  :config
-  (require 'dap-python)
-  (require 'dap-ui)
-  (setq dap-python-debugger 'debugpy)
-  (setq dap-auto-configure-features '(sessions locals controls tooltip))
-  (add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra)))
-  ;; (dap-register-debug-template "Patch selection"
-  ;;   (list :type "python"
-  ;;         :args (list "configs/embed_small.yaml")
-  ;;         :cwd nil
-  ;;         :env '(("DEBUG" . "1") ("CUDA_LAUNCH_BLOCKING" . "1"))
-  ;;         :target-module (expand-file-name "~/repos/madame-web/projects/master_theses/thesis_patch_similarity_search/construct_index.py")
-  ;;         :request "launch"
-  ;;         :name "batch_patch"))
+;; (use-package dap-mode
+;;   :ensure t :after lsp-mode
+;;   :config
+;;   (require 'dap-python)
+;;   (require 'dap-ui)
+;;   (setq dap-python-debugger 'debugpy)
+;;   (setq dap-auto-configure-features '(sessions locals controls tooltip))
+;;   (add-hook 'dap-stopped-hook
+;;           (lambda (arg) (call-interactively #'dap-hydra)))
+;;   ;; (dap-register-debug-template "Patch selection"
+;;   ;;   (list :type "python"
+;;   ;;         :args (list "configs/embed_small.yaml")
+;;   ;;         :cwd nil
+;;   ;;         :env '(("DEBUG" . "1") ("CUDA_LAUNCH_BLOCKING" . "1"))
+;;   ;;         :target-module (expand-file-name "~/repos/madame-web/projects/master_theses/thesis_patch_similarity_search/construct_index.py")
+;;   ;;         :request "launch"
+;;   ;;         :name "batch_patch"))
 
-  (dap-mode t)
-  (dap-ui-mode t)
-  (dap-tooltip-mode t)
-  (tooltip-mode t)
-  (eethern/leader-key-def
-    :keymaps 'normal
-    "o d" '(dap-debug :wk "Open debugger")
-    ))
+;;   (dap-mode t)
+;;   (dap-ui-mode t)
+;;   (dap-tooltip-mode t)
+;;   (tooltip-mode t)
+;;   (eethern/leader-key-def
+;;     :keymaps 'normal
+;;     "o d" '(dap-debug :wk "Open debugger")
+;;     ))
   #+end_src
 * Runtime performance
 #+begin_src elisp

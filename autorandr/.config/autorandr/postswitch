@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+feh --bg-scale ~/.dotfiles/.img/space.jpg 
+
+~/.config/bspwm/dock.sh
 ~/.config/polybar/scripts/launch.sh
-feh --bg-scale ~/Pictures/Wallpapers/ZTWO_wallpaper_1920x1080.png 
 
 current=$(autorandr --current)
 notify-send -i display "Display profile: $current"
