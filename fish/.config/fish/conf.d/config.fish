@@ -3,16 +3,16 @@ set fish_greeting
 fish_vi_key_bindings
 
 # Vi bindings for colemak (hacked together)
-bind -s m backward-char
-bind -s n down-or-search
-bind -s e up-or-search
-bind -s i forward-char
-bind -s -m insert l repaint-mode
-bind -s -m insert L beginning-of-line repaint-mode
-bind -s -M visual m backward-char
-bind -s -M visual i forward-char
-bind -s -M visual n up-line
-bind -s -M visual e down-line
+# bind -s m backward-char
+# bind -s n down-or-search
+# bind -s e up-or-search
+# bind -s i forward-char
+# bind -s -m insert l repaint-mode
+# bind -s -m insert L beginning-of-line repaint-mode
+# bind -s -M visual m backward-char
+# bind -s -M visual i forward-char
+# bind -s -M visual n up-line
+# bind -s -M visual e down-line
 
 # Accept autocompletion with alt a
 # src: https://github.com/fish-shell/fish-shell/issues/3011
