@@ -1581,7 +1581,6 @@ latex, and making the text more readable in the editor.
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            (org-agenda-todo-ignore-scheduled 'all)
-                                           (org-agenda-todo-keyword-format "")
                                            (org-agenda-prefix-format "    %-2i ")))
           (tags "+CATEGORY=\"work\"+TODO=\"WAIT\"" (
                                            (org-agenda-overriding-header "\n⚡ Waiting")
