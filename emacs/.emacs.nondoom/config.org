@@ -1913,25 +1913,29 @@ PROJECT is the current project."
 #+end_src
 ** Org roam
 #+begin_src elisp
-(require 'citar)
-(defun eethern/org-roam-node-from-cite (keys-entries)
-  (citar-refresh)
-  (interactive (list (citar-select-ref)))
-  (let ((title (citar--format-entry-no-widths (cdr keys-entries)
-                                              "${author editor} :: ${title}")))
-    (org-roam-capture- :templates
-                       '(("r" "reference" plain "%?" :if-new
-                          (file+head "${citekey}.org"
-                                     ":PROPERTIES:
-:ROAM_REFS: [cite:@${citekey}]
-:END:
-,#+filetags: :paper:
-,#+title: ${title}\n")
-                          :immediate-finish t
-                          :unnarrowed t))
-                       :info (list :citekey (car keys-entries))
-                       :node (org-roam-node-create :title title)
-                       :props '(:finalize find-file))))
+(use-package citar-org-roam
+  :straight (:type git :host nil :repo "https://github.com/emacs-citar/citar-org-roam")
+  :after citar org-roam
+  :no-require
+  :config (citar-org-roam-mode))
+;; (require 'citar)
+;; (defun eethern/org-roam-node-from-cite (keys-entries)
+;;   (interactive (list (citar-select-ref)))
+;;   (let ((title (citar--format-entry-no-widths (cdr keys-entries)
+;;                                               "${author editor} :: ${title}")))
+;;   (org-roam-capture- :templates
+;;                       '(("r" "reference" plain "%?" :if-new
+;;                         (file+head "${citekey}.org"
+;;                                     ":PROPERTIES:
+;; :ROAM_REFS: [cite:@${citekey}]
+;; :END:
+;; ,#+filetags: :paper:
+;; ,#+title: ${title}\n")
+;;                           :immediate-finish t
+;;                           :unnarrowed t))
+;;                        :info (list :citekey (car keys-entries))
+;;                        :node (org-roam-node-create :title title)
+;;                        :props '(:finalize find-file))))
 
 (use-package org-roam
   :after (org citar)
@@ -1956,7 +1960,7 @@ PROJECT is the current project."
     "n r a" '(org-roam-node-random :wk "Random node")
     "n r s" '(org-roam-db-sync :wk "Sync database")
     "n r c" '(org-roam-capture :wk "Capture note")
-    "n r C" '(eethern/org-roam-node-from-cite :wk "Find cite note")
+    "n r C" '(citar-open :wk "Find cite note")
     "n r r" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
     "n r i" '(org-roam-node-insert :wk "Insert node"))
 
