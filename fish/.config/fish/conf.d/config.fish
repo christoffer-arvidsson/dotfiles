@@ -76,6 +76,7 @@ set -U fish_pager_color_prefix        'white' '--bold' '--underline'
 set -U fish_pager_color_progress      'brwhite' '--background=cyan'
 
 # alias
+alias s="kitty +kitten ssh"
 #alias ls="exa -l"
 #alias cat="bat"
 #alias doom="~/.emacs.doom/bin/doom"
