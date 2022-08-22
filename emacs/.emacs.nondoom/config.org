@@ -1268,7 +1268,6 @@ latex, and making the text more readable in the editor.
       org-log-done 'time
       org-log-into-drawer t
 
-      org-log-state-notes-insert-after-drawers t
       org-agenda-start-with-log-mode t)
 
 (defun org-agenda-open-todos (&optional arg)
@@ -1416,13 +1415,23 @@ latex, and making the text more readable in the editor.
                          (if transform (substring cand (1+ (length name))) name)))))
 
 #+end_src
-*** Set todo on clock out
+*** Clock Set todo on clock out
 #+begin_src elisp
 ;; (add-hook 'org-clock-out-hook
 ;;           (lambda ()
 ;;             (org-todo
 ;;              (upcase
 ;;               (completing-read (format "Task status of: \"%s\"" org-clock-heading) '("done" "todo" "wait" "cancelled"))))))
+#+end_src
+*** Clock polybar widget
+#+begin_src elisp
+(defun eethern/org-clocking-info ()
+  (if (org-clock-is-active)
+      (format "%d/%d min (%s)" 
+                      (- (org-clock-get-clocked-time) org-clock-total-time)
+                      (org-clock-get-clocked-time)
+                      org-clock-heading)
+    ""))
 #+end_src
 *** Pomodoro
 [[https://colekillian.com/posts/org-pomodoro-and-polybar/][Source]]
@@ -1451,16 +1460,6 @@ latex, and making the text more readable in the editor.
       ""))
 
 #+end_src
-*** Polybar widget for clock
-#+begin_src elisp
-(defun eethern/org-clocking-info ()
-  (if (org-clock-is-active)
-      (format "%d/%d min (%s)" 
-                      (- (org-clock-get-clocked-time) org-clock-total-time)
-                      (org-clock-get-clocked-time)
-                      org-clock-heading)
-    ""))
-#+end_src
 *** Cleaner agenda
 #+begin_src elisp
 (setq mixed-pitch-fixed-pitch-faces
@@ -1468,11 +1467,12 @@ latex, and making the text more readable in the editor.
 
 (setq org-agenda-block-separator (string-to-char " ")
       org-agenda-block-separator nil
-     org-agenda-start-with-entry-text-mode nil
+      org-agenda-start-with-entry-text-mode nil
       org-agenda-breadcrumbs-separator " ❱ "
       org-agenda-entry-text-leaders "        "
       org-habit-today-glyph ?◌
-      org-habit-graph-column 40
+      org-habit-graph-column 60
+
       org-habit-following-days 1
       org-habit-show-habits t
       org-habit-completed-glyph ?●
@@ -1490,13 +1490,18 @@ latex, and making the text more readable in the editor.
 
 (customize-set-value
  'org-agenda-category-icon-alist
- `(("work" , (list (all-the-icons-material "flag" :heigh 1.2)) nil nil :ascent center)
+ `(
    ("music" (list (all-the-icons-material "collection-music" :heigh 1.2)) nil nil :ascent center :mask heuristic)
    ("chore" (list (all-the-icons-material "replay" :heigh 1.2)) nil nil :ascent center :mask heuristic)
    ("inbox" (list (all-the-icons-material "receipt" :heigh 1.2)) nil nil :ascent center :mask heuristic)
    ("idea" (list (all-the-icons-material "pocket" :heigh 1.2)) nil nil :ascent center :mask heuristic)
-   ("scheduled" (list (all-the-icons-material "calendar" :heigh 1.2)) nil nil :ascent center :mask heuristic)
+   ("scheduled" (list (all-the-icons-material "calendar" :heigh 1.2)) nil nil :ascent center)
    ("class" (list (all-the-icons-material "book" :heigh 1.2)) nil nil :ascent center :mask heuristic)
+   ("loop" (list (all-the-icons-material "refresh" :heigh 1.2)) nil nil :ascent center)
+   ("work" , (list (all-the-icons-faicon "briefcase" :heigh 1.2)) nil nil :ascent center)
+   ("project", (list (all-the-icons-material "flag" :heigh 1.2)) nil nil :ascent center)
+   ("meeting", (list (all-the-icons-material "schedule" :heigh 1.2)) nil nil :ascent center)
+   ("todo", (list (all-the-icons-material "check_box_outline_blank" :heigh 1.2)) nil nil :ascent center)
    ("check" (list (all-the-icons-material "check_box" :heigh 1.2)) nil nil :ascent center :mask heuristic)))
 
 (setq org-agenda-custom-commands
@@ -1559,19 +1564,15 @@ latex, and making the text more readable in the editor.
           (agenda "" (
                       (org-agenda-skip-scheduled-if-done nil)
                       (org-agenda-time-leading-zero t)
-                      (org-agenda-timegrid-use-ampm nil)
                       (org-agenda-skip-timestamp-if-done t)
                       (org-agenda-skip-deadline-if-done t)
-                     (org-agenda-entry-text-leaders "")
+                      (org-agenda-entry-text-leaders "")
                       (org-agenda-start-day "+0d")
                       (org-agenda-span 2)
                       (org-agenda-log-mode-items '(clock))
-                     (org-agenda-overriding-header "\n⚡ Calendar")
+                      (org-agenda-overriding-header "\n⚡ Calendar")
                       (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "    %i %?-2 t %?-8T %s")
-                      ;; (org-agenda-prefix-format "  %-3i  %-15b%t %s")
-                      ;; (concat "  %-3i  %-15b %t%s" org-agenda-hidden-separator))
-                      ;; (org-agenda-todo-keyword-format " ☐ ")
                       (org-agenda-todo-keyword-format "")
                       (org-agenda-time)
                       (org-agenda-current-time-string "ᐊ┈┈┈┈┈┈┈┈ Now ┈┈┈┈┈┈┈┈")
@@ -1579,31 +1580,36 @@ latex, and making the text more readable in the editor.
                       (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
                       (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
 
-          (tags "+CATEGORY=\"work\"+TODO=\"TODO\"-project" (
+          (tags "+work+TODO=\"TODO\"-CATEGORY=\"project\"" (
                                            (org-agenda-overriding-header "\n⚡ Inbox")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
-                                           ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
                                            (org-agenda-todo-ignore-scheduled 'all)
                                            (org-agenda-prefix-format "   %-2i ")))
-          (tags "+CATEGORY=\"work\"+TODO=\"NEXT\"" (
+          (tags "LEVEL>1+work+CATEGORY=\"loop\"" (
+                                           (org-agenda-overriding-header "\n⚡ Habit")
+                                           (org-agenda-sorting-strategy '(priority-down))
+                                           (org-agenda-remove-tags t)
+                                           (org-agenda-todo-ignore-scheduled 'all)
+                                           (org-agenda-prefix-format "%i  %-2i ")))
+          (tags "+work+TODO=\"NEXT\"" (
                                            (org-agenda-overriding-header "\n⚡ Next")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            (org-agenda-todo-ignore-scheduled 'all)
                                            (org-agenda-prefix-format "    %-2i ")))
-          (tags "+CATEGORY=\"work\"+TODO=\"WAIT\"" (
+          (tags "+work+TODO=\"WAIT\"" (
                                            (org-agenda-overriding-header "\n⚡ Waiting")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
                                            (org-agenda-todo-ignore-scheduled 'all)
                                            (org-agenda-prefix-format "    %-2i ")))
 
-          (tags "LEVEL>1+project+CATEGORY=\"work\"" (
-                                              (org-agenda-overriding-header "\n⚡ Projects")
-                                             (org-agenda-remove-tags t)
-                                             (org-tags-match-list-sublevels 'indentend)
-                                             (org-agenda-show-inherited-tags nil)
+          (tags "LEVEL>1+work+CATEGORY=\"project\"" (
+                                            (org-agenda-overriding-header "\n⚡ Projects")
+                                            (org-agenda-remove-tags t)
+                                            (org-tags-match-list-sublevels 'indentend)
+                                            (org-agenda-show-inherited-tags nil)
                                             (org-agenda-prefix-format "%l%l%i ")))))))
 #+end_src
 
