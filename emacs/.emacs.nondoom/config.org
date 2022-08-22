@@ -395,14 +395,20 @@ Set the fonts.
 #+end_src
 *** Company
 #+begin_src elisp
+
+(use-package company-shell
+  :after company
+  :config
+  (add-to-list 'company-backends '(company-shell company-shell-env company-fish-shell))
+)
 (use-package company
+  :hook (after-init . global-company-mode)
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
   (completion-ignore-case t)
   :config
-  (add-to-list 'company-backends 'company-capf)
-  (global-company-mode '(not shell-script-mode)))
+  (add-to-list 'company-backends 'company-capf))
 #+end_src
 ** Expand region
 #+begin_src elisp
