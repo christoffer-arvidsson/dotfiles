@@ -1276,13 +1276,13 @@ latex, and making the text more readable in the editor.
 
 *** Todo keywords
 #+begin_src elisp
-(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d!)" "CANC(c@)")
                           (sequence "[ ](T)" "[>](N)" "[?](W@/!)" "|" "[X](D!)" "[-](C@)")))
 (setq org-todo-keyword-faces '(("TODO" . org-warning)
                                ("NEXT" . org-priority)
                                ("WAIT" . org-table)
                                ("DONE" . org-done)
-                               ("CANCELLED" . org-distant-deadline)
+                               ("CANC" . org-distant-deadline)
                                ("[ ]". org-warning)
                                ("[>]" . org-priority)
                                ("[?]" . org-table)
