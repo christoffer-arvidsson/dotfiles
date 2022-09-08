@@ -484,6 +484,15 @@ Apparently emacs can undo undos. Don't do that
   :config
   (global-undo-tree-mode))
 #+end_src
+** Close minibuffer on lose focus
+#+begin_src elisp
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+#+end_src
 * Navigation
 ** Windows
 #+begin_src elisp
