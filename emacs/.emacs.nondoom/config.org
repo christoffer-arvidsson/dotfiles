@@ -1965,7 +1965,7 @@ PROJECT is the current project."
 ;;                        :props '(:finalize find-file))))
 
 (use-package org-roam
-  :after (org citar)
+  :after (org)
   :init
   (setq org-roam-v2-ack t)
   :custom
