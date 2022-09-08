@@ -461,6 +461,8 @@ Set the fonts.
 ** Avy
 #+begin_src elisp
 (use-package avy
+  :custom
+  (avy-timeout-seconds 0.3)
   :config
   (general-define-key
    :states 'normal
