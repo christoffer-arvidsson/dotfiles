@@ -1279,7 +1279,7 @@ latex, and making the text more readable in the editor.
       ;; org-clock-idle-time 15
       org-log-done 'time
       org-log-into-drawer t
-
+      org-agenda-window-setup 'other-frame
       org-agenda-start-with-log-mode t)
 
 (defun org-agenda-open-todos (&optional arg)

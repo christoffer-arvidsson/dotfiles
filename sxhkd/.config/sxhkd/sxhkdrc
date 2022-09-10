@@ -42,6 +42,16 @@ super + o; c ; n
 # Emacs server
 super + o; c ; s
   emacs --with-profile nondoom --daemon=nondoom
+# Agenda
+# Work
+super + o; a ; w
+  emacsclient -s nondoom -e "(org-agenda-open-work)"
+# Personall
+super + o; a ; p
+  emacsclient -s nondoom -e "(org-agenda-open-personal)"
+# Todos
+super + o; a ; t
+  emacsclient -s nondoom -e "(org-agenda-open-todos)"
 
 #
 # bspwm hotkeys
