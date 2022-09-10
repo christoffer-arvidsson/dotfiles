@@ -45,13 +45,13 @@ super + o; c ; s
 # Agenda
 # Work
 super + o; a ; w
-  emacsclient -s nondoom -e "(org-agenda-open-work)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-work)"
 # Personall
 super + o; a ; p
-  emacsclient -s nondoom -e "(org-agenda-open-personal)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-personal)"
 # Todos
 super + o; a ; t
-  emacsclient -s nondoom -e "(org-agenda-open-todos)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-todos)"
 
 #
 # bspwm hotkeys
