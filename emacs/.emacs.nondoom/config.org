@@ -940,6 +940,7 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
   (org-mode . turn-on-flyspell)
   :config
   (setq org-auto-align-tags nil
+        org-imenu-depth 3
         org-tags-column 0
         org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
         org-capture-work-file (file-truename "~/Dropbox/org/work.org")
