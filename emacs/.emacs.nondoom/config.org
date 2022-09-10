@@ -1617,7 +1617,7 @@ latex, and making the text more readable in the editor.
                                            (org-agenda-todo-ignore-scheduled 'all)
                                            (org-agenda-prefix-format "    %-2i ")))
 
-          (tags "LEVEL>1+work+CATEGORY=\"project\"" (
+          (tags "LEVEL>1+work+CATEGORY=\"project\"-TODO=\"DONE\"-TODO=\"CANC\"" (
                                             (org-agenda-overriding-header "\n⚡ Projects")
                                             (org-agenda-remove-tags t)
                                             (org-tags-match-list-sublevels 'indentend)
