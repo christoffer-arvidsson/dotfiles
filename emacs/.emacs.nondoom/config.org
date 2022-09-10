@@ -2097,6 +2097,10 @@ PROJECT is the current project."
 #+end_src
 *** Consult
 #+begin_src elisp
+(defun eethern/search-symbol-at-point ()
+  (interactive)
+  (consult-line (thing-at-point 'symbol)))
+
 (use-package consult
   :demand t
   :config
@@ -2106,7 +2110,11 @@ PROJECT is the current project."
     :keymaps 'normal
     "f r" '(consult-recent-file :wk "Recent files")
     "b b" '(consult-buffer :wk "Switch buffer")
-    "s i" '(consult-imenu :wk "Jump to symbol")))
+    "s i" '(consult-imenu :wk "Jump to symbol")
+    "s b" '(consult-line :wk "Search lines")
+    "s s" '(eethern/search-symbol-at-point :wk "Search symbol at point")
+    "b p" '(consult-project-buffer :wk "Find buffer in current project")
+))
 #+end_src
 *** Projectile
 #+begin_src elisp
