@@ -1,0 +1,8 @@
+description="horizontal layout"
+tag="p e2 e1"
+prim="msg music"
+p_offset="+0+0"
+per_ext=("web code opt1 opt2" "opt3 opt4 opt5 opt6")
+offsets=("+3840+0" "+1920+0")
+
+

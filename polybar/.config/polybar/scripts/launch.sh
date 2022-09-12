@@ -33,7 +33,7 @@ do
 
     name=$(echo $line | awk '{print $1}')
     
-    bspc monitor "%$name" -d $(echo $workspace)
+    # bspc monitor "%$name" -d $(echo $workspace)
 
     # Give bspwm time to set the monitors
     MONITOR="$name" polybar -r "${bar}" > /tmp/polybar.log 2>&1 &

@@ -52,6 +52,9 @@ super + o; a ; p
 # Todos
 super + o; a ; t
   ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-todos)"
+# Select monitor layout
+super + o; m
+  ~/.config/bspwm/mons.sh select
 
 #
 # bspwm hotkeys

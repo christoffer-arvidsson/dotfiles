@@ -1,0 +1,6 @@
+description="stacked layout"
+tag="(e,p)^T"
+prim="opt4 opt5 opt6 msg music"
+per_ext=("web code opt1 opt2 opt3")
+p_offset="+320+1440"
+offsets=("+0+0")
