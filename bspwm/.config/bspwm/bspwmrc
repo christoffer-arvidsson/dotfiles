@@ -76,6 +76,7 @@ elif [ "$(hostname)" = "shuttle" ]; then
     run discord-canary &
     ~/.config/bspwm/mons.sh startup
 elif [ "$(hostname)" = "ucnd1387l61" ]; then
+    ~/.config/bspwm/mons.sh 0
     run compton &
     run dropbox start &
     run slack &
