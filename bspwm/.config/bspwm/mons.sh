@@ -65,7 +65,7 @@ function dock() {
     # Load layout from selected file
     n_monitors=$(get_num_monitors)
     layout=$1
-    source "./monitors/$layout"
+    source ~/.config/bspwm/monitors/$layout
     echo "Using $description $tag"
 
     cmd=$(assemble_nvidia_command)
