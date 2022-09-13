@@ -32,10 +32,10 @@ function monitor_add() {
 
 function monitor_remove() {
     # add temp desktop
-    bspc monitor "$1" -a Desktop
+    bspc monitor "%$1" -a Desktop
 
     # move all workspaces to primary
-    for desktop in $(bspc query -D -m "$1"); do
+    for desktop in $(bspc query -D -m "%$1"); do
         bspc desktop "$desktop" --to-monitor "%$PRIMARY_MONITOR"
     done
 
@@ -75,6 +75,8 @@ function dock() {
     for i in ${!EXTERNAL_MONITORS[@]}; do
         monitor_add ${EXTERNAL_MONITORS[$i]} ${per_ext[$i]}
     done
+
+    bspc desktop Desktop -r
 }
 
 function undock() {
