@@ -109,7 +109,11 @@ function main() {
             ;;
 
         "select")
-            selected=$(find ~/.config/bspwm/monitors -printf '%f\n' -name '*.layout' | grep -e "^$N_MONITORS" -e "undocked" | sed 's/ /\n/g' | rofi -dmenu)
+            selected=$(find ~/.config/bspwm/monitors -printf '%f\n' -name '*.layout' \
+                           | grep -e "^$N_MONITORS" -e "undocked" \
+                           | sed 's/ /\n/g' \
+                           | rofi -dmenu -p "Select monitor layout")
+
             echo "Selected $selected"
 
             case $selected in
