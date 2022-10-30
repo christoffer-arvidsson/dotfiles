@@ -1597,7 +1597,7 @@ latex, and making the text more readable in the editor.
                       (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
                       (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
 
-          (tags "-CATEGORY=\"work\"+TODO=\"TODO\"|-CATEGORY=\"work\"+TODO=\"DONE\"" (
+          (tags "-work+TODO=\"TODO\"|-work+TODO=\"DONE\"" (
                                            (org-agenda-overriding-header "\n⚡ Today")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
@@ -1607,7 +1607,7 @@ latex, and making the text more readable in the editor.
                                            ;; (org-agenda-todo-keyword-format "")
                                            ))
 
-          (tags "-CATEGORY=\"work\"+TODO=\"NEXT\"" (
+          (tags "-work+TODO=\"NEXT\"" (
                                            (org-agenda-overriding-header "\n⚡ Next")
                                            (org-agenda-sorting-strategy '(priority-down))
                                            (org-agenda-remove-tags t)
@@ -1617,7 +1617,7 @@ latex, and making the text more readable in the editor.
                                            (org-agenda-todo-keyword-format "")))
 
 
-          (tags "+project-CATEGORY=\"work\"" (
+          (tags "-work+project-CATEGORY=\"work\"" (
                                               (org-agenda-overriding-header "\n⚡ Projects")
                                               (org-agenda-remove-tags t)
                                               (org-tags-match-list-sublevels nil)
