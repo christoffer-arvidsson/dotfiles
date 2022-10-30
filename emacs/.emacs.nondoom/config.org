@@ -2314,6 +2314,24 @@ _k_: down      _a_: combine       _q_: quit
   ;; (zengerrit-setup))
 
 #+end_src
+*** Lens
+#+begin_src elisp
+(use-package blamer
+  :ensure t
+  ;; :bind (("s-i" . blamer-show-commit-info)
+  ;;        ("C-c i" . ("s-i" . blamer-show-posframe-commit-info)))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 90
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+#+end_src
 ** Syntax checking
 *** LSP
 #+begin_src elisp
