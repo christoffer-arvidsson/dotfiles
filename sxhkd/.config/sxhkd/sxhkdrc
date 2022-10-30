@@ -25,6 +25,8 @@ super + o ; v
 # Browser
 super + o ; b ; f
   firefox
+super + o ; b ; b
+  brave-dev --disable-frame-rate-limit
 super + o ; b ; q
   qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization
 # n64 games :)
