@@ -710,6 +710,17 @@ instead.
 ** Default applications
 #+begin_src elisp
 (setq browse-url-browser-function 'browse-url-firefox)
+
+(use-package openwith
+  :custom
+  (openwith-associations '((
+                            "\\.pdf\\'" "zathura" (file)
+                            )))
+  :config
+  (openwith-mode t))
+
+(use-package pdf-tools)
+  
 #+end_src
 ** Popup buffers
 #+begin_src elisp
@@ -998,7 +1009,7 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
         org-tags-column 0
         org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org")
         org-capture-work-file (file-truename "~/Dropbox/org/work.org")
-        org-capture-journal-file (file-truename "~/Dropbox/org/journal.org")
+        org-capture-journal-file (file-truename "~/Dropbox/org/work_journal.org")
         org-drill-file (file-truename "~/Dropbox/org/drill.org")
         org-edit-src-content-indentation 2
         org-export-use-babel t
@@ -1376,10 +1387,10 @@ latex, and making the text more readable in the editor.
 (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
 (defun eethern/org-capture-to-project-heading ()
-(interactive)
+  (interactive)
   (let ((projects
-          (org-map-entries `(lambda () (nth 4 (org-heading-components)))
-                           "+project+LEVEL=2" (list org-capture-work-file))))
+         (org-map-entries `(lambda () (nth 4 (org-heading-components)))
+                          "+project+LEVEL=2" (list org-capture-work-file))))
     (setq choice (completing-read "Project: " projects nil t nil nil))
     (org-capture-set-target-location (list 'file+headline org-capture-work-file choice))))
 
@@ -1408,9 +1419,9 @@ latex, and making the text more readable in the editor.
          (file+headline org-capture-work-file "Meeting notes")
          "* %?\n<%<%Y-%m-%d %a %H:00>>" :prepend t :clock-in t)
         ("wp" "Project Todo" entry (file+function org-capture-work-file eethern/org-capture-to-project-heading)
-                                "* TODO %?\n" :prepend t)
+         "* TODO %?\n" :prepend t)
         ("wP" "Project Todo Clocked" entry (file+function org-capture-work-file eethern/org-capture-to-project-heading)
-                                "* TODO %?\n" :prepend t :clock-in t)
+         "* TODO %?\n" :prepend t :clock-in t)
 
         ("u" "University")
         ("ub" "Bioinformatics" entry
