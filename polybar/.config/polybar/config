@@ -65,7 +65,7 @@ font-3 = Material\ Icons:size=10
 
 modules-left = spotify spotify-prev spotify-play-pause spotify-next
 modules-center = bspwm
-modules-right = emacs-clock bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -185,7 +185,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left =
 modules-center = bspwm
-modules-right = emacs-clock bspwm-modes temperature date time powermenu
+modules-right = bspwm-modes temperature date time powermenu
 
 wm-restack = bspwm
 
