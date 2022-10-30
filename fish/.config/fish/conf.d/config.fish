@@ -102,5 +102,5 @@ alias s="kitty +kitten ssh"
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # pyenv
-# status --is-interactive; and pyenv init - | source
-# status --is-interactive; and pyenv virtualenv-init - | source
+status --is-interactive; and pyenv init - | source
+status --is-interactive; and pyenv virtualenv-init - | source
