@@ -33,6 +33,7 @@ bspc config remove_disabled_monitors true
 # Rules
 bspc rule -a Emacs state=tiled
 bspc rule -a discord state=tiled desktop=msg follow=off
+bspc rule -a Cinny state=tiled desktop=msg follow=off
 bspc rule -a Slack state=tiled desktop=msg follow=off
 bspc rule -a TelegramDesktop state=tiled desktop=msg follow=off
 bspc rule -a Screenkey manage=off
@@ -64,6 +65,7 @@ if [ "$(hostname)" = "station" ]; then
     run dropbox start &
     run mullvad-vpn &
     run discord &
+    run cinny &
     run zotero --headless &
     ~/.config/bspwm/mons.sh startup
     ~/.config/bspwm/mons.sh 2_hor.layout
