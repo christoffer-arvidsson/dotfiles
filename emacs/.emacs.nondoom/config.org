@@ -2339,10 +2339,10 @@ _k_: down      _a_: combine       _q_: quit
   :ensure t
   :commands lsp
   :hook
-  (python-mode . lsp)
-  (c++-mode . lsp)
-  (cc-mode . lsp)
-  (rust-mode . lsp)
+  ;; (python-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
+  (cc-mode . lsp-deferred)
+  (rust-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   :bind (:map lsp-mode-map
               ("TAB" . completion-at-point)
@@ -2514,7 +2514,7 @@ _k_: down      _a_: combine       _q_: quit
   :ensure t
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
+                          (lsp-deferred))))  ; or lsp-deferred
 
 ;; (use-package lsp-jedi
 ;;   :ensure t
