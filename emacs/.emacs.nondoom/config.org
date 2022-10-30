@@ -1728,13 +1728,13 @@ Make a template for inserting jupyter blocks.
 
 *** Babel languages
 #+begin_src elisp
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (python . t)
-   (C . t)
-   ;; (jupyter . t)
-   (shell . d)))
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((emacs-lisp . t)
+;;    (python . t)
+;;    (C . t)
+;;    (jupyter . t)
+;;    (shell . d)))
 #+end_src 
 *** Auto tangle
 Automatically tangle src blocks on save. Makes working with literate programming very nice since code is always up to date in tangled files.
