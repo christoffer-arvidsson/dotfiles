@@ -2205,15 +2205,6 @@ PROJECT is the current project."
   (setq citar-org-roam-note-title-template "${title} :: ${author editor}")
   (citar-org-roam-mode))
 
-(cl-defmethod org-roam-node-type ((node org-roam-node))
-  "Return the TYPE of NODE."
-  (condition-case nil
-      (file-name-nondirectory
-       (directory-file-name
-        (file-name-directory
-         (file-relative-name (org-roam-node-file node) org-roam-directory))))
-    (error "")))
-
 (use-package org-roam
   :after (org)
   :init
@@ -2227,7 +2218,7 @@ PROJECT is the current project."
   (org-roam-db-autosync-mode t)
   ;; (org-roam-node-display-template "${title:96}   ${tags:10}  ${file:48}")
 
-  (org-roam-node-display-template (format "${type:15} ${title:*} %s %s"
+  (org-roam-node-display-template (format "${title:*} %s %s"
                                           (propertize "${tags:10}" 'face 'font-lock-keyword-face)
                                           (propertize "${file:48}" 'face 'org-tag)))
   :config
