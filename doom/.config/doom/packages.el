@@ -48,3 +48,17 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(unpin! org-roam)
+(package! org-roam-ui)
+(package! websocket)
+(package! expand-region)
+(package! super-save)
+(package! vlf)
+
+(package! citar)
+(package! citar-org-roam
+  :recipe (:host github :repo "emacs-citar/citar-org-roam"))
+(package! lsp-pyright)
+
+(package! openwith)

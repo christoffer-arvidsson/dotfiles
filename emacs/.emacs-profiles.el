@@ -1,5 +1,5 @@
 (("default" . ((user-emacs-directory . "~/.emacs.doom")
-	             (env . (("DOOMDIR" . "~/.doom.d")))
+	             (env . (("DOOMDIR" . "~/.config/doom")))
                (server-name . "doom_server")))
  ("nondoom" . ((user-emacs-directory . "~/.emacs.nondoom")
                (server-name . "emacs_server")))

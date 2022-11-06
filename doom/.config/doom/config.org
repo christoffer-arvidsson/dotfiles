@@ -1,0 +1,281 @@
+#+title: Doom Config
+#+property: header-args:elisp :cache no :results silent :padline no
+#+property: header-args:emacs-lisp :cache no :results silent :padline no
+
+* User
+#+begin_src elisp
+(setq user-full-name "Christoffer Arvidsson"
+      user-mail-address "christoffer@arvidson.nu")
+#+end_src
+
+* UI
+#+begin_src elisp
+(setq display-line-numbers-type t)
+
+(setq doom-font (font-spec :family "iosevka" :size 13))
+(setq doom-variable-pitch-font (font-spec :family "iosevka aile" :size 13))
+
+(use-package! doom-themes
+  :custom
+  (doom-theme 'doom-horizon)
+  (doom-horizon-brighter-comments t)
+  (doom-horizon-comment-bg nil)
+  :config
+  (set-face-foreground 'line-number (doom-color 'magenta)))
+#+end_src
+
+* Window and buffer management
+#+begin_src elisp
+(map! :leader
+  "TAB" #'evil-switch-to-windows-last-buffer
+
+  "w m" #'evil-window-left
+  "w n" #'evil-window-down
+  "w e" #'evil-window-up
+  "w i" #'evil-window-right
+
+  "w M" #'+evil/window-move-left
+  "w N" #'+evil/window-move-down
+  "w E" #'+evil/window-move-up
+  "w I" #'+evil/window-move-right)
+
+(map!
+ "<prior>" #'evil-scroll-up
+ "<next>" #'evil-scroll-down)
+#+end_src
+
+* File
+** Super save
+#+begin_src elisp
+(use-package! super-save
+  :ensure t
+  :custom
+  (super-save-auto-save-when-idle t)
+  (auto-save-default nil)
+  :config
+  (super-save-mode +1))
+#+end_src
+
+** Very large files
+Asks to open large files in chunks when opening a large
+file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/vlfi][vlfi]]
+#+begin_src elisp
+(use-package vlf
+  :ensure t
+  :config
+  (require 'vlf-setup))
+#+end_src
+
+** Default programs
+#+begin_src elisp
+(use-package openwith
+  :custom
+  (openwith-associations '((
+                            "\\.pdf\\'" "zathura" (file)
+                            )))
+  :config
+  (openwith-mode t))
+#+end_src
+
+* Editor
+** Company
+#+begin_src elisp
+(use-package! company
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0)
+  (completion-ignore-case t))
+#+end_src
+** Expand region
+#+begin_src elisp
+(use-package! expand-region
+  :config
+  (map! :leader
+    :n "v" '(er/expand-region :wk "Expand region")))
+#+end_src
+** Avy
+#+begin_src elisp
+(use-package! avy
+  :custom
+  (avy-timeout-seconds 0.3)
+  :config
+  (map!
+   :n "g s" 'evil-avy-goto-char-timer)
+
+  (defun avy-action-kill-whole-line (pt)
+    (save-excursion
+      (goto-char pt)
+      (kill-whole-line))
+    (select-window
+    (cdr
+      (ring-ref avy-ring 0)))
+    t)
+
+  (defun avy-action-copy-whole-line (pt)
+    (save-excursion
+      (goto-char pt)
+      (cl-destructuring-bind (start . end)
+          (bounds-of-thing-at-point 'line)
+        (copy-region-as-kill start end)))
+    (select-window
+    (cdr
+      (ring-ref avy-ring 0)))
+    t)
+
+  (defun avy-action-yank-whole-line (pt)
+    (avy-action-copy-whole-line pt)
+    (save-excursion (yank))
+    t)
+
+  (defun avy-action-teleport-whole-line (pt)
+      (avy-action-kill-whole-line pt)
+      (save-excursion (yank)) t)
+
+  (defun avy-action-mark-to-char (pt)
+    (activate-mark)
+    (goto-char pt))
+
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+      (cdr (ring-ref avy-ring 0))))
+    t)
+
+  (setq avy-keys '(?q ?e ?w ?u ?o ?a ?s ?f ?g ?h ?j ?k ?l ?' ?c ?v ?b ?n ?, ?/))
+
+  (setf (alist-get ?p avy-dispatch-alist) 'avy-action-yank
+        (alist-get ?P avy-dispatch-alist) 'avy-action-yank-whole-line
+        (alist-get ?d avy-dispatch-alist) 'avy-action-kill-stay
+        (alist-get ?D avy-dispatch-alist) 'avy-action-kill-whole-line
+        (alist-get ?y avy-dispatch-alist) 'avy-action-copy
+        (alist-get ?Y avy-dispatch-alist) 'avy-action-copy-whole-line
+        (alist-get ?t avy-dispatch-alist) 'avy-action-teleport
+        (alist-get ?T avy-dispatch-alist) 'avy-action-teleport-whole-line
+        (alist-get ?  avy-dispatch-alist) 'avy-action-mark-to-char
+        (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
+#+end_src
+
+* Org mode
+** Settings
+#+begin_src elisp
+(use-package! org
+  :custom
+  (org-directory "~/Dropbox/org/")
+  (org-capture-todo-file (file-truename "~/Dropbox/org/agenda.org"))
+  (org-capture-work-file (file-truename "~/Dropbox/org/work.org"))
+  (org-capture-journal-file (file-truename "~/Dropbox/org/work_journal.org"))
+  (org-drill-file (file-truename "~/Dropbox/org/drill.org")))
+#+end_src
+** Tempo
+#+begin_src elisp
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+(add-to-list 'org-structure-template-alist '("el" . "src elisp"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("as" . "aside"))
+(add-to-list 'org-structure-template-alist '("al" . "algorithm"))
+(add-to-list 'org-structure-template-alist '("pr" . "proof"))
+(add-to-list 'org-structure-template-alist '("th" . "theorem"))
+(add-to-list 'org-structure-template-alist '("cs" . "columns"))
+(add-to-list 'org-structure-template-alist '("co" . "column"))
+
+(add-to-list 'org-tempo-keywords-alist '("on" . "name"))
+(add-to-list 'org-tempo-keywords-alist '("oc" . "caption"))
+(add-to-list 'org-tempo-keywords-alist '("oo" . "attr_org"))
+(add-to-list 'org-tempo-keywords-alist '("ol" . "attr_latex"))
+#+end_src
+
+** Productivity
+** Roam
+#+begin_src elisp
+(use-package! org-roam
+  :after (org)
+  :custom
+  (org-roam-directory (file-truename "~/Dropbox/org/orbit/articles"))
+  (org-roam-completion-everywhere t)
+  (org-roam-db-autosync-mode t)
+
+  (org-roam-node-display-template (format "${title:*} %s %s"
+                                          (propertize "${tags:10}" 'face 'font-lock-keyword-face)
+                                          (propertize "${file:48}" 'face 'org-tag)))
+
+  (org-roam-capture-templates
+        '(("d" "temporary note" plain
+           (file "~/Dropbox/org/orbit/templates/draft.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("l" "lecture note" plain
+           (file "~/Dropbox/org/orbit/templates/lecture_note.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("p" "permanent note" plain
+           (file "~/Dropbox/org/orbit/templates/latex.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t)
+          ("n" "notebook" plain
+           (file "~/Dropbox/org/orbit/templates/notebook.org")
+           :target (file "%<%Y%m%d%H%M%S>-${slug}.org")
+           :unnarrowed t))))
+
+#+end_src
+
+#+begin_src elisp
+(use-package! websocket
+    :after org-roam)
+
+(use-package org-roam-ui
+  :after org-roam
+  :defer t
+  :custom
+  (org-roam-ui-sync-theme t)
+  (org-roam-ui-follow t)
+  (org-roam-ui-update-on-save t)
+  (org-roam-ui-open-on-start t))
+#+end_src
+
+#+begin_src elisp
+(use-package! citar
+  :bind (:map minibuffer-local-map
+              ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography '("~/Dropbox/org/bibliography/references.bib"))
+  (citar-notes-paths '("~/Dropbox/org/bibliography/"))
+  (org-cite-global-bibliography '("~/Dropbox/org/bibliography/references.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+  (citar-symbols
+   `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+     (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+     (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (citar-symbol-separator "  "))
+
+(use-package citar-org-roam
+  :after citar org-roam
+  :custom
+  (citar-org-roam-note-title-template "${author editor} :: ${title}")
+  :config
+  (citar-org-roam-mode +1))
+
+(map! :leader
+      "n r C" #'citar-open)
+
+#+end_src
+
+#+RESULTS:
+
+* Development
+** Languages
+*** Python
+#+begin_src elisp
+(use-package! lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp-deferred))))  ; or lsp-deferred
+
+#+end_src
