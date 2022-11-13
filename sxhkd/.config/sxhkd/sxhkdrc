@@ -38,12 +38,16 @@ super + o ; p
 # Emacs client
 super + o ; c ; c
   emacsclient -s nondoom -c
+super + o ; c ; d
+  emacsclient -s doom -c
 # Emacs nonclient
-super + o; c ; n
+super + o; c ; C
   emacs --with-profile nondoom
+super + o; c ; D
+  emacs --with-profile doom
 # Emacs server
 super + o; c ; s
-  emacs --with-profile nondoom --daemon=nondoom
+  ~/.config/sxhkd/scripts/emacs_server.sh
 # Agenda
 # Work
 super + o; a ; w

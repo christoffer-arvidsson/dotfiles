@@ -3,5 +3,8 @@
                (server-name . "doom_server")))
  ("nondoom" . ((user-emacs-directory . "~/.emacs.nondoom")
                (server-name . "emacs_server")))
+ ("doom" . ((user-emacs-directory . "~/.emacs.doom")
+               (env . (("DOOMDIR" . "~/.config/doom")))
+               (server-name . "doom_server")))
  ("null" . ((user-emacs-directory . "~/.config/null_emacs")
             (server-name . "null_server"))))
