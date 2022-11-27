@@ -2204,7 +2204,7 @@ PROJECT is the current project."
   :after citar org-roam
   :no-require
   :config
-  (setq citar-org-roam-note-title-template "${title} :: ${author editor}")
+  (setq citar-org-roam-note-title-template "${author editor} :: ${title}")
   (citar-org-roam-mode))
 
 (use-package org-roam
