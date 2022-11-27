@@ -19,9 +19,11 @@
   :custom
   (doom-theme 'doom-horizon)
   (doom-horizon-brighter-comments t)
-  (doom-horizon-comment-bg nil)
-  :config
-  (set-face-foreground 'line-number (doom-color 'magenta)))
+  (doom-horizon-comment-bg nil))
+
+(custom-set-faces!
+  `(line-number :foreground ,(doom-color 'magenta)))
+
 #+end_src
 
 * Window and buffer management
