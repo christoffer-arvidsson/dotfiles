@@ -2235,6 +2235,7 @@ PROJECT is the current project."
     "n r a" '(org-roam-alias-add :wk "Add alias")
     "n r C" '(citar-open :wk "Find cite note")
     "n r s" '(org-roam-buffer-toggle :wk "Toggle org roam status buffer")
+    "n r S" '(org-roam-db-sync :wk "Sync roam database")
     "n r i" '(org-roam-node-insert :wk "Insert node"))
 
   (setq org-roam-capture-templates
