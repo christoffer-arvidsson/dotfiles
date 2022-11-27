@@ -653,6 +653,8 @@ If on a:
 (use-package avy
   :custom
   (avy-timeout-seconds 0.3)
+  (avy-background t)
+  (avy-single-candidate-jump nil)
   :config
   (general-define-key
    :states 'normal
