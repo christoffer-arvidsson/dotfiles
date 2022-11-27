@@ -162,6 +162,28 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
         (alist-get ?. avy-dispatch-alist) 'avy-action-embark))
 #+end_src
 
+** Embark
+#+begin_src elisp
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-," . embark-collect)         ;; pick some comfortable binding
+   ("M-." . embark-dwim))        ;; good alternative: M-.
+
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :custom
+  (embark-prompter 'embark-keymap-prompter)
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+#+end_src
 * Org mode
 ** Settings
 #+begin_src elisp
