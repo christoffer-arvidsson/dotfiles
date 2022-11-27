@@ -10,7 +10,7 @@
 
 * UI
 #+begin_src elisp
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 (setq doom-font (font-spec :family "iosevka" :size 13))
 (setq doom-variable-pitch-font (font-spec :family "iosevka aile" :size 13))
