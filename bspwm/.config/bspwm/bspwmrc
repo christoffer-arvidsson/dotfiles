@@ -80,7 +80,7 @@ elif [ "$(hostname)" = "ucnd1387l61" ]; then
     run compton &
     run dropbox start &
     run slack &
-    run teams &
+    run teams-for-linux &
     run zotero --headless &
     ~/.config/bspwm/mons.sh startup
 fi
