@@ -1,6 +1,6 @@
 #+title: Emacs config
-#+property: header-args:elisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
-#+property: header-args:emacs-lisp :tangle ~/.emacs.nondoom/init.el :cache no :results silent :padline no
+#+property: header-args:elisp :tangle ~/.config/emacs/init.el :cache no :results silent :padline no
+#+property: header-args:emacs-lisp :tangle ~/.config/emacs/init.el :cache no :results silent :padline no
 #+auto_tangle: t
 
 * Startup performance
@@ -648,6 +648,32 @@ If on a:
   :config
   (evil-multiedit-default-keybinds))
 #+end_src
+** Evil lion
+#+begin_src elisp
+(use-package evil-lion
+  :ensure t
+  :config
+  (evil-lion-mode))
+#+end_src
+** Evil args
+#+begin_src elisp
+(use-package evil-args
+  :ensure t
+  :config
+  ;; bind evil-args text objects
+  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
+  ;; bind evil-forward/backward-args
+  (define-key evil-normal-state-map "L" 'evil-forward-arg)
+  (define-key evil-normal-state-map "H" 'evil-backward-arg)
+  (define-key evil-motion-state-map "L" 'evil-forward-arg)
+  (define-key evil-motion-state-map "H" 'evil-backward-arg)
+
+  ;; bind evil-jump-out-args
+  (define-key evil-normal-state-map "K" 'evil-jump-out-args))
+
+#+end_src
 ** Avy
 #+begin_src elisp
 (use-package avy
@@ -980,9 +1006,6 @@ instead.
            "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
            rustic-cargo-outdated-mode rustic-cargo-test-moed))
 
-   (with-eval-after-load 'projectile
-     (setq popper-group-function #'popper-group-by-projectile))
-
    (when (display-grayscale-p)
      (setq popper-mode-line
            '(:eval (format " %s "
@@ -1223,6 +1246,11 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
         org-startup-with-inline-images "inlineimages"
         org-directory (file-truename "~/Dropbox/org/"))
 
+  (general-define-key
+    :states 'insert
+    :keymaps 'org-mode-map
+    "RET" '+org/return)
+
   (setq org-file-apps
         '((auto-mode . emacs)
           ("\\.mm\\'" . default)
@@ -1315,10 +1343,10 @@ latex, and making the text more readable in the editor.
 #+end_src
 *** Auctex
 #+begin_src elisp
-(use-package tex-site
-  :straight (auctex :host github
-                    :repo "emacsmirror/auctex"
-                    :files (:defaults (:exclude "*.el.in"))))
+;; (use-package tex-site
+;;   :straight (auctex :host github
+;;                     :repo "emacs-mirror/auctex"
+;;                     :files (:defaults (:exclude "*.el.in"))))
 ;; (use-package auctex
 ;;   :straight (:type git :host nil :repo "https://git.savannah.gnu.org/git/auctex.git"
 ;;                    :pre-build ((shell-command "./autogen.sh && ./configure --without-texmf-dir --with-lispdir=. && make")))
@@ -2067,9 +2095,6 @@ From [[https://endlessparentheses.com/ispell-and-org-mode.html]]
 * Knowledge management
 ** Writeroom mode
 #+begin_src elisp
-(use-package visual-fill-column
-  :ensure t)
-
 (use-package writeroom-mode
   :ensure t
   :custom
@@ -2322,7 +2347,9 @@ PROJECT is the current project."
 (use-package rg
     :ensure t
     :config
-   (rg-enable-default-bindings))
+   (rg-enable-default-bindings)
+
+)
 #+end_src
 
 #+begin_src elisp
@@ -2378,7 +2405,8 @@ PROJECT is the current project."
     "p r" '(projectile-recentf :wk "Find recent file in project")
     "p p" '(project-switch-project :wk "Switch project")
     "p b" '(project-switch-to-buffer :wk "Switch to project buffer")
-    "p s" '(projectile-ripgrep :wk "Search project"))
+    "p s" '(+vertico/project-search :wk "Search project")
+    "/" '(+vertico/project-search :wk "Search project"))
 
   (projectile-mode 1))
 #+end_src
