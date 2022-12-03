@@ -2377,9 +2377,8 @@ PROJECT is the current project."
   :ensure t)
 
 (use-package eshell-toggle
-  :after eshell
-  :custom
-  (eshell-toggle-use-projectile t))
+  :after eshell)
+  
 
 (use-package vterm
   :ensure t)
@@ -2478,11 +2477,11 @@ PROJECT is the current project."
 #+begin_src elisp
 (use-package magit
   :config
-  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  ;; (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (eethern/leader-key-def
     :keymaps 'normal
     "g" '(:ignore t :wk "git")
-    "g g" '(magit-status :wk "Magit status")))
+    "g s" '(magit-status :wk "Magit status")))
 
 ; needed for magit to grab keys
 (setenv "SSH_AUTH_SOCK" "/run/user/1400946984/ssh-agent.socket")
