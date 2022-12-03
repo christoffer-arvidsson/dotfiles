@@ -1397,6 +1397,9 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
 Wrap text when in latex mode. This is useful for version controlling
 latex, and making the text more readable in the editor.
 #+begin_src elisp
+(use-package visual-fill-column
+  :ensure t)
+
 (add-hook 'latex-mode-hook #'auto-fill-mode)
 (add-hook 'latex-mode-hook #'visual-line-mode)
 (add-hook 'latex-mode-hook #'visual-fill-column-mode)
@@ -1424,14 +1427,14 @@ latex, and making the text more readable in the editor.
 ;;   (LaTeX-mode . turn-on-reftex)
 ;;   (LaTeX-mode . turn-on-cdlatex)
 ;;   :init
-;;   (load "auctex.el" nil t t) 
+;;   (load "auctex.el" nil t t)
 ;;   ;; (load "preview-latex.el" nil t t)
-;;   (require 'reftex) 
+;;   (require 'reftex)
 
 ;;   (setq-default TeX-master 'dwim)
 
 ;;   (setq TeX-data-directory (straight--repos-dir "auctex")
-;;         TeX-lisp-directory TeX-data-directory                   
+;;         TeX-lisp-directory TeX-data-directory
 
 ;;                                         ; Or custom-set-variables as follows.
 ;;                                         ; M-x describe-variable RET preview-TeX-style-dir RET
@@ -1440,7 +1443,7 @@ latex, and making the text more readable in the editor.
 
 ;;         TeX-parse-self t ; parse on load
 ;;         TeX-auto-save t  ; parse on save
-;;         TeX-auto-untabify t ; Automatically remove all tabs from a file before saving it. 
+;;         TeX-auto-untabify t ; Automatically remove all tabs from a file before saving it.
 
 ;;                                         ;Type of TeX engine to use.
 ;;                                         ;It should be one of the following symbols:
@@ -1452,16 +1455,16 @@ latex, and making the text more readable in the editor.
 ;;         TeX-auto-local ".auctex-auto" ; Directory containing automatically generated TeX information.
 ;;         TeX-style-local ".auctex-style" ; Directory containing hand generated TeX information.
 
-;;         ;; ##### Enable synctex correlation. 
-;;         ;; ##### From Okular just press `Shift + Left click' to go to the good line. 
-;;         ;; ##### From Evince just press `Ctrl + Left click' to go to the good line.      
+;;         ;; ##### Enable synctex correlation.
+;;         ;; ##### From Okular just press `Shift + Left click' to go to the good line.
+;;         ;; ##### From Evince just press `Ctrl + Left click' to go to the good line.
 ;;         TeX-source-correlate-mode t
 ;;         TeX-source-correlate-method 'synctex
 ;;         TeX-source-correlate-server t
 
 ;;         ;; automatically insert braces after sub/superscript in math mode
-;;         TeX-electric-sub-and-superscript t 
-;;         ;; If non-nil, then query the user before saving each file with TeX-save-document.  
+;;         TeX-electric-sub-and-superscript t
+;;         ;; If non-nil, then query the user before saving each file with TeX-save-document.
 ;;         TeX-save-query nil
 
 ;;         TeX-view-program-selection '((output-pdf "PDF Tools"))
