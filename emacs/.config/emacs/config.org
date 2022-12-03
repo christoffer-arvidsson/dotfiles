@@ -1266,9 +1266,13 @@ file. Scrolling past chunks opens the next chunk. [[https://github.com/m00natic/
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-
   (set-face-attribute 'org-column nil :background nil)
   (set-face-attribute 'org-column-title nil :background nil))
+
+(defun +org/return ()
+  "Call `org-return' then indent (if `electric-indent-mode' is on)."
+  (interactive) 
+  (org-return electric-indent-mode))
 
 (use-package org
   :ensure org-plus-contrib
