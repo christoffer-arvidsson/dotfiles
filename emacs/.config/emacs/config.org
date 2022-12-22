@@ -526,38 +526,38 @@ If on a:
     (require 'consult)
     (setq deactivate-mark t)
     (let* (directory (project-root)
-      (consult-ripgrep-args
-       (concat "rg "
-               (if all-files "-uu ")
-               (unless recursive "--maxdepth 1 ")
-               "--null --line-buffered --color=never --max-columns=1000 "
-               "--path-separator /   --smart-case --no-heading --line-number "
-               "--hidden -g !.git -g !.svn -g !.hg "
-               (mapconcat #'shell-quote-argument args " ")
-               " ."))
-      (prompt (if (stringp prompt) (string-trim prompt) "Search"))
-      (consult-async-split-style consult-async-split-style)
-      (consult-async-split-styles-alist consult-async-split-styles-alist))
-    ;; Change the split style if the initial query contains the separator.
-    (when query
-      (cl-destructuring-bind (&key type separator initial _function)
-          (consult--async-split-style)
-        (pcase type
-          (`separator
-           (replace-regexp-in-string (regexp-quote (char-to-string separator))
-                                     (concat "\\" (char-to-string separator))
-                                     query t t))
-          (`perl
-           (when (string-match-p initial query)
-             (setf (alist-get 'perlalt consult-async-split-styles-alist)
-                   `(:initial ,(or (cl-loop for char in (list "%" "@" "!" "&" "/" ";")
-                                            unless (string-match-p char query)
-                                            return char)
-                                   "%")
-                              :type perl)
-                   consult-async-split-style 'perlalt))))))
-    (consult--grep prompt #'consult--ripgrep-builder directory query)))
-)
+                     (consult-ripgrep-args
+                      (concat "rg "
+                              (if all-files "-uu ")
+                              (unless recursive "--maxdepth 1 ")
+                              "--null --line-buffered --color=never --max-columns=1000 "
+                              "--path-separator /   --smart-case --no-heading --line-number "
+                              "--hidden -g !.git -g !.svn -g !.hg "
+                              (mapconcat #'shell-quote-argument args " ")
+                              " ."))
+                     (prompt (if (stringp prompt) (string-trim prompt) "Search"))
+                     (consult-async-split-style consult-async-split-style)
+                     (consult-async-split-styles-alist consult-async-split-styles-alist))
+      ;; Change the split style if the initial query contains the separator.
+      (when query
+        (cl-destructuring-bind (&key type separator initial _function)
+            (consult--async-split-style)
+          (pcase type
+            (`separator
+             (replace-regexp-in-string (regexp-quote (char-to-string separator))
+                                       (concat "\\" (char-to-string separator))
+                                       query t t))
+            (`perl
+             (when (string-match-p initial query)
+               (setf (alist-get 'perlalt consult-async-split-styles-alist)
+                     `(:initial ,(or (cl-loop for char in (list "%" "@" "!" "&" "/" ";")
+                                              unless (string-match-p char query)
+                                              return char)
+                                     "%")
+                                :type perl)
+                     consult-async-split-style 'perlalt))))))
+      (consult--grep prompt #'consult--ripgrep-builder directory query)))
+  )
     #+end_src
 
 *** Orderless
@@ -2608,11 +2608,15 @@ _k_: down      _a_: combine       _q_: quit
   (blamer-min-offset 70)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
-                    :height 90
-                    :italic t)))
+                   :background nil
+                   :height 90
+                   :italic t)))
+
   :config
-  (global-blamer-mode 1))
+  (eethern/leader-key-def
+    :keymaps 'normal
+    "t b" 'global-blamer-mode))
+
 #+end_src
 ** Syntax checking
 *** LSP
@@ -2633,6 +2637,8 @@ _k_: down      _a_: combine       _q_: quit
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-idle-delay 0.500)
 
+  (lsp-completion-provider :none)
+
   ; Rust
   (lsp-rust-server 'rust-analyzer)
   (lsp-rust-analyzer-server-display-inlay-hints t))
@@ -2641,8 +2647,8 @@ _k_: down      _a_: combine       _q_: quit
   :after lsp
   :hook (lsp-mode . lsp-ui-mode)
   :custom
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-hover nil)
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-show-hover t)
   (lsp-ui-doc-position 'bottom)
   :config
   (lsp-ui-doc-show))
