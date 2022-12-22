@@ -486,13 +486,19 @@ If on a:
 #+end_src
 
 ** Completion
-*** Vertical completion
+*** Vertico
 #+begin_src elisp
 (use-package vertico
+  :straight (:files (:defaults "extensions/*"))
+  :bind (:map vertico-map
+              ("\M-q" . #'vertico-quick-insert)
+              ("\C-q" . #'vertico-quick-exit))
+
+
   :custom
   (vertico-cycle t)
   (vertico-count 13)
-  (vertico-resize t)
+  (vertico-resize nil)
   :config
   (vertico-mode)
 
