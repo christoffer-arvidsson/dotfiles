@@ -2959,16 +2959,20 @@ Completion uses =LSP= with =rust-analyzer=, see the =LSP= section.
 (eethern/local-leader-def
   :states '(normal visual)
   :keymaps 'rust-mode-map
-  "r" 'rustic-cargo-run
-  "b" 'rustic-cargo-build
-  "c" 'rustic-compile
-  "l" 'rustic-cargo-clippy
-  "t" 'rustic-cargo-current-test
-  "T" 'rustic-cargo-test
-  "p a" 'rustic-cargo-add
-  "p n" 'rustic-cargo-new
-  "p u" 'rustic-cargo-upgrade
-  "F" 'rustic-format-buffer)
+  "b r" 'rustic-cargo-run
+  "b b" 'rustic-cargo-build
+  "b c" 'rustic-compile
+  "b C" 'rustic-cargo-clippy
+  "b f" 'rustic-format-buffer
+  "t t" 'rustic-cargo-current-test
+  "t a" 'rustic-cargo-test
+  "t B" 'rustic-cargo-bench
+  "c a" 'rustic-cargo-add
+  "c d" 'rustic-cargo-add
+  "c n" 'rustic-cargo-new
+  "c u" 'rustic-cargo-update
+  "c U" 'rustic-cargo-upgrade
+)
 #+end_src
 
 *** Yaml
