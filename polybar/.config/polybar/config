@@ -28,7 +28,7 @@ inactive = #55BFA89E
 
 [settings]
 screenchange-reload = true
-pseudo-transparency = false
+pseudo-transparency = true
 ;compositing-background = xor
 ;compositing-background = screen
 ;compositing-foreground = source
