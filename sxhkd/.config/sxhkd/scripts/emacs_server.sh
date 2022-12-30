@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-options=("doom\nnondoom")
+options=("doom\nnondoom\nnull")
 selected=$(echo -e $options | rofi -dmenu -p "Emacs profile")
 
-emacs --with-profile $selected --daemon=$selected
+~/.config/scripts/emacs_server.sh -s $selected
+

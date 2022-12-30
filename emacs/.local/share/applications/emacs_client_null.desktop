@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Emacs client (null)
+Icon=/usr/share/icons/hicolor/48x48/apps/emacs.png
+Comment=Start Emacsclient with null profile
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+Exec=emacsclient -s null -c

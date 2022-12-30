@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Emacs profile (doom)
+Icon=/usr/share/icons/hicolor/48x48/apps/emacs.png
+Comment=Start Emacs with doom profile
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+Exec=emacs --with-profile doom

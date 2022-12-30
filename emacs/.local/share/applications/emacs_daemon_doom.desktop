@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Emacs daemon (doom)
+Icon=/usr/share/icons/hicolor/48x48/apps/emacs.png
+Comment=Start Emacs daemon (doom)
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+Exec=bash \~/.config/scripts/emacs_server.sh -s doom
