@@ -1,0 +1,11 @@
+[Unit]
+Description=Run zotero in background
+
+[Service]
+# instead of calling /opt/zotero/zotero we can provide our
+# options for starting a headless process
+ExecStart=/opt/zotero/zotero-bin -app /opt/zotero/application.ini --headless
+
+[Install]
+# actually starts this service when I log in
+WantedBy=default.target
