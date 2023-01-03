@@ -35,12 +35,13 @@ notify-send $params "emacs ($server): launching daemon..."
 
 # Start the Emacs daemon
 emacs_output=$(emacs --with-profile $server --daemon=$server 2>&1)
+exit_code=$?
 
 # Check the output of the emacs command
 if [[ $emacs_output == "emacs ($server): error: daemon is already running"* ]]; then
   # The daemon is already running, send a notification
   notify-send $params "emacs: ($server) daemon is already running"
-elif [ $? -eq 0 ]; then
+elif [ $exit_code -eq 0 ]; then
   # The emacs command was successful, send a notification
   notify-send $params "emacs ($server): daemon launched successfully"
 else
