@@ -37,12 +37,12 @@ super + o ; p
   bwmenu --auto-lock 86400
 # Emacs client
 super + o ; c ; c
-  emacsclient -s nondoom -c
+  emacsclient -s null -c
 super + o ; c ; d
   emacsclient -s doom -c
 # Emacs nonclient
 super + o; c ; C
-  emacs --with-profile nondoom
+  emacs --with-profile null
 super + o; c ; D
   emacs --with-profile doom
 # Emacs server

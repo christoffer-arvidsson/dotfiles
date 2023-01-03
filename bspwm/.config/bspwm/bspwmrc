@@ -51,7 +51,7 @@ bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 echo "Running startup block"
 
 # Background applications
-run emacs --with-profile nondoom --daemon=nondoom &
+run emacs --with-profile null --daemon=null &
 run inputplug -d -c ~/on_new_keyboard.sh &
 run sxhkd &
 run dunst &
