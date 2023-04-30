@@ -31,14 +31,17 @@ zoxide init fish | source
 starship init fish | source
 
 # alias
-alias s="kitty +kitten ssh"
-alias doom="~/.config/doom_emacs/bin/doom"
-#alias ls="exa -l"
-#alias cat="bat"
-#alias doom="~/.emacs.doom/bin/doom"
-
-# use bat for man
-# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+alias ssh="kitty +kitten ssh"
+# If exa is installed
+if command -v exa >/dev/null 2>&1
+    alias ls="exa -l"
+end
+# If bat is installed
+if command -v bat >/dev/null 2>&1
+    alias cat="bat"
+    # use bat for man
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+end
 
 # pyenv
 status --is-interactive; and pyenv init - | source
