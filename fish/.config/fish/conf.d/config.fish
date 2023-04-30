@@ -24,13 +24,8 @@ bind \cn down-or-search
 bind -s -M insert \cp up-or-search
 bind -s -M insert \cn down-or-search
 
-# autojump
-begin
-    set --local AUTOJUMP_PATH $HOME/.autojump/share/autojump/autojump.fish
-    if test -e $AUTOJUMP_PATH
-        source $AUTOJUMP_PATH
-    end
-end
+# zoxide
+zoxide init fish | source
 
 # init prompt
 starship init fish | source
