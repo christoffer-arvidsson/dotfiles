@@ -46,3 +46,10 @@ end
 # pyenv
 status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
+
+# Autorun tmux if installed
+if command -v tmux &> /dev/null
+and status is-interactive
+and not set -q TMUX
+  tmux new-session -A -s main
+end
