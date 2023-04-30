@@ -12,7 +12,7 @@ super + o ; Return
   kitty
 # Launch program
 super + o ; t
-  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a kitty
+  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' kitty
 # Ranger
 super + o ; r
   tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' kitty
