@@ -137,7 +137,7 @@ function main() {
 
     sleep 1
     
-    feh --bg-scale ~/.dotfiles/.img/space.jpg 
+    feh --bg-scale $WALLPAPER
     ~/.config/polybar/scripts/launch.sh
 }
 
