@@ -1,13 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-paired=`bluetoothctl paired-devices | grep "WH"`
+paired=`bluetoothctl paired-devices`
 controllers=`bluetoothctl list`
 read -ra DEV <<< "$paired"
 read -ra CON <<< "$controllers"
 
-name=`bluetoothctl info ${ARR[1]}| grep "Name" | sed 's/^.*: //'`
+name=`bluetoothctl info ${DEV[1]}| grep "Name" | sed 's/^.*: //'`
 onoff=`bluetoothctl show | grep "Powered" | sed 's/^.*: //'`
 connected=`bluetoothctl info | grep "Connected" | sed 's/^.*: //'`
+
+echo $name $onoff $connected
 
 
 if [ $onoff == "no" ]

@@ -143,7 +143,7 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next
+modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth
 modules-center = bspwm
 modules-right = bspwm-modes do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
@@ -204,7 +204,7 @@ click-left = exec ~/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle
 [module/bluetooth-menu]
 type = custom/menu
 expand-right = true
-label-open = " %{F#ff95b4e6}:"
+label-open = " %{F#ff95b4e6}"
 label-close = " %{F#ff95b4e6}: [Close]"
 label-separator = " | "
 
@@ -213,12 +213,12 @@ menu-0-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_bluetooth.sh
 menu-0-1 = Paired devices
 menu-0-1-exec = menu-open-1
 
-menu-1-0 = Headset
+menu-1-0 = WH-1000XM3
 menu-1-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh
 
 [module/bluetooth]
 type = custom/script
-format-prefix = "%{F#ff95b4e6} "
+format-prefix = "%{F#ff95b4e6}"
 exec = ~/.config/polybar/scripts/bluetooth/status.sh
 
 [module/spotify]

@@ -10,9 +10,9 @@ then
     then
         echo "on"
     else
-        level=`~/.config/polybar/scripts/bluetooth/battery_level/bluetooth_battery.py $MAC` &&
-        level=`echo ${level} | awk '{print $6}'` &&
-        echo "${name} [${level}]"
+        # level=`~/.config/polybar/scripts/bluetooth/battery_level/bluetooth_battery.py $MAC` &&
+        # level=`echo ${level} | awk '{print $6}'` &&
+        echo "${name}"
     fi
 else
     echo ""
