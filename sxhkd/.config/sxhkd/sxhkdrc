@@ -10,8 +10,12 @@ super + {_,shift} + p
 # terminal emulator
 super + o ; Return
   kitty
-# Launch program
+# tmux attach
 super + o ; t
+  ~/.config/sxhkd/scripts/rofi_tmux.sh
+
+# Launch program
+super + o ; s
   tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' kitty
 # Ranger
 super + o ; r
