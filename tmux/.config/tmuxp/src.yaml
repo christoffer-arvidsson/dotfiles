@@ -1,0 +1,9 @@
+session_name: src
+start_directory: $HOME/repos/src
+windows:
+  - window_name: dev
+    focus: True
+    layout: tiled
+    panes:
+      - clear
+      - nvim .
