@@ -9,5 +9,5 @@ selected_session=$(echo "$sessions" | rofi -dmenu -p "Select a tmux session")
 # Check if the user selected a session
 if [[ -n "$selected_session" ]]; then
   # Attach to the selected tmux session in a new terminal window
-  kitty -e tmux new-session -A -t "$selected_session" &
+  kitty -e tmux new-session -A -s "$selected_session" &
 fi
