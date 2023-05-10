@@ -31,6 +31,9 @@ zoxide init fish | source
 starship init fish | source
 
 # alias
+if command -v nvim >/dev/null 2>&1
+    alias vim="nvim"
+end
 alias ssh="kitty +kitten ssh"
 # If exa is installed
 if command -v exa >/dev/null 2>&1
