@@ -214,7 +214,10 @@ menu-0-1 = Paired devices
 menu-0-1-exec = menu-open-1
 
 menu-1-0 = WH-1000XM3
-menu-1-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh
+menu-1-0-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh "WH-1000XM3"
+
+menu-1-1 = MID
+menu-1-1-exec = exec ~/.config/polybar/scripts/bluetooth/toggle_connect_bluetooth.sh "MID"
 
 [module/bluetooth]
 type = custom/script

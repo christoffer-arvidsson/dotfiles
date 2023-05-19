@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-paired=`bluetoothctl paired-devices`
 controllers=`bluetoothctl list`
-read -ra DEV <<< "$paired"
+declare -A paired=(
+    [MID]="2C:4D:79:10:65:F0"
+    [WH-1000XM3]="CC:98:8B:B6:A5:5C"
+)
 read -ra CON <<< "$controllers"
 
 name=`bluetoothctl info ${DEV[1]}| grep "Name" | sed 's/^.*: //'`
@@ -21,10 +23,8 @@ if [ "$connected" == "yes" ]
 then
     bluetoothctl disconnect
 else
-    bluetoothctl connect ${DEV[1]}
-    echo ${DEV[1]}
+    bluetoothctl connect ${paired[$1]}
     # Sleep due to low energy devices requiring me to connect twice???
     sleep 2.5
-    bluetoothctl connect ${DEV[1]}
-    echo ${DEV[1]}
+    bluetoothctl connect ${paired[$1]}
 fi
