@@ -114,7 +114,7 @@ function main() {
             selected=$(find ~/.config/bspwm/monitors -printf '%f\n' -name '*.layout' \
                            | grep -e "^$N_MONITORS" -e "undocked" \
                            | sed 's/ /\n/g' \
-                           | rofi -dmenu -p "Select monitor layout")
+                           | rofi -dmenu -p "Select monitor layout" -no-custom)
 
             echo "Selected $selected"
 
