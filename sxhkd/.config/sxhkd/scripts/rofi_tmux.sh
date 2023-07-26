@@ -14,9 +14,9 @@ The script performs the following steps:
     Reads all open tmux sessions and generates a list of session names.
     Reads all tmuxp layouts to the session list under a (new) name.
     Launches a Rofi prompt to allow the user to select a tmux session.
-    If the user selects an existing session, the script attaches to it in a new terminal window.
-    If the user selects a new session, the script loads up a tmuxp layout with that name.
-    If the user selects a remote session, the script loads up the "workspace" tmux on the remote ssh target.
+    - If the user selects an existing session, the script attaches to it in a new terminal window.
+    - If the user selects a new session, the script loads up a tmuxp layout with that name.
+    - If the user selects a remote session, the script loads up the "workspace" tmux session on the remote ssh target.
 
 The script uses the following external tools:
 
@@ -24,6 +24,7 @@ The script uses the following external tools:
     tmuxp (to list and load layouts)
     rofi (to prompt the user for a session selection)
     kitty (to launch new terminal windows)
+    ssh
 doc
 
 # Read open tmux sessions and generate a list of session names
