@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Emacs profile (nondoom)
-Icon=/usr/share/icons/hicolor/48x48/apps/emacs.png
-Comment=Start Emacs with nondoom profile
-Type=Application
-Terminal=false
-Categories=Utility;TextEditor;
-Exec=emacs --with-profile nondoom

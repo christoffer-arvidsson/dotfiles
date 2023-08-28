@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Emacs client (doom)
-Icon=/usr/share/icons/hicolor/48x48/apps/emacs.png
-Comment=Start Emacsclient with doom profile
-Type=Application
-Terminal=false
-Categories=Utility;TextEditor;
-TryExec=emacsclient
-Exec=emacsclient -s doom -c
