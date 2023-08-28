@@ -28,16 +28,16 @@ super + o ; v
   tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
 # Browser
 super + o ; b ; f
-  firefox
+  if command -v firefox-nightly > /dev/null; then firefox-nightly; else firefox; fi
 super + o ; b ; b
   brave-dev --disable-frame-rate-limit
 super + o ; b ; q
   qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization
 # n64 games :)
 super + o ; g ; e
-  ~/.config/emulation/rofi_roms.sh 
+  ~/.config/emulation/rofi_roms.sh
 # Bitwarden rofi, autolock after 1hour
-super + o ; p 
+super + o ; p
   bwmenu --auto-lock 86400
 # Emacs client
 super + o ; c ; c
@@ -128,14 +128,14 @@ super + {Left,Down,Up,Right}
 
 # Swap a node in the given direction. If across a monitor, simply move it to that monitor
 super + shift + {m,n,e,i}
-	dir={west,south,north,east}; \
-	bspc node -s "$dir.local" --follow \
-	    || bspc node -m "$dir" --follow
+    dir={west,south,north,east}; \
+    bspc node -s "$dir.local" --follow \
+        || bspc node -m "$dir" --follow
 
 super + shift + {Left,Down,Up,Right}
-	dir={west,south,north,east}; \
-	bspc node -s "$dir.local" --follow \
-	    || bspc node -m "$dir" --follow
+    dir={west,south,north,east}; \
+    bspc node -s "$dir.local" --follow \
+        || bspc node -m "$dir" --follow
 
 # focus the node for the given path jump
 # super + {p,b,comma,per od}
@@ -235,9 +235,9 @@ super + o ; l
 
 # Brightness
 XF86MonBrightnessDown
-	xbacklight -dec 10
+    xbacklight -dec 10
 XF86MonBrightnessUp
-	xbacklight -inc 10
+    xbacklight -inc 10
 
 #
 # UI
@@ -250,4 +250,3 @@ super + {plus, minus}
 # inc/dec border
 super + shift + {plus, minus}
   ~/.config/sxhkd/scripts/{border_inc,border_dec}.sh
-
