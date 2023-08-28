@@ -55,12 +55,12 @@ run emacs --with-profile null --daemon=null &
 run inputplug -d -c ~/on_new_keyboard.sh &
 run sxhkd &
 run dunst &
-run redshift-gtk &
 run spotify --force-device-scale-factor=0.75 &
 
 if [ "$(hostname)" = "station" ]; then
     export WALLPAPER="$HOME/.dotfiles/.img/space.jpg "
-    run picom --config ~/.config/picom/picom.conf &
+    # run picom --config ~/.config/picom/picom.conf &
+    run redshift &
     run easyeffects --gapplication-service &
     run steam-native &
     run dropbox start &
