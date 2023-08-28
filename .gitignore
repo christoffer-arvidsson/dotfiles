@@ -3,3 +3,6 @@
 /firefox/.mozilla/firefox/Crash Reports/
 /firefox/.mozilla/firefox/5u0fdikw.default-release/
 /firefox/.mozilla/firefox/5u0fdikw.default-release/
+/nvim/.config/nvim/plugin/
+/fish/.config/fish/fish_variables
+/systemd/.config/systemd/user/default.target.wants/
