@@ -9,6 +9,7 @@ c.colors.webpage.darkmode.enabled = True
 c.content.blocking.method = "both"
 c.content.webgl = False
 c.content.autoplay = False
+c.content.javascript.clipboard = "access"
 
 c.content.headers.user_agent = (
     "Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101 Firefox/68.0"
