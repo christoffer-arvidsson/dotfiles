@@ -6,6 +6,4 @@ windows:
     layout: tiled
     panes:
       - clear
-      - nvim .
-      - shell_command:
-          - zdocker
+      - clear

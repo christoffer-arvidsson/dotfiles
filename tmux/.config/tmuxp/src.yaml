@@ -6,4 +6,4 @@ windows:
     layout: tiled
     panes:
       - clear
-      - nvim .
+      - clear
