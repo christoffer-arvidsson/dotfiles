@@ -45,6 +45,8 @@ c.downloads.location.suggestion = "both"  # path, filename, both
 
 c.scrolling.smooth = False
 
+c.hints.chars = "arstgmneio"
+
 config.bind(",r", "config-source")
 config.bind("M", "back")
 config.bind("I", "forward")
