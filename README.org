@@ -2,6 +2,7 @@
 Hello! This is the ever changing mess that are my dotfiles.
 
 #+CAPTION: The current look
+#+attr_org: :width 720px
 #+NAME:   fig:current
 [[./.img/current.png]]
 
