@@ -13,6 +13,8 @@ super + o ; Return
 # tmux attach
 super + o ; t
   ~/.config/sxhkd/scripts/rofi_tmux.sh
+super + o ; T
+  ~/.config/sxhkd/scripts/rofi_tmux_sessionizer.sh
 
 # Launch program
 super + o ; s
