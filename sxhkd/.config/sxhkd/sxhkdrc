@@ -76,10 +76,6 @@ super + o; m
 super + Escape
     pkill -USR1 -x sxhkd
 
-super + alt + {_,shift + }{1-9,0}
-    bspc {desktop -f, window -d} $(bspc query -M -m)/{a,b,c}
-
-
 # Restart/quit bspwm
 super + alt + {_, shift} + Escape
     bspc {wm -r, quit}
@@ -165,6 +161,9 @@ super + bracket{left,right}
 super + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} 'focused:^{1-9,10}'
 
+# focus the leaf node corresponding to the number on the focused desktop
+alt + super + {1-9,0}
+    bspc node -f $(bspc query -N -n .leaf -d focused | sed -n "{1-9,0} p")
 #
 # preselect
 #
