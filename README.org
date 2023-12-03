@@ -1,22 +1,22 @@
 * dotfiles
 Hello! This is the ever changing mess that are my dotfiles.
 
-#+CAPTION: The current look
+#+CAPTION: The (oldish) look
 #+attr_org: :width 720px
 #+NAME:   fig:current
 [[./.img/current.png]]
 
-| *WM*                  | bspwm      |
-| *OS*                  | arch linux |
-| *Bar*                 | polybar    |
-| *Shell*               | fish       |
-| *Terminal*            | kitty      |
-| *Editor*              | doom emacs |
-| *File manager*        | ranger     |
-| *Launcher*            | rofi       |
-| *Browser*             | firefox    |
-| *Notification daemon* | dunst      |
-| *Compositor*          | picom      |
+| *WM*                  | bspwm       |
+| *OS*                  | arch linux  |
+| *Bar*                 | polybar     |
+| *Shell*               | fish        |
+| *Terminal*            | kitty       |
+| *Editor*              | null emacs  |
+| *File manager*        | ranger      |
+| *Launcher*            | rofi        |
+| *Browser*             | qutebrowser |
+| *Notification daemon* | dunst       |
+| *Compositor*          | picom       |
 
 * Install
 Most of these are installable by using =stow=. Configs stored outside of the home
