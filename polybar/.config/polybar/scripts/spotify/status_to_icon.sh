@@ -1,16 +1,13 @@
 #!/bin/bash
-set -euo pipefail
 
-function status_to_icon {
-  while read -r status; do
-    if [ "$status" = "Stopped" ]; then
-      echo ""
-    elif [ "$status" = "Paused"  ]; then
-      echo ""
-    else
-      echo ""
-    fi
-  done
-}
+STATUS=$(playerctl --player=spotify status 2>/dev/null)
 
-playerctl status -p spotify | status_to_icon
+if [ "$STATUS" = "Stopped" ]; then
+    echo ""
+elif [ "$STATUS" = "Paused"  ]; then
+    echo ""
+elif [ "$STATUS" = "Playing" ]; then
+    echo ""
+else
+    echo ""
+fi

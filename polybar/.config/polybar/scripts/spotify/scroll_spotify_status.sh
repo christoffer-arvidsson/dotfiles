@@ -3,6 +3,7 @@
 # see man zscroll for documentation of the following parameters
 zscroll -l 30 \
         --delay 0.3 \
+        --before-text "  " \
         --scroll-padding " | " \
         --match-command "`dirname $0`/get_spotify_status.sh --status" \
         --match-text "Playing" "--scroll 1" \
@@ -10,4 +11,3 @@ zscroll -l 30 \
         --update-check true "`dirname $0`/get_spotify_status.sh" &
 
 wait
-
