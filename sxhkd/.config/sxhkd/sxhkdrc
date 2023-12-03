@@ -57,13 +57,13 @@ super + o; c ; s
 # Agenda
 # Work
 super + o; a ; w
-  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-work)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s null -e "(org-agenda-open-work)"
 # Personall
 super + o; a ; p
-  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-personal)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s null -e "(org-agenda-open-personal)"
 # Todos
 super + o; a ; t
-  ~/.config/bspwm/bspwmfloat.sh emacsclient -s nondoom -e "(org-agenda-open-todos)"
+  ~/.config/bspwm/bspwmfloat.sh emacsclient -s null -e "(org-agenda-open-todos)"
 # Select monitor layout
 super + o; m
   ~/.config/bspwm/mons.sh select
@@ -89,12 +89,12 @@ super + z
     bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
-super + y
-    bspc node newest.marked.local -n newest.!automatic.local
+# super + y
+#     bspc node newest.marked.local -n newest.!automatic.local
 
 # swap the current node and the biggest node
-super + g
-    bspc node -s biggest
+# super + g
+#     bspc node -s biggest
 
 # Swap the current node with preselected node
 super + s
@@ -108,7 +108,7 @@ super + s
 super + {t, shift + t, shift + f, f}
     bspc node -t {tiled, psuedo_tiled, floating, fullscreen}
 
-# set the node flags {marked,locked,sticy,private}
+# set the node flags {marked,locked,sticky,private}
 super + ctrl + {k,x,y,z}
     bspc node -g {marked,locked,sticky,private}
 
@@ -136,8 +136,8 @@ super + shift + {Left,Down,Up,Right}
         || bspc node -m "$dir" --follow
 
 # focus the node for the given path jump
-# super + {p,b,comma,per od}
-#     bspc node -f @{parent,brother,first,second}
+super + {u,b,comma,period}
+    bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }Tab
@@ -245,9 +245,9 @@ XF86MonBrightnessUp
 #
 
 # inc/dec gap
-super + {plus, minus}
-  ~/.config/sxhkd/scripts/{gap_inc,gap_dec}.sh
+# super + {plus, minus}
+#   ~/.config/sxhkd/scripts/{gap_inc,gap_dec}.sh
 
 # inc/dec border
-super + shift + {plus, minus}
-  ~/.config/sxhkd/scripts/{border_inc,border_dec}.sh
+# super + shift + {plus, minus}
+#   ~/.config/sxhkd/scripts/{border_inc,border_dec}.sh
