@@ -190,7 +190,7 @@ wm-restack = bspwm
 [module/vpn-openvpn-status]
 type = custom/script
 exec = ~/.config/polybar/scripts/vpn/vpn-openvpn-status.sh
-interval = 5
+interval = 10
 click-left = ~/.config/polybar/scripts/vpn/toggle-vpn.sh Zenseact-SE
 
 [module/do-not-disturb]
@@ -225,7 +225,7 @@ exec = ~/.config/polybar/scripts/bluetooth/status.sh
 [module/spotify]
 type = custom/script
 tail = true
-interval = 1
+interval = 2
 exec = ~/.config/polybar/scripts/spotify/scroll_spotify_status.sh
 
 
@@ -237,7 +237,7 @@ click-left = playerctl previous -p spotify
 [module/spotify-play-pause]
 type = custom/script
 exec = ~/.config/polybar/scripts/spotify/status_to_icon.sh
-interval = true
+interval = 1
 click-left = playerctl play-pause -p spotify
 
 [module/spotify-next]
@@ -247,7 +247,7 @@ click-left = playerctl next -p spotify
 
 [module/bspwm-windows]
 type = custom/script
-interval = 0
+interval = 0.5
 format = <label>
 exec = ~/.config/polybar/scripts/bspwm/bspwm_windows.sh
 
@@ -475,7 +475,7 @@ label-font = 1
 
 [module/date]
 type = internal/date
-interval = 1
+interval = 100
 
 date = " %a %e %b"
 date-alt = " %Y-%m-%d"
