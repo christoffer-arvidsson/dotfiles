@@ -47,7 +47,7 @@ fixed-center = true
 background = ${colors.top-background}
 foreground = ${colors.top-foreground}
 
-line-size = 0
+line-size = 2
 
 border-size = 0
 border-color = #00000000
@@ -62,9 +62,9 @@ font-0 = iosevka:size=9
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=9
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next
+modules-left = spotify spotify-prev spotify-play-pause spotify-next bspwm-windows bspwm-modes
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
+modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -86,7 +86,7 @@ fixed-center = true
 background = ${colors.top-background}
 foreground = ${colors.top-foreground}
 
-line-size = 0
+line-size = 2
 
 border-size = 0
 border-color = #00000000
@@ -101,9 +101,9 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify
+modules-left = spotify bspwm-windows bspwm-modes
 modules-center = bspwm
-modules-right = bspwm-modes unread-mail do-not-disturb volume filesystem temperature vpn-openvpn-status wlan battery date time powermenu
+modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status wlan battery date time powermenu
 
 tray-position = left
 tray-padding = 10
@@ -126,7 +126,7 @@ fixed-center = true
 background = ${colors.top-background}
 foreground = ${colors.top-foreground}
 
-line-size = 0
+line-size = 2
 
 border-size = 0
 border-color = #00000000
@@ -166,7 +166,7 @@ fixed-center = true
 background = ${colors.top-background}
 foreground = ${colors.top-foreground}
 
-line-size = 0
+line-size = 2
 
 border-size = 0
 border-color = #00000000
@@ -181,9 +181,9 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left =
+modules-left = bspwm-windows bspwm-modes
 modules-center = bspwm
-modules-right = bspwm-modes temperature date time powermenu
+modules-right = temperature date time powermenu
 
 wm-restack = bspwm
 
@@ -225,7 +225,9 @@ exec = ~/.config/polybar/scripts/bluetooth/status.sh
 [module/spotify]
 type = custom/script
 tail = true
+interval = 1
 exec = ~/.config/polybar/scripts/spotify/scroll_spotify_status.sh
+
 
 [module/spotify-prev]
 type = custom/text
@@ -245,10 +247,9 @@ click-left = playerctl next -p spotify
 
 [module/bspwm-windows]
 type = custom/script
-interval = 1
+interval = 0
 format = <label>
-format-prefix = " "
-exec = ~/.config/polybar/scripts/bspwm/curr_windows.sh
+exec = ~/.config/polybar/scripts/bspwm/bspwm_windows.sh
 
 [module/bspwm-modes]
 type = internal/bspwm
@@ -275,13 +276,13 @@ fuzzy-match = true
 format = <label-mode>
 
 label-separator-padding = 1
-label-monocle = "  "
+label-monocle = " "
 label-monocle-foreground = ${colors.highlight}
-label-floating = ""
+label-floating = " "
 label-floating-foreground = ${colors.highlight}
-label-locked = "  "
+label-locked = " "
 label-locked-foreground = ${colors.highlight}
-label-sticky = "  "
+label-sticky = " "
 label-sticky-foreground = ${colors.highlight}
 
 label-focused-font = 2
@@ -413,7 +414,6 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.top-foreground}
-;format-underline = #f90000
 label = %percentage%%
 
 [module/memory]
@@ -421,7 +421,6 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.top-Foreground}
-;format-underline = #4bffdc
 label = %percentage_used%%
 
 [module/wlan]
@@ -431,7 +430,6 @@ interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 format-prefix = 1
-format-connected-underline = #9f78e1
 label-connected = %essid%
 label-connected-foreground = ${colors.top-foreground}
 
@@ -439,7 +437,6 @@ label-connected-foreground = ${colors.top-foreground}
 ;format-disconnected-prefix-font = 3
 ;format-disconnected = no network
 format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.top-foreground}
 
@@ -456,7 +453,6 @@ type = internal/network
 interface = enp5s0
 interval = 3.0
 
-format-connected-underline = #55aa55
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.top-foreground}
 label-connected = %ifname%
@@ -472,7 +468,6 @@ time = " %H:%M"
 time-alt = " %H:%M:%S"
 
 format-prefix-foreground = ${colors.top-foreground}
-format-underline = ${colors.top-foreground}
 
 format = <label>
 label = %time%
@@ -486,7 +481,6 @@ date = " %a %e %b"
 date-alt = " %Y-%m-%d"
 
 format-prefix-foreground = ${colors.top-foreground}
-format-underline = ${colors.top-foreground}
 
 format =%{A1:gsimplecal:} <label> %{A}
 label = %date%
@@ -536,14 +530,11 @@ adapter = AC
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
 
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
 
 format-full = <label-full> 100%
 format-full-prefix-foreground = ${colors.top-foreground}
-format-full-underline = ${self.format-charging-underline}
 
 label-discharging-foreground = ${colors.top-foreground}
 label-charging-foreground = ${colors.top-foreground}
@@ -573,9 +564,7 @@ thermal-zone = 20
 warn-temperature = 80
 
 format = <ramp> <label>
-format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
 
 hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 
