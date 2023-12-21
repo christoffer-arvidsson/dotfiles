@@ -50,3 +50,8 @@ c.hints.chars = "arstgmneio"
 config.bind(",r", "config-source")
 config.bind("M", "back")
 config.bind("I", "forward")
+
+c.aliases["zotero"] = "spawn --userscript qute-zotero.py"
+config.bind(",z", "zotero")
+c.aliases["Zotero"] = "hint links userscript qute-zotero.py"
+config.bind(",Z", "Zotero")
