@@ -141,9 +141,9 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth
+modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
 modules-center = bspwm
-modules-right = bspwm-modes do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
+modules-right = do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
 tray-position = left
 tray-padding = 10
