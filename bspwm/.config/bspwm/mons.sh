@@ -136,10 +136,9 @@ function main() {
     esac
 
     sleep 1
-    
-    feh --bg-scale $WALLPAPER
+
+    feh --bg-scale $WALLPAPER --stretch
     ~/.config/polybar/scripts/launch.sh
 }
 
 main $1
-
