@@ -68,6 +68,7 @@ if [ "$(hostname)" = "station" ]; then
     run discord &
     run cinny &
     run zotero --headless &
+    run discord-canary
     ~/.config/bspwm/mons.sh startup
     ~/.config/bspwm/mons.sh 2_hor.layout
 elif [ "$(hostname)" = "shuttle" ]; then
