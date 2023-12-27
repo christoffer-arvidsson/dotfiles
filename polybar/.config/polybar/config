@@ -2,15 +2,6 @@
 top-background = #00ffffff
 top-foreground = #CAfff9e8
 
-bottom-background = #00ffffff
-bottom-foreground = #CAfff9e8
-
-; alert = #E75D5D
-; highlight = #E39F72
-; soft-highlight = #E1986D
-; positive = #4fb069
-; inactive = #55BFA89E
-
 alert = ${xrdb:alert}
 highlight = ${xrdb:highlight}
 soft-highlight = ${xrdb:soft-highlight}
@@ -18,23 +9,11 @@ positive = ${xrdb:positive}
 inactive-untrans = ${xrdb:inactive}
 inactive = #55BFA89E
 
-; Dark blue: #283044
-; light blue: #78A1BB
-; Bright: #EBF5EE
-; Tan: #BFA89E
-; Dark tan: #8B786D
-; deep purple: #302833
-; Orange tan: #DF946A
-
 [settings]
 screenchange-reload = true
 pseudo-transparency = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
 
-[bar/station-topbar]
+[bar/base]
 monitor = ${env:MONITOR}
 enable-ipc = true
 width = 100%
@@ -62,6 +41,11 @@ font-0 = iosevka:size=9
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=9
 
+wm-restack = bspwm
+
+[bar/station-topbar]
+inherit = bar/base
+
 modules-left = spotify spotify-prev spotify-play-pause spotify-next bspwm-windows bspwm-modes
 modules-center = bspwm
 modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
@@ -71,31 +55,8 @@ tray-padding = 10
 tray-background = ${self.background}
 tray-detached = false
 
-wm-restack = bspwm
-
 [bar/shuttle-topbar]
-monitor = ${env:MONITOR}
-enable-ipc = true
-width = 100%
-height = 20
-offset-x = 0
-offset-y = 7
-radius = 0.0
-fixed-center = true
-
-background = ${colors.top-background}
-foreground = ${colors.top-foreground}
-
-line-size = 2
-
-border-size = 0
-border-color = #00000000
-
-padding-left = 4
-padding-right = 4
-
-module-margin-left = 1
-module-margin-right = 1
+inherit = bar/base
 
 font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
@@ -109,33 +70,9 @@ tray-position = left
 tray-padding = 10
 tray-background = ${self.background}
 tray-detached = false
-;tray-background = #0063ff
-
-wm-restack = bspwm
 
 [bar/work-topbar]
-monitor = ${env:MONITOR}
-enable-ipc = true
-width = 100%
-height = 20
-offset-x = 0
-offset-y = 7
-radius = 0.0
-fixed-center = true
-
-background = ${colors.top-background}
-foreground = ${colors.top-foreground}
-
-line-size = 2
-
-border-size = 0
-border-color = #00000000
-
-padding-left = 4
-padding-right = 4
-
-module-margin-left = 1
-module-margin-right = 1
+inherit = bar/base
 
 font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
@@ -149,34 +86,11 @@ tray-position = left
 tray-padding = 10
 tray-background = ${self.background}
 tray-detached = false
-;tray-background = #0063ff
 
 wm-restack = bspwm
 
 [bar/external]
-monitor = ${env:MONITOR}
-enable-ipc = true
-width = 100%
-height = 20
-offset-x = 0
-offset-y = 7
-radius = 0.0
-fixed-center = true
-
-background = ${colors.top-background}
-foreground = ${colors.top-foreground}
-
-line-size = 2
-
-border-size = 0
-border-color = #00000000
-
-padding-left = 4
-padding-right = 4
-
-module-margin-left = 1
-module-margin-right = 1
-
+inherit = bar/base
 font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
