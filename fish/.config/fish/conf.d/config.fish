@@ -43,6 +43,7 @@ end
 if command -v bat >/dev/null 2>&1
     alias cat="bat"
     # use bat for man
+    export MANROFFOPT="-c"
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 end
 
