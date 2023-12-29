@@ -47,7 +47,10 @@ if command -v bat >/dev/null 2>&1
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 end
 
+if command -v tmux >/dev/null 2>&1
+    alias ts="~/.config/scripts/tmux_sessionizer.sh"
+end
+
 # pyenv
 status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
-
