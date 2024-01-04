@@ -54,6 +54,11 @@ config.bind(",r", "config-source")
 config.bind("M", "back")
 config.bind("I", "forward")
 
+config.bind('<left>', "move-to-prev-char" ,mode='caret')
+config.bind('<right>', "move-to-next-char" ,mode='caret')
+config.bind('<up>', "move-to-prev-line" ,mode='caret')
+config.bind('<down>', "move-to-next-line" ,mode='caret')
+
 c.aliases["zotero"] = "spawn --userscript qute-zotero.py"
 config.bind(",z", "zotero")
 c.aliases["Zotero"] = "hint links userscript qute-zotero.py"
