@@ -45,6 +45,9 @@ c.downloads.location.suggestion = "both"  # path, filename, both
 
 c.scrolling.smooth = False
 
+c.tabs.last_close = "close"
+c.tabs.mode_on_change = "normal"
+
 c.hints.chars = "arstgmneio"
 
 config.bind(",r", "config-source")
