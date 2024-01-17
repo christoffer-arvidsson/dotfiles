@@ -9,6 +9,8 @@ super + {_,shift} + p
   rofi -show {drun, window} -show-icons
 # terminal emulator
 super + o ; Return
+  kitty --single-instance
+super + o ; shift + Return
   kitty
 # tmux attach
 super + o ; t
