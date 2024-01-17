@@ -34,7 +34,10 @@ super + o ; b ; f
 super + o ; b ; b
   brave-dev --disable-frame-rate-limit
 super + o ; b ; q
-  qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization
+  qutebrowser
+super + o ; b ; Q
+  ~/.config/scripts/qutebrowser-session.sh
+
 # n64 games :)
 super + o ; g ; e
   ~/.config/emulation/rofi_roms.sh
