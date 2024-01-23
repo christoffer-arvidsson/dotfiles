@@ -9,9 +9,7 @@ super + {_,shift} + p
   rofi -show {drun, window} -show-icons
 # terminal emulator
 super + o ; Return
-  kitty --single-instance
-super + o ; shift + Return
-  kitty
+  alacritty
 # tmux attach
 super + o ; t
   ~/.config/sxhkd/scripts/rofi_tmux.sh
@@ -20,16 +18,16 @@ super + o ; T
 
 # Launch program
 super + o ; s
-  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' kitty
+  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' alacritty
 # Ranger
 super + o ; r
-  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' kitty
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' alacritty
 # Htop
 super + o ; h
-  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' kitty
+  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' alacritty
 # Volume
 super + o ; v
-  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' kitty
+  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' alacritty
 # Browser
 super + o ; b ; f
   if command -v firefox-nightly > /dev/null; then firefox-nightly; else firefox; fi

@@ -12,4 +12,4 @@ fi
 
 selected_name=$(basename "$selected" | tr . _)
 
-kitty -e tmux new-session -A -s $selected_name -c $selected
+alacritty -e tmux new-session -A -s $selected_name -c $selected
