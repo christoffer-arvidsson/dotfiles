@@ -1,0 +1,17 @@
+import = ["~/.config/alacritty/horizon-dark.toml"]
+shell = "/bin/fish"
+live_config_reload = true
+
+[window]
+padding.x = 10
+padding.y = 10
+
+[font]
+normal.family = "Iosevka"
+bold.family = "Iosevka"
+italic.family = "Iosevka"
+bold_italic.family = "Iosevka"
+size = 9
+
+[scrolling]
+history = 2000

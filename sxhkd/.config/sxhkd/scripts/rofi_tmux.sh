@@ -23,7 +23,7 @@ The script uses the following external tools:
     tmux (to list and handle sessions)
     tmuxp (to list and load layouts)
     rofi (to prompt the user for a session selection)
-    kitty (to launch new terminal windows)
+    term (to launch new terminal windows)
     ssh
 doc
 
@@ -54,13 +54,13 @@ if [[ -n "$selected_session" ]]; then
         remote_name=${selected_session% (remote)}
         # TODO: Make this request the sessions over ssh!
         session_name="workspace"
-        kitty -e ssh -A -t $remote_name tmux new-session -A -s $session_name +kitten ssh &
+        alacritty -e ssh -A -t $remote_name tmux new-session -A -s $session_name +kitten ssh &
     elif [[ "$name" =~ "$selected_session" ]]; then
         # Attach to the selected tmux session in a new terminal window
-        kitty -e tmux new-session -A -s "$selected_session" &
+        alacritty -e tmux new-session -A -s "$selected_session" &
     else
         # Load up tmuxp layout
         session_name=${selected_session% (new)}
-        kitty -e tmuxp load $name --yes &
+        alacritty -e tmuxp load $name --yes &
     fi
 fi
