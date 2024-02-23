@@ -2,10 +2,6 @@
 set fish_greeting
 fish_vi_key_bindings
 
-# Accept autocompletion with alt tab
-# src: https://github.com/fish-shell/fish-shell/issues/3011
-bind -M insert \e\t accept-autosuggestion
-
 # Emulates vim's cursor shape behavior
 # Set the normal and visual mode cursors to a block
 set fish_cursor_default block
