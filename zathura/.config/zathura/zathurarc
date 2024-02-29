@@ -1,26 +1,6 @@
 # Base16 ElementLush
 # Author: ElementLush
 
-################
-# Modified bindings for colemac dh wide
-map m scroll left
-map h mark_add
-map n scroll down
-map k search forward
-map e scroll up
-# e is not used in general
-map i scroll right
-# i is not used in general
-map N navigate next
-map K search backward
-map E navigate previous
-
-map [index] m navigate_index collapse
-map [index] n navigate_index down
-map [index] e navigate_index up
-map [index] i navigate_index expand
-################
-
 set default-bg                  "#1c1e26"
 set default-fg                  "#1c1e26"
 
