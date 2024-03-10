@@ -1,8 +1,7 @@
 # Base16 ElementLush
 # Author: ElementLush
-
-set default-bg                  "#1c1e26"
-set default-fg                  "#1c1e26"
+set default-bg                  "#050607"
+set default-fg                  "#cacacc"
 
 set statusbar-fg                "#30323a"
 set statusbar-bg                "#292a49"
@@ -28,10 +27,13 @@ set completion-fg               "#aaa0d7"
 set completion-highlight-fg     "#dbdbdb"
 set completion-highlight-bg     "#aaa0d7"
 
-set recolor-lightcolor          "#1c1e26"
-set recolor-darkcolor           "#dddddd"
+set recolor-lightcolor          "#090a0c"
+set recolor-darkcolor           "#cacacc"
 
 set recolor                     "false"
 set recolor-keephue             "false"
 
 set selection-clipboard clipboard
+
+# Do not recolor images
+set recolor-reverse-video "true"
