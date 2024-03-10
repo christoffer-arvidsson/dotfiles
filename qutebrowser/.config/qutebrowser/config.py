@@ -50,6 +50,8 @@ c.tabs.mode_on_change = "normal"
 
 c.hints.chars = "arstgmneio"
 
+c.window.hide_decoration = True
+
 config.bind(",r", "config-source")
 config.bind("M", "back")
 config.bind("I", "forward")
