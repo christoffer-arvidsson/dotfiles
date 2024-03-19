@@ -1,4 +1,3 @@
-
 /**
  * Base16 ElementLush ROFI Color theme
  *
@@ -14,6 +13,7 @@
     kb-accept-entry:             "Control+m,Return";
     kb-row-up:                   "Up,Control+k";
     kb-row-down:                 "Down,Control+j";
+    m: "-1";
 }
 
 * {
@@ -160,4 +160,3 @@ textbox-prompt-colon {
     margin:           0px 0.3000em 0.0000em 0.0000em ;
     text-color:       inherit;
 }
-
