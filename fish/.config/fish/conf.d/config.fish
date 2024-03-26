@@ -47,5 +47,7 @@ if command -v tmux >/dev/null 2>&1
 end
 
 # pyenv
-status --is-interactive; and pyenv init - | source
-status --is-interactive; and pyenv virtualenv-init - | source
+if command -v pyenv > /dev/null 2>&1
+    status --is-interactive; and pyenv init - | source
+    status --is-interactive; and pyenv virtualenv-init - | source
+end
