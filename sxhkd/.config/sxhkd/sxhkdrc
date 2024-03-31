@@ -37,7 +37,8 @@ super + o ; b ; q
   qutebrowser
 super + o ; b ; Q
   ~/.config/scripts/qutebrowser-session.sh
-
+super + o ; P
+  ~/.config/sxhkd/scripts/rofi_pdf.sh
 # n64 games :)
 super + o ; g ; e
   ~/.config/emulation/rofi_roms.sh
@@ -47,13 +48,9 @@ super + o ; p
 # Emacs client
 super + o ; c ; c
   emacsclient -s null -c
-super + o ; c ; d
-  emacsclient -s doom -c
 # Emacs nonclient
 super + o; c ; C
   emacs --with-profile null
-super + o; c ; D
-  emacs --with-profile doom
 # Emacs server
 super + o; c ; s
   ~/.config/sxhkd/scripts/emacs_server.sh
