@@ -31,7 +31,7 @@ set recolor-lightcolor          "#090a0c"
 set recolor-darkcolor           "#cacacc"
 
 set recolor                     "false"
-set recolor-keephue             "false"
+set recolor-keephue             "true"
 
 set selection-clipboard clipboard
 
