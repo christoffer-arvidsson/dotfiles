@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-options=("doom\nnondoom\nnull")
-selected=$(echo -e $options | rofi -dmenu -p "Emacs profile" -no-custom)
+options=("~/.config/null_emacs")
+names=("null")
+selected_idx=$(echo -e $names | rofi -dmenu -format "i" -p "Emacs profile" -no-custom)
+selected=${options[$selected_idx]}
+name=${names[$selected_idx]}
 
-~/.config/scripts/emacs_server.sh -s $selected
+~/.config/scripts/emacs_server.sh -s $selected -n $name

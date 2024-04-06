@@ -5,4 +5,4 @@ Comment=Start Emacs with null profile
 Type=Application
 Terminal=false
 Categories=Utility;TextEditor;
-Exec=emacs --with-profile null
+Exec=emacs --init-directory ~/.config/null_emacs

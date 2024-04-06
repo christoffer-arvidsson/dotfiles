@@ -50,7 +50,7 @@ super + o ; c ; c
   emacsclient -s null -c
 # Emacs nonclient
 super + o; c ; C
-  emacs --with-profile null
+  emacs --init-directory ~/.config/null_emacs
 # Emacs server
 super + o; c ; s
   ~/.config/sxhkd/scripts/emacs_server.sh
