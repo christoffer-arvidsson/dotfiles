@@ -6,7 +6,7 @@ emacs_server_is_running () {
 underline_color="%{u#99c2ff}%{+u}"
 
 if ! [ emacs_server_is_running ]; then
-    pomo_message=$(emacsclient -s nondoom -e '(eethern/org-pomodoro-time)' | cut -d '"' -f 2)
+    pomo_message=$(emacsclient -s null -e '(eethern/org-pomodoro-time)' | cut -d '"' -f 2)
 else
     pomo_message=""
 fi
