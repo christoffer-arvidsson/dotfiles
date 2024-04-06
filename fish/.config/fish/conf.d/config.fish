@@ -30,9 +30,13 @@ starship init fish | source
 if command -v nvim >/dev/null 2>&1
     alias vim="nvim"
 end
-# If exa is installed
-if command -v exa >/dev/null 2>&1
-    alias ls="exa -l"
+
+if command -v eza >/dev/null 2>&1
+    alias ls="eza -l"
+else
+    if command -v exa >/dev/null 2>&1
+        alias ls="exa -l"
+    end
 end
 # If bat is installed
 if command -v bat >/dev/null 2>&1
