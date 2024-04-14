@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Simple script to open a pdf in a list of directories.
-DIRECTORIES=("$HOME/Zotero/" "$HOME/Downloads" "$HOME/Documents", "$HOME/Dropbox/books")
+DIRECTORIES=("$HOME/Zotero/" "$HOME/Downloads" "$HOME/Documents" "$HOME/Dropbox/books" "$HOME/Dropbox/org/bibliography/zotfile/")
 
 find_pdfs() {
     find ${DIRECTORIES[@]} -name "*.pdf"
