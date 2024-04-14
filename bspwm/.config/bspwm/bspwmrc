@@ -38,6 +38,7 @@ bspc rule -a Slack state=tiled desktop=msg follow=off
 bspc rule -a TelegramDesktop state=tiled desktop=msg follow=off
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
+bspc rule -a Sioyek state=tiled
 bspc rule -a termite state=tiled
 bspc rule -a Steam desktop=opt6 follow=off
 bspc rule -a mupen64plus state=floating

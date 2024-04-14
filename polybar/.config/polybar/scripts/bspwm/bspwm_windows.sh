@@ -13,6 +13,7 @@ program_icons["DiscordCanary"]=""
 program_icons["slack"]=""
 program_icons["spotify"]=""
 program_icons["zathura"]=""
+program_icons["sioyek"]=""
 program_icons["teams-for-linux"]=""
 
 # Get the node IDs of all windows in the focused desktop
