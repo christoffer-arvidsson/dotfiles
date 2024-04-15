@@ -10,5 +10,5 @@ find_pdfs() {
 SELECTED=$(find_pdfs | rofi -i -dmenu -p "Select a pdf")
 
 if [[ -n "$SELECTED" ]]; then
-    sioyek "$SELECTED"
+    sioyek --shared-database-path "$HOME/Dropbox/org/bibliography/sioyek/shared.db" "$SELECTED"
 fi
