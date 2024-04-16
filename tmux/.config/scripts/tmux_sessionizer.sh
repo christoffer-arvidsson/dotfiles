@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/ ~/projects ~/repos ~/work -mindepth 1 -maxdepth 2 -type d -not -path '*/[@.]*' | fzf)
+    selected=$(find ~/.dotfiles ~/.config ~/projects ~/repos ~/work -mindepth 0 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

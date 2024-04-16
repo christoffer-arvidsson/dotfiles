@@ -3,7 +3,8 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/ ~/projects ~/repos ~/work -mindepth 1 -maxdepth 2 -type d -not -path '*/[@.]*' | rofi -dmenu -p "Select directory for tmux session")
+
+    selected=$(find ~/.dotfiles ~/.config ~/projects ~/repos ~/work -mindepth 0 -maxdepth 1 -type d | rofi -dmenu -p "Select directory for tmux session")
 fi
 
 if [[ -z $selected ]]; then
@@ -11,5 +12,15 @@ if [[ -z $selected ]]; then
 fi
 
 selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
 
 alacritty -e tmux new-session -A -s $selected_name -c $selected
