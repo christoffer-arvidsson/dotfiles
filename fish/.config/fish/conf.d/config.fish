@@ -20,6 +20,9 @@ bind \cn down-or-search
 bind -s -M insert \cp up-or-search
 bind -s -M insert \cn down-or-search
 
+bind -M normal \cf "~/.config/scripts/tmux_sessionizer.sh"
+bind -M insert \cf "~/.config/scripts/tmux_sessionizer.sh"
+
 # Ssh-agent
 if test -z (pgrep ssh-agent | string collect)
     eval (ssh-agent -c)
