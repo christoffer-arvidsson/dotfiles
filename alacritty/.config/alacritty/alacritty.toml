@@ -4,7 +4,7 @@ live_config_reload = true
 
 [window]
 padding.x = 10
-padding.y = 10
+padding.y = 5
 
 [font]
 normal.family = "Iosevka"
