@@ -6,3 +6,4 @@
 /nvim/.config/nvim/plugin/
 /fish/.config/fish/fish_variables
 /systemd/.config/systemd/user/default.target.wants/
+.git
