@@ -14,13 +14,14 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    exit 0
+if [[ -z $TMUX ]] || [[ -z $tmux_running ]]; then
+    alacritty -e tmux new-session -A -s $selected_name -c $selected
+elif ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new -s $selected_name -c $selected -d
+    alacritty -e tmux switch-client -t $selected_name
+else
+    echo "What the hell you are already in tmux"
+    exit 1
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c $selected
-fi
-
-alacritty -e tmux new-session -A -s $selected_name -c $selected
+exit 0
