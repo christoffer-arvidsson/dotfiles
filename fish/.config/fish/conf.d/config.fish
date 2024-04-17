@@ -37,18 +37,12 @@ zoxide init fish | source
 starship init fish | source
 
 # alias
-if command -v nvim >/dev/null 2>&1
-    alias vim="nvim"
-end
 
 if command -v eza >/dev/null 2>&1
     alias ls="eza -l"
-else
-    if command -v exa >/dev/null 2>&1
-        alias ls="exa -l"
-    end
+else if command -v exa >/dev/null 2>&1
+    alias ls="exa -l"
 end
-# If bat is installed
 if command -v bat >/dev/null 2>&1
     alias cat="bat"
     # use bat for man
