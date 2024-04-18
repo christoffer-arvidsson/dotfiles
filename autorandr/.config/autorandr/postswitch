@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-feh --bg-scale ~/.dotfiles/.img/space.jpg 
-
-~/.config/bspwm/dock.sh
-~/.config/polybar/scripts/launch.sh
-
-current=$(autorandr --current)
-notify-send -i display "Display profile: $current"
