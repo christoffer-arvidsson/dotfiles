@@ -6,6 +6,7 @@ c.fonts.default_family = "iosevka"
 c.fonts.default_size = "10pt"
 c.qt.highdpi = True
 c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.policy.images = "never"
 c.content.blocking.method = "both"
 c.content.webgl = False
 c.content.autoplay = False
