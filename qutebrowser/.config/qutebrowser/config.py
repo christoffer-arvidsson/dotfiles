@@ -53,6 +53,9 @@ c.hints.chars = "arstgmneio"
 
 c.window.hide_decoration = True
 
+config.unbind("d")
+config.bind("D", "tab-close")
+
 config.bind(",r", "config-source")
 config.bind("M", "back")
 config.bind("I", "forward")
