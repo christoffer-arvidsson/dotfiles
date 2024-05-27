@@ -4,7 +4,7 @@ if [[ $# -eq 1 ]]; then
     selected=$1
 else
 
-    selected=$(find ~/.dotfiles ~/.config ~/projects ~/repos ~/work -mindepth 0 -maxdepth 1 -type d | rofi -dmenu -p "Select directory for tmux session")
+    selected=$(find ~/.dotfiles ~/.config ~/projects ~/Dropbox/org ~/repos ~/work -mindepth 0 -maxdepth 1 -type d | rofi -dmenu -p "Select directory for tmux session")
 fi
 
 if [[ -z $selected ]]; then
