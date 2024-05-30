@@ -38,7 +38,7 @@ super + o ; b ; q
 super + o ; b ; Q
   ~/.config/scripts/qutebrowser-session.sh
 super + o ; P
-  ~/.config/sxhkd/scripts/rofi_pdf.sh
+  ~/.config/sxhkd/scripts/rofi_zotero.py
 # n64 games :)
 super + o ; g ; e
   ~/.config/emulation/rofi_roms.sh
