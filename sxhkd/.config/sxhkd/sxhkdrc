@@ -21,13 +21,13 @@ super + o ; s
   tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' alacritty
 # Ranger
 super + o ; r
-  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e ranger' alacritty
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e tmux new-session -A -s ranger "ranger"' alacritty
 # Htop
 super + o ; h
-  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e htop' alacritty
+  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e tmux new-session -A -s htop "htop"' alacritty
 # Volume
 super + o ; v
-  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e pulsemixer' alacritty
+  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e tmux new-session -A -s pulsemixer "pulsemixer"' alacritty
 # Browser
 super + o ; b ; f
   if command -v firefox-nightly > /dev/null; then firefox-nightly; else firefox; fi
