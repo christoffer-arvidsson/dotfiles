@@ -54,6 +54,10 @@ super + o; c ; C
 # Emacs server
 super + o; c ; s
   ~/.config/sxhkd/scripts/emacs_server.sh
+# Emacs client at directory
+super + o; c ; T
+  ~/.config/sxhkd/scripts/emacs_client_project.sh
+
 # Agenda
 # Work
 super + o; a ; w
