@@ -1,6 +1,6 @@
 #!/bin/bash
 
-xset r rate 250 35
+xset r rate 250 100
 xset +fp "$HOME/.fonts"
 xset fp rehash
 xset -b
