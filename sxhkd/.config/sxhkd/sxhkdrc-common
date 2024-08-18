@@ -1,0 +1,93 @@
+#!/usr/bin/env sh
+
+# General non-WM specific keybinds
+
+# make sxhkd reload its configuration files:
+super + Escape
+  pkill -USR1 -x sxhkd
+
+# PROGRAM_LAUNCHING
+## terminal
+super + o ; Return
+  alacritty
+## tmux existing sessions
+super + o ; t
+  ~/.config/sxhkd/scripts/rofi_tmux.sh
+## rofi new session
+super + o ; T
+  ~/.config/sxhkd/scripts/rofi_tmux_sessionizer.sh
+
+## programs
+super + {_,shift} + p
+  rofi -show {drun, window} -show-icons
+## scratch terminal
+super + o ; s
+  tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' alacritty
+## ranger
+super + o ; r
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e tmux new-session -A -s ranger "ranger"' alacritty
+## htop
+super + o ; h
+  tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e tmux new-session -A -s htop "htop"' alacritty
+## volume
+super + o ; v
+  tdrop -m -h 33% -w 45% -x 54% -y 66% -n 4000 -a -f '-e tmux new-session -A -s pulsemixer "pulsemixer"' alacritty
+
+## firefox
+super + o ; b ; f
+  if command -v firefox-nightly > /dev/null; then firefox-nightly; else firefox; fi
+## brave
+super + o ; b ; b
+  brave-dev --disable-frame-rate-limit
+## qute
+super + o ; b ; q
+  qutebrowser
+super + o ; b ; Q
+  ~/.config/scripts/qutebrowser-session.sh
+
+## PDF
+super + o ; P
+  ~/.config/sxhkd/scripts/rofi_zotero.py
+
+## emulator games
+super + o ; g ; e
+  ~/.config/emulation/rofi_roms.sh
+
+## Password
+super + o ; p
+  bwmenu --auto-lock 86400
+
+## Emacs client
+super + o ; c ; c
+  emacsclient -s null -c
+## Emacs nonclient
+super + o; c ; C
+  emacs --init-directory ~/.config/null_emacs
+## Emacs server
+super + o; c ; s
+  ~/.config/sxhkd/scripts/emacs_server.sh
+## Emacs client at directory
+super + o; c ; T
+  ~/.config/sxhkd/scripts/emacs_client_project.sh
+
+# Screenshot utility: +shift for save
+super + {_, shift} + Print
+  xfce4-screenshooter {-r,-c -r}
+
+# Audio
+XF86Audio{Play,Stop,Next,Prev}
+  playerctl {play-pause,stop,next,previous} -p spotify
+XF86AudioMute
+  pactl set-sink-mute 1 toggle
+XF86Audio{Lower,Raise}Volume
+  pactl set-sink-volume 1 {-,+}5%
+
+# Lock
+super + o ; l
+  betterlockscreen -l
+
+# Brightness
+XF86MonBrightnessDown
+    xbacklight -dec 10
+XF86MonBrightnessUp
+    xbacklight -inc 10

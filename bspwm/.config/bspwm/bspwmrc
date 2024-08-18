@@ -9,6 +9,12 @@ function run {
     fi
 }
 
+# Make sxhkd fast by not using fish
+export SXHKD_SHELL='/usr/bin/sh'
+SXHKD_COMMON_CONFIG_PATH="/home/eethern/.config/sxhkd/sxhkdrc-common"
+SXHKD_BSPWM_CONFIG_PATH="/home/eethern/.config/sxhkd/sxhkdrc-bspwm"
+run sxhkd -c $SXHKD_COMMON_CONFIG_PATH $SXHKD_BSPWM_CONFIG_PATH
+
 inner_gap=5
 outer_gap_vert=10
 outer_gap_hori=10
@@ -54,7 +60,6 @@ echo "Running startup block"
 # Background applications
 run emacs --init-directory ~/.config/null_emacs --daemon=null &
 run inputplug -d -c ~/on_new_keyboard.sh &
-run sxhkd &
 run dunst &
 run spotify --force-device-scale-factor=0.75 &
 
