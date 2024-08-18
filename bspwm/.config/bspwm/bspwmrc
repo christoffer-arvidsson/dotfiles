@@ -1,6 +1,12 @@
 #!/bin/bash
 
+xset r rate 250 100
+xset +fp "$HOME/.fonts"
+xset fp rehash
+xset -b
+xsetroot -cursor_name left_ptr
 setxkbmap us algtr-intl
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 function run {
     if ! pgrep $1 ;

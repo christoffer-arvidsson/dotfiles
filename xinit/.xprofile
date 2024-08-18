@@ -1,15 +1,3 @@
 #!/bin/bash
 
-xset r rate 250 100
-xset +fp "$HOME/.fonts"
-xset fp rehash
-xset -b
-xsetroot -cursor_name left_ptr
-
-# Make sxhkd fast by not using fish
-export SXHKD_SHELL='/usr/bin/sh'
-export _JAVA_AWT_WM_NONREPARENTING=1 # For matlab
-
-[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
-
 exec bspwm
