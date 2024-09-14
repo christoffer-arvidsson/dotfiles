@@ -8,6 +8,13 @@ xsetroot -cursor_name left_ptr
 setxkbmap us algtr-intl
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
+function get_color {
+    xrdb -query | grep "^$1" | awk '{print $2}'
+}
+
+color_soft_highlight=$(get_color "soft-highlight")
+color_base00=$(get_clor "base00")
+
 function run {
     if ! pgrep $1 ;
     then
@@ -17,8 +24,8 @@ function run {
 
 # Make sxhkd fast by not using fish
 export SXHKD_SHELL='/usr/bin/sh'
-SXHKD_COMMON_CONFIG_PATH="/home/eethern/.config/sxhkd/sxhkdrc-common"
-SXHKD_BSPWM_CONFIG_PATH="/home/eethern/.config/sxhkd/sxhkdrc-bspwm"
+SXHKD_COMMON_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-common"
+SXHKD_BSPWM_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-bspwm"
 run sxhkd -c $SXHKD_COMMON_CONFIG_PATH $SXHKD_BSPWM_CONFIG_PATH
 
 inner_gap=5
@@ -35,8 +42,8 @@ bspc config right_padding         $((-inner_gap+outer_gap_hori))
 bspc config split_ratio           0.5
 bspc config borderless_monocle    false
 bspc config single_monocle        false
-bspc config normal_border_color   "#1c1e26"
-bspc config focused_border_color  "#ad8c79"
+bspc config normal_border_color   $color_base00
+bspc config focused_border_color  $color_soft_highlight
 bspc config focus_follows_pointer false
 bspc config ignore_ewmh_focus     true
 bspc config remove_unplugged_monitors true
