@@ -72,7 +72,7 @@ super + o; c ; T
 
 # Screenshot utility: +shift for save
 super + {_, shift} + Print
-  xfce4-screenshooter {-r,-c -r}
+  flameshot gui {-s -c, -c}
 
 # Audio
 XF86Audio{Play,Stop,Next,Prev}
