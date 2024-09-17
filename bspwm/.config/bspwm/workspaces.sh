@@ -24,7 +24,7 @@ ws_focused_fg=$(get_color "highlight")
 ws_occupied_fg="CAfff9e8"
 ws_empty_fg=$(get_color "inactive")
 ws_urgent_fg=$(get_color "alert")
-module_padding=""
+module_padding=" "
 
 
 # Function to get the icon for a given workspace index
@@ -45,8 +45,8 @@ echo_workspaces() {
 
     # Iterate over each workspace
     for workspace in $workspaces; do
-        occupied=$(bspc query -D --names -d ".occupied" | grep "$workspace")
-        focused=$(bspc query -D -d "$MONITOR:focused" --names | grep "$workspace")
+        occupied=$(bspc query -D --names -d ".occupied" | grep "^$workspace$")
+        focused=$(bspc query -D -d "$MONITOR:focused" --names | grep "^$workspace$")
         # Check if the workspace is focused
         if [[ "$workspace" == "$focused" ]]; then
             ws_fg=$ws_focused_fg
@@ -55,6 +55,7 @@ echo_workspaces() {
             ws_fg=$ws_occupied_fg
         # Free workspaces (unfocused and empty)
         else
+            # echo $workspace $occupied
             ws_fg=$ws_empty_fg
         fi
 
@@ -62,11 +63,11 @@ echo_workspaces() {
 
         # Append each workspace with appropriate colors and padding
         if [ "$first" = true ]; then
-            desktops+="%{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-} "
             first=false
         else
-            desktops+="| %{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-} "
+            desktops+="|"
         fi
+        desktops+="%{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-}"
     done
 
     # Output the final result to be displayed on Polybar
