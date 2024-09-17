@@ -24,15 +24,11 @@ do
             bar="station-topbar"
         fi
 
-        workspace="web code opt1 opt2 opt3 opt4 opt5 opt6 msg music"
     else
         bar="external"
-        workspace="ext1 ext2 ext3 ext4 ext5"
     fi
 
     name=$(echo $line | awk '{print $1}')
-    
-    # bspc monitor "%$name" -d $(echo $workspace)
 
     # Give bspwm time to set the monitors
     MONITOR="$name" polybar -r "${bar}" > /tmp/polybar.log 2>&1 &

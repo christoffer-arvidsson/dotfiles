@@ -41,7 +41,7 @@ echo_workspaces() {
     local first=true
 
     # Get the list of workspace names and sort them numerically
-    workspaces=$(bspc query -D --names | sort -g)
+    workspaces="1 2 3 4 5 6 7 8 9 10"
 
     # Iterate over each workspace
     for workspace in $workspaces; do
