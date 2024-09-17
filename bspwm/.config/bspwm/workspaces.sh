@@ -24,7 +24,7 @@ ws_focused_fg=$(get_color "highlight")
 ws_occupied_fg="CAfff9e8"
 ws_empty_fg=$(get_color "inactive")
 ws_urgent_fg=$(get_color "alert")
-module_padding=" "
+module_padding=""
 
 
 # Function to get the icon for a given workspace index
@@ -38,6 +38,7 @@ get_ws_icon() {
 echo_workspaces() {
     local desktops=""
     local ws_fg name
+    local first=true
 
     # Get the list of workspace names and sort them numerically
     workspaces=$(bspc query -D --names | sort -g)
@@ -60,8 +61,12 @@ echo_workspaces() {
         ws_icon=$(get_ws_icon "$workspace")
 
         # Append each workspace with appropriate colors and padding
-        # desktops+="%{B${ws_bg}}%{F${ws_fg}}${module_padding}${workspace}${module_padding}%{B-}%{F-} "
-        desktops+="%{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-} "
+        if [ "$first" = true ]; then
+            desktops+="%{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-} "
+            first=false
+        else
+            desktops+="| %{F${ws_fg}}${module_padding}${ws_icon}${module_padding}%{F-} "
+        fi
     done
 
     # Output the final result to be displayed on Polybar
