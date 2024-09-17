@@ -47,7 +47,7 @@ wm-restack = bspwm
 inherit = bar/base
 
 modules-left = spotify spotify-prev spotify-play-pause spotify-next bspwm-windows bspwm-modes
-modules-center = bspwm
+modules-center = bspwm-new
 modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
 
 tray-position = left
@@ -96,7 +96,7 @@ font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
 modules-left = bspwm-windows bspwm-modes
-modules-center = bspwm
+modules-center = bspwm-new
 modules-right = temperature date time powermenu
 
 wm-restack = bspwm
@@ -204,6 +204,11 @@ label-occupied-font = 2
 label-empty-font = 2
 label-urgent-font = 2
 
+[module/bspwm-new]
+type = custom/script
+exec = ~/.config/bspwm/workspaces.sh
+tail = true
+interval = 0.1
 
 [module/bspwm]
 type = internal/bspwm
