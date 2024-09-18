@@ -47,15 +47,14 @@ echo_workspaces() {
     for workspace in $workspaces; do
         occupied=$(bspc query -D --names -d ".occupied" | grep "^$workspace$")
         focused=$(bspc query -D -d "$MONITOR:focused" --names | grep "^$workspace$")
-        # Check if the workspace is focused
+        urgent=$(bspc query -D -d ".urgent" --names | grep "^$workspace$")
         if [[ "$workspace" == "$focused" ]]; then
             ws_fg=$ws_focused_fg
-        # Check if the workspace is occupied (has windows)
+        elif [[ "$workspace" == "$urgent" ]]; then
+            ws_fg=$ws_urgent_fg
         elif [[ "$workspace" == "$occupied" ]]; then
             ws_fg=$ws_occupied_fg
-        # Free workspaces (unfocused and empty)
         else
-            # echo $workspace $occupied
             ws_fg=$ws_empty_fg
         fi
 
