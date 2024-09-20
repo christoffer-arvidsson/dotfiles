@@ -22,11 +22,12 @@ $soft-highlight: #ad8c79;
 $positive: $base0B;
 $inactive: #5e6362;
 $occupied: #edfffc;
+$positive: $base0B;
 
 
 * {
     all: unset;
-    font-family: "Iosevka Nerd"
+    font-family: "Iosevka Nerd Mono"
 }
 
 .bar {
@@ -35,8 +36,8 @@ $occupied: #edfffc;
 }
 
 .widget {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .slider scale trough highlight {
@@ -54,13 +55,11 @@ $occupied: #edfffc;
   margin-right: 10px;
 }
 
-.do-not-disturb {
-    min-width: 28px;
-}
 
+.vpn-button,
 .powermenu-reveal-button,
 .powermenu-child-button,
-.do-not-disturb button,
+.do-not-disturb-button,
 .workspaces button {
     text-decoration: none;
     -o-transition:.2s;
@@ -69,13 +68,24 @@ $occupied: #edfffc;
     -webkit-transition:.2s;
     /* ...and now for the proper property */
     transition:.2s;
+}
+
+.workspaces button {
     min-width: 24px;
 }
 
+.vpn-button:hover,
 .powermenu-reveal-button:hover,
 .powermenu-child-button:hover,
-.do-not-disturb button:hover,
+.do-not-disturb-button:hover,
 .workspaces button:hover {
+    color: $alert;
+}
+
+.positive {
+    color: $positive;
+}
+.negative {
     color: $alert;
 }
 
