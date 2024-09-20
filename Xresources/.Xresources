@@ -23,7 +23,7 @@ alert: #E75D5D
 highlight: base08
 soft-highlight: #ad8c79
 positive: base0B
-inactive: #BFA89E
+inactive: #55BFA89E
 
 black: base00
 dark-gray: base01

@@ -51,19 +51,19 @@ bspc config remove_disabled_monitors true
 
 # Rules
 bspc rule -a Emacs state=tiled
-bspc rule -a discord state=tiled desktop=msg follow=off
-bspc rule -a Cinny state=tiled desktop=msg follow=off
-bspc rule -a Slack state=tiled desktop=msg follow=off
-bspc rule -a TelegramDesktop state=tiled desktop=msg follow=off
+bspc rule -a discord state=tiled desktop=9 follow=off
+bspc rule -a Cinny state=tiled desktop=9 follow=off
+bspc rule -a Slack state=tiled desktop=9 follow=off
+bspc rule -a TelegramDesktop state=tiled desktop=9 follow=off
 bspc rule -a Screenkey manage=off
 bspc rule -a Zathura state=tiled
 bspc rule -a Sioyek state=tiled
 bspc rule -a termite state=tiled
-bspc rule -a Steam desktop=opt6 follow=off
+bspc rule -a Steam desktop=7 follow=off
 bspc rule -a mupen64plus state=floating
 bspc rule -a org-fenix-llanfair-Llanfair state=floating
 bspc rule -a matplotlib state=floating
-bspc rule -a teams desktop=opt6
+bspc rule -a teams desktop=8
 bspc config external_rules_command "$HOME/.config/bspwm/rules/spotify.sh"
 
 

@@ -85,8 +85,13 @@ super + bracket{left,right}
 #     bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-    bspc {desktop -f,node -d} 'focused:^{1-9,10}'
+super + shift + {1-9,0}
+    d='{1-9,10}'; \
+    bspc node -d "$d"
+
+super + {1-9,0}
+    d="{1-9,10}"; \
+    bspc desktop -f "$d.local" || bspc desktop -s "$d"
 
 # focus the leaf node corresponding to the number on the focused desktop
 alt + super + {1-9,0}
