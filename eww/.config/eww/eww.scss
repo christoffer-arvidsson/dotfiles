@@ -55,7 +55,20 @@ $positive: $base0B;
   margin-right: 10px;
 }
 
+.music-container {
+    @extend .widget;
+    min-width: 500px;
+}
 
+.music-container label,
+.music-container button {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.music-prev,
+.music-playpause,
+.music-next,
 .vpn-button,
 .powermenu-reveal-button,
 .powermenu-child-button,
@@ -74,6 +87,9 @@ $positive: $base0B;
     min-width: 24px;
 }
 
+.music-prev:hover,
+.music-playpause:hover,
+.music-next:hover,
 .vpn-button:hover,
 .powermenu-reveal-button:hover,
 .powermenu-child-button:hover,

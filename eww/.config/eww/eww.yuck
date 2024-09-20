@@ -21,8 +21,7 @@
 (defwidget center [screen]
            (box :orientation "h"
                 :halign "center"
-                (workspaces :screen screen)
-                (label :text screen)))
+                (workspaces :screen screen)))
 
 (defwidget right []
            (box :orientation "h"
@@ -57,15 +56,21 @@
             :halign "end"
             time))
 
+(deflisten music :initial ""
+           "~/.config/polybar/scripts/spotify/get_spotify_status.sh")
+(defpoll music-icon :interval "1s" :initial ""
+           "~/.config/polybar/scripts/spotify/status_to_icon.sh")
 (defwidget music []
            (box :class "widget"
                 :orientation "h"
-                :space-evenly false
                 :halign "center"
-                {music != "" ? "${music}" : ""}))
-
-(deflisten music :initial ""
-           "~/.config/polybar/scripts/spotify/scroll_spotify_status.sh")
+                (box :class "music-container"
+                     :space-evenly false
+                     (label :class "music-prefix" :text "   ")
+                     (label :class "music-title" :text {music != "" ? "${music}" : ""})
+                     (button :class "music-prev" :onclick `playerctl previous -p spotify` "")
+                     (button :class "music-playpause" :onclick `playerctl play-pause -p spotify` music-icon)
+                     (button :class "music-next" :onclick `playerctl next -p spotify` ""))))
 
 (defwidget slider [label value onchange]
            (box :orientation "h"
