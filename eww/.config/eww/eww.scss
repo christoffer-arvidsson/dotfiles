@@ -20,19 +20,23 @@ $alert: #E75D5D;
 $highlight: $base08;
 $soft-highlight: #ad8c79;
 $positive: $base0B;
-$inactive: #5e6362;
+$inactive: #606060;
 $occupied: #edfffc;
 $positive: $base0B;
 
 
 * {
     all: unset;
-    font-family: "Iosevka Nerd Mono"
+    font-family: "Iosevka Nerd Mono";
+    font-size: 10pt;
 }
 
 .bar {
+    background-color: rgba(0, 0, 0, 0);
+    padding-top: 6px;
     padding-left: 10px;
     padding-right: 10px;
+    color: $fg;
 }
 
 .widget {
