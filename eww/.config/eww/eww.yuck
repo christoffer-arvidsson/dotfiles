@@ -1,0 +1,112 @@
+(defvar time-visible true)
+
+(defpoll volume :interval "1s"
+         "pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+?(?=%)' | head -n 1")
+
+(defwidget bar []
+           (box :class "bar"
+                :orientation "h"
+                (left)
+                (center)
+                (right)))
+
+(defwidget left []
+           (box :orientation "h"
+                :space-evenly false
+                :halign "start"
+                (systray :spacing "1" :orientation "h" :icon-size "18")
+                (music)
+                ))
+
+(defwidget center []
+           (box :orientation "h"
+                :halign "center"
+                (workspaces)))
+
+(defwidget right []
+           (box :orientation "h"
+                :space-evenly false
+                :halign "end"
+                (do-not-disturb)
+                (slider :label ":"
+                        :value volume
+                        :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%")
+                (slider :label "  /:"
+                        :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+                        :onchange "")
+                (clock)
+                (powermenu)))
+
+
+(deflisten workspaces-listener "~/.config/eww/scripts/bspwm_workspace.sh")
+(defwidget workspaces []
+    (literal :content workspaces-listener))
+
+(defpoll time
+         :interval "1s"
+         :initial "initial-value"
+         :run-while time-visible
+         `date "+   %a %e %b    %H:%M"`)
+
+(defwidget clock []
+           (box
+            :class "widget"
+            :orientation "horizontal"
+            :halign "end"
+            time))
+
+(defwidget music []
+           (box :class "widget"
+                :orientation "h"
+                :space-evenly false
+                :halign "center"
+                {music != "" ? "${music}" : ""}))
+
+(deflisten music :initial ""
+           "~/.config/polybar/scripts/spotify/scroll_spotify_status.sh")
+
+(defwidget slider [label value onchange]
+           (box :orientation "h"
+                :class "slider"
+                :space-evenly false
+                (box :class "label" label)
+                (scale :min 0 :max 101 :active {onchange != ""}
+                       :value value
+                       :onchange onchange)))
+
+(defpoll do-not-disturb-poll :interval "1s" "~/.dotfiles/eww/.config/eww/scripts/do_not_disturb.sh")
+(defwidget do-not-disturb []
+           (box :class "widget"
+            (button
+                :class {do-not-disturb-poll == "" ? "active" : "inactive"}
+                :onclick `~/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle.sh` do-not-disturb-poll)))
+
+(defvar powermenu-is-open "false")
+(defwidget powermenu []
+           (box :class "widget"
+                :space-evenly false
+                (revealer :transition "slideleft"
+                          :reveal powermenu-is-open
+                          :duration "500ms"
+                          (box :class "powermenu-children-container"
+                               :halign "end"
+                               :space-evenly false
+                               (button :class "powermenu-child-button" :onclick `~/.config/bspwm/mons.sh` "dock") "|"
+                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && eval alacritty` "term") "|"
+                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && bspc quit` "logout") "|"
+                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && poweroff` "shutdown") "|"
+                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && reboot` "reboot") "<"))
+                (button :class "powermenu-reveal-button" :onclick `eww update powermenu-is-open=${!powermenu-is-open}` "")))
+
+(defwindow main
+           :monitor 0
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "100%"
+                               :height "18px"
+                               :anchor "bottom center")
+           :stacking "fg"
+           :reserve (struts :distance "50px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+           (bar))

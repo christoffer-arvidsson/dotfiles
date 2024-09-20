@@ -1,0 +1,101 @@
+$base00: #1c1e26;
+$base01: #1c1e26;
+$base02: #292a49;
+$base03: #7b7c80;
+$base04: #30323a;
+$base05: #dbdbdb;
+$base06: #dbcbba;
+$base07: #dbdbdb;
+$base08: #e1986d;
+$base09: #b5973f;
+$base0A: #cba253;
+$base0B: #8eaf88;
+$base0C: #9aa9af;
+$base0D: #aaa0d7;
+$base0E: #d495bf;
+$base0F: #b78342;
+
+$fg: $base05;
+$alert: #E75D5D;
+$highlight: $base08;
+$soft-highlight: #ad8c79;
+$positive: $base0B;
+$inactive: #5e6362;
+$occupied: #edfffc;
+
+
+* {
+    all: unset;
+    font-family: "Iosevka Nerd"
+}
+
+.bar {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.widget {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.slider scale trough highlight {
+    background-color: $highlight;
+    color: #000000;
+    border-radius: 10px;
+}
+
+.slider scale trough {
+  background-color: $occupied;
+  border-radius: 50px;
+  min-height: 3px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.do-not-disturb {
+    min-width: 28px;
+}
+
+.powermenu-reveal-button,
+.powermenu-child-button,
+.do-not-disturb button,
+.workspaces button {
+    text-decoration: none;
+    -o-transition:.2s;
+    -ms-transition:.2s;
+    -moz-transition:.2s;
+    -webkit-transition:.2s;
+    /* ...and now for the proper property */
+    transition:.2s;
+    min-width: 24px;
+}
+
+.powermenu-reveal-button:hover,
+.powermenu-child-button:hover,
+.do-not-disturb button:hover,
+.workspaces button:hover {
+    color: $alert;
+}
+
+.active {
+    color: $base05;
+}
+
+.focused {
+    color: $highlight;
+}
+
+.urgent {
+    color: $alert;
+}
+
+.occupied {
+    color: $occupied;
+}
+
+.inactive,
+.empty {
+    color: $inactive;
+}
