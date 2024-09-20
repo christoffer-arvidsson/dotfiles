@@ -135,7 +135,7 @@ function main() {
     sleep 1
 
     feh --bg-scale $WALLPAPER --stretch
-    ~/.config/polybar/scripts/launch.sh
+    ~/.config/eww/launch.sh
 }
 
 main $1

@@ -78,7 +78,7 @@ run spotify --force-device-scale-factor=0.75 &
 
 if [ "$(hostname)" = "station" ]; then
     export WALLPAPER="$HOME/.dotfiles/.img/space.jpg "
-    # run picom --config ~/.config/picom/picom.conf &
+    run picom --config ~/.config/picom/picom.conf &
     run redshift &
     run easyeffects --gapplication-service &
 

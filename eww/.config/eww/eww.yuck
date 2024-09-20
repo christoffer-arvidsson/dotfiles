@@ -15,8 +15,7 @@
                 :space-evenly false
                 :halign "start"
                 (systray :spacing "1" :orientation "h" :icon-size "18")
-                (music)
-                ))
+                (music)))
 
 (defwidget center [screen]
            (box :orientation "h"
@@ -117,17 +116,17 @@
                 (button :class "powermenu-reveal-button" :onclick `${EWW_CMD} update powermenu-is-open=${!powermenu-is-open}` "")))
 
 
-(defwindow main [screen]
+(defwindow station-topbar [screen]
            :monitor screen
            :geometry (geometry :x "0px"
                                :y "0px"
                                :width "100%"
-                               :height "18px"
-                               :anchor "bottom center")
+                               :height "28px"
+                               :anchor "top center")
            :stacking "fg"
-           :reserve (struts :distance "50px" :side "top")
+           :reserve (struts :distance "28px" :side "top")
            :windowtype "dock"
-           :wm-ignore true
+           :wm-ignore false
            (bar :screen screen))
 
 (defwindow external [screen]
@@ -135,10 +134,10 @@
            :geometry (geometry :x "0px"
                                :y "0px"
                                :width "100%"
-                               :height "18px"
-                               :anchor "bottom center")
+                               :height "28px"
+                               :anchor "top center")
            :stacking "fg"
-           :reserve (struts :distance "50px" :side "top")
+           :reserve (struts :distance "28px" :side "top")
            :windowtype "dock"
-           :wm-ignore true
+           :wm-ignore false
            (bar :screen screen))
