@@ -3,11 +3,11 @@
 (defpoll volume :interval "1s"
          "pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+?(?=%)' | head -n 1")
 
-(defwidget bar []
+(defwidget bar [screen]
            (box :class "bar"
                 :orientation "h"
                 (left)
-                (center)
+                (center :screen screen)
                 (right)))
 
 (defwidget left []
@@ -18,16 +18,18 @@
                 (music)
                 ))
 
-(defwidget center []
+(defwidget center [screen]
            (box :orientation "h"
                 :halign "center"
-                (workspaces)))
+                (workspaces :screen screen)
+                (label :text screen)))
 
 (defwidget right []
            (box :orientation "h"
                 :space-evenly false
                 :halign "end"
                 (do-not-disturb)
+                (vpn)
                 (slider :label ":"
                         :value volume
                         :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%")
@@ -39,8 +41,8 @@
 
 
 (deflisten workspaces-listener "~/.config/eww/scripts/bspwm_workspace.sh")
-(defwidget workspaces []
-    (literal :content workspaces-listener))
+(defwidget workspaces [screen]
+           (literal :content {workspaces-listener[screen]}))
 
 (defpoll time
          :interval "1s"
@@ -74,12 +76,23 @@
                        :value value
                        :onchange onchange)))
 
-(defpoll do-not-disturb-poll :interval "1s" "~/.dotfiles/eww/.config/eww/scripts/do_not_disturb.sh")
+(defpoll do-not-disturb-poll :interval "1s" "~/.config/eww/scripts/do_not_disturb.sh")
 (defwidget do-not-disturb []
            (box :class "widget"
-            (button
-                :class {do-not-disturb-poll == "" ? "active" : "inactive"}
-                :onclick `~/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle.sh` do-not-disturb-poll)))
+                (box :class {do-not-disturb-poll == "" ? "active" : "inactive"}
+                     (button
+                      :class "do-not-disturb-button"
+                      :onclick `~/.config/polybar/scripts/do_not_disturb/do_not_disturb_toggle.sh` do-not-disturb-poll))))
+
+(defpoll vpn-poll :interval "1s" "~/.config/eww/scripts/vpn_openvpn_status.sh")
+(defwidget vpn []
+           (box :class "widget"
+                (box :class {vpn-poll == "active" ? "positive" : "negative"}
+                     :space-evenly false
+                     (button
+                      :class "vpn-button"
+                      :onclick `polybar/.config/polybar/scripts/vpn/toggle-vpn.sh Zenseact-SE`)
+                     (label :text {vpn-poll == "active" ? "   vpn" : "   vpn"}))))
 
 (defvar powermenu-is-open "false")
 (defwidget powermenu []
@@ -87,19 +100,20 @@
                 :space-evenly false
                 (revealer :transition "slideleft"
                           :reveal powermenu-is-open
-                          :duration "500ms"
+                          :duration "250ms"
                           (box :class "powermenu-children-container"
                                :halign "end"
                                :space-evenly false
                                (button :class "powermenu-child-button" :onclick `~/.config/bspwm/mons.sh` "dock") "|"
-                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && eval alacritty` "term") "|"
-                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && bspc quit` "logout") "|"
-                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && poweroff` "shutdown") "|"
-                               (button :class "powermenu-child-button" :onclick `eww update powermenu-is-open=false && reboot` "reboot") "<"))
-                (button :class "powermenu-reveal-button" :onclick `eww update powermenu-is-open=${!powermenu-is-open}` "")))
+                               (button :class "powermenu-child-button" :onclick `${EWW_CMD} update powermenu-is-open=false && eval alacritty` "term") "|"
+                               (button :class "powermenu-child-button" :onclick `${EWW_CMD} update powermenu-is-open=false && bspc quit` "logout") "|"
+                               (button :class "powermenu-child-button" :onclick `${EWW_CMD} update powermenu-is-open=false && poweroff` "shutdown") "|"
+                               (button :class "powermenu-child-button" :onclick `${EWW_CMD} update powermenu-is-open=false && reboot` "reboot") "<"))
+                (button :class "powermenu-reveal-button" :onclick `${EWW_CMD} update powermenu-is-open=${!powermenu-is-open}` "")))
 
-(defwindow main
-           :monitor 0
+
+(defwindow main [screen]
+           :monitor screen
            :geometry (geometry :x "0px"
                                :y "0px"
                                :width "100%"
@@ -109,4 +123,17 @@
            :reserve (struts :distance "50px" :side "top")
            :windowtype "dock"
            :wm-ignore true
-           (bar))
+           (bar :screen screen))
+
+(defwindow external [screen]
+           :monitor screen
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "100%"
+                               :height "18px"
+                               :anchor "bottom center")
+           :stacking "fg"
+           :reserve (struts :distance "50px" :side "top")
+           :windowtype "dock"
+           :wm-ignore true
+           (bar :screen screen))

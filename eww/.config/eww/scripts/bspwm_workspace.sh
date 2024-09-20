@@ -21,16 +21,17 @@ get_ws_icon() {
 }
 
 function get_workspaces_widget {
+    monitor=$1
     workspaces="1 2 3 4 5 6 7 8 9 10"
     occupied=$(bspc query -D --names -d ".occupied")
-    focused=$(bspc query -D --names -d ".focused")
+    focused=$(bspc query -D --names -d "$monitor:focused")
     urgent=$(bspc query -D --names -d ".urgent")
 
     first=true
     buttons=""
     for workspace in $workspaces; do
         ws_occupied=$(bspc query -D --names -d ".occupied" | grep "^$workspace$")
-        ws_focused=$(bspc query -D -d ".focused" --names | grep "^$workspace$")
+        ws_focused=$(bspc query -D -d "$monitor:focused" --names | grep "^$workspace$")
         ws_urgent=$(bspc query -D -d ".urgent" --names | grep "^$workspace$")
         # echo "$workspace $ws_occupied $ws_focused $ws_urgent"
 
@@ -58,7 +59,26 @@ function get_workspaces_widget {
     echo $widget
 }
 
-get_workspaces_widget
+function get_workspaces_widgets {
+    monitors=$(bspc query -M --names)
+    first=true
+    widgets=""
+    while IFS= read -r monitor; do
+        widget=$(get_workspaces_widget $monitor)
+        if [ "$first" = true ]; then
+            first=false
+        else
+            # widgets+="'|'"  # eww does not center icons correctly, so including | here looks bad :(
+            widgets+=","
+        fi
+        widgets+="\"$monitor\": \"$widget\""
+    done <<< "$monitors"
+
+    echo "{$widgets}"
+}
+
+
+get_workspaces_widgets $1
 bspc subscribe all | while read -r _ ; do
-get_workspaces_widget
+get_workspaces_widgets $1
 done
