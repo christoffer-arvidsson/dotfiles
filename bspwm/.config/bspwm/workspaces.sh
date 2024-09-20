@@ -48,10 +48,10 @@ echo_workspaces() {
         occupied=$(bspc query -D --names -d ".occupied" | grep "^$workspace$")
         focused=$(bspc query -D -d "$MONITOR:focused" --names | grep "^$workspace$")
         urgent=$(bspc query -D -d ".urgent" --names | grep "^$workspace$")
-        if [[ "$workspace" == "$focused" ]]; then
-            ws_fg=$ws_focused_fg
-        elif [[ "$workspace" == "$urgent" ]]; then
+        if [[ "$workspace" == "$urgent" ]]; then
             ws_fg=$ws_urgent_fg
+        elif [[ "$workspace" == "$focused" ]]; then
+            ws_fg=$ws_focused_fg
         elif [[ "$workspace" == "$occupied" ]]; then
             ws_fg=$ws_occupied_fg
         else
