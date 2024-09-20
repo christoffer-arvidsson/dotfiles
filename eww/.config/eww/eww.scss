@@ -20,8 +20,8 @@ $alert: #E75D5D;
 $highlight: $base08;
 $soft-highlight: #ad8c79;
 $positive: $base0B;
-$inactive: #606060;
-$occupied: #edfffc;
+$inactive: #777780;
+$occupied: $fg;
 $positive: $base0B;
 
 
@@ -39,9 +39,19 @@ $positive: $base0B;
     color: $fg;
 }
 
+.music-icon,
+.music-prev,
+.music-playpause,
+.music-next,
+.do-not-disturb,
+.slider,
+.music-prefix {
+    margin-top: 1px;
+}
+
 .widget {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 .slider scale trough highlight {
@@ -51,7 +61,7 @@ $positive: $base0B;
 }
 
 .slider scale trough {
-  background-color: $occupied;
+  background-color: $inactive;
   border-radius: 50px;
   min-height: 3px;
   min-width: 50px;
@@ -78,6 +88,7 @@ $positive: $base0B;
 .powermenu-child-button,
 .do-not-disturb-button,
 .workspaces button {
+    min-width: 18px;
     text-decoration: none;
     -o-transition:.2s;
     -ms-transition:.2s;
@@ -89,6 +100,7 @@ $positive: $base0B;
 
 .workspaces button {
     min-width: 24px;
+    padding-top: 2px;
 }
 
 .music-prev:hover,
