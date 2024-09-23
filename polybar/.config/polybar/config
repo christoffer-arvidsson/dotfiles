@@ -206,9 +206,9 @@ label-urgent-font = 2
 
 [module/bspwm-new]
 type = custom/script
-exec = ~/.config/bspwm/workspaces.sh
+exec = ~/.config/bspwm/workspaces.py
 tail = true
-interval = 0.1
+interval = 0.10
 
 [module/bspwm]
 type = internal/bspwm
