@@ -38,14 +38,16 @@ def get_xresources():
 XRESOURCES = get_xresources()
 
 COLOR_OCCUPIED = "CAFFF9E8"
-COLOR_FOCUSED = XRESOURCES["highlight"]
+COLOR_FOCUSED_THIS_MONITOR = XRESOURCES["highlight"]
+COLOR_FOCUSED_OTHER_MONITOR = XRESOURCES["highlight2"]
 COLOR_EMPTY = XRESOURCES["inactive"]
 COLOR_URGENT = XRESOURCES["alert"]
 
 @dataclass
 class Workspace:
     name: str
-    is_focused: bool
+    is_focused_this_monitor: bool
+    is_focused_other_monitor: bool
     is_empty: bool
     is_urgent: bool
 
@@ -85,14 +87,15 @@ def get_workspaces(bspwm_state: Dict[str, Any], bar_monitor_name: str) -> List[W
                 continue
 
             workspace_id = workspace["id"]
-            is_focused = workspace_id == focused_workspace and bar_monitor_name == monitor_name
+            is_focused_this_monitor = workspace_id == focused_workspace and bar_monitor_name == monitor_name
+            is_focused_other_monitor = workspace_id == focused_workspace and bar_monitor_name != monitor_name
             is_empty = workspace["root"] is None
             if not is_empty:
                 is_urgent = get_if_urgent(workspace["root"])
             else:
                 is_urgent = False
 
-            workspaces.append(Workspace(workspace_name, is_focused, is_empty, is_urgent))
+            workspaces.append(Workspace(workspace_name, is_focused_this_monitor, is_focused_other_monitor, is_empty, is_urgent))
 
     return workspaces
 
@@ -104,8 +107,10 @@ def render_widget(workspaces: List[Workspace]) -> str:
         color=COLOR_OCCUPIED
         if w.is_urgent:
             color=COLOR_URGENT
-        elif w.is_focused:
-            color=COLOR_FOCUSED
+        elif w.is_focused_this_monitor:
+            color=COLOR_FOCUSED_THIS_MONITOR
+        elif w.is_focused_other_monitor:
+            color=COLOR_FOCUSED_OTHER_MONITOR
         elif w.is_empty:
             color=COLOR_EMPTY
 

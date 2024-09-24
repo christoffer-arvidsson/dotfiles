@@ -21,6 +21,7 @@ Xft.dpi: 90
 ! Other colors
 alert: #E75D5D
 highlight: base08
+highlight2: base0B
 soft-highlight: #ad8c79
 positive: base0B
 inactive: #55BFA89E
