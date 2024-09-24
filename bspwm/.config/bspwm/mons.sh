@@ -24,7 +24,7 @@ function monitor_add() {
     done
 
     # # remove default desktop
-    bspc desktop -r Desktop
+    bspc desktop -r temp
 
     # Reorder
     bspc wm -O "$1" "%$PRIMARY_MONITOR"
@@ -32,7 +32,7 @@ function monitor_add() {
 
 function monitor_remove() {
     # # add temp desktop
-    bspc monitor "%$1" -a Desktop
+    bspc monitor "%$1" -a temp
 
     # move all workspaces to primary
     for desktop in $(bspc query -D -m "%$1"); do
@@ -82,8 +82,6 @@ function undock() {
     for i in ${!EXTERNAL_MONITORS[@]}; do
         monitor_remove ${EXTERNAL_MONITORS[$i]}
     done
-
-    bspc monitor "%$PRIMARY_MONITOR" -d 1 2 3 4 5 6 7 8 9 10
 
     cmd="nvidia-settings --assign \"CurrentMetaMode="
     cmd="$cmd$(nvidia_command $PRIMARY_MONITOR '+0+0')"
