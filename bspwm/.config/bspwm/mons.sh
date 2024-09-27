@@ -70,11 +70,6 @@ function dock() {
 
     cmd=$(assemble_nvidia_command)
     eval $cmd
-
-    # Move desktops to externals
-    # for i in ${!EXTERNAL_MONITORS[@]}; do
-    #     monitor_add ${EXTERNAL_MONITORS[$i]} ${per_ext[$i]}
-    # done
 }
 
 function undock() {
