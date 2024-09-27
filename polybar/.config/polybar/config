@@ -46,14 +46,9 @@ wm-restack = bspwm
 [bar/station-topbar]
 inherit = bar/base
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next bspwm-windows bspwm-modes
+modules-left = tray spotify spotify-prev spotify-play-pause spotify-next bspwm-windows bspwm-modes
 modules-center = bspwm-new
 modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status eth date time powermenu
-
-tray-position = left
-tray-padding = 10
-tray-background = ${self.background}
-tray-detached = false
 
 [bar/shuttle-topbar]
 inherit = bar/base
@@ -62,7 +57,7 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify bspwm-windows bspwm-modes
+modules-left = tray spotify bspwm-windows bspwm-modes
 modules-center = bspwm
 modules-right = do-not-disturb volume filesystem temperature vpn-openvpn-status wlan battery date time powermenu
 
@@ -78,7 +73,7 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
+modules-left = tray spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
 modules-center = bspwm-new
 modules-right = do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
 
@@ -100,6 +95,11 @@ modules-center = bspwm-new
 modules-right = temperature date time powermenu
 
 wm-restack = bspwm
+
+[module/tray]
+type = internal/tray
+tray-padding = 10
+tray-background = ${self.background}
 
 [module/vpn-openvpn-status]
 type = custom/script
