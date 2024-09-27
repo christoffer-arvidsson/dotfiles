@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 if [ -e /tmp/do_not_disturb_status ]
 then

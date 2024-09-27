@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 pid=`pidof dunst`
 if [ -e /tmp/do_not_disturb_status ]
 then

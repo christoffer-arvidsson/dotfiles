@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env sh
 declare -i border
 declare -i plus
 

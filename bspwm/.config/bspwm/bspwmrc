@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 xset r rate 250 100
 xset +fp "$HOME/.fonts"
@@ -23,7 +23,7 @@ function run {
 }
 
 # Make sxhkd fast by not using fish
-export SXHKD_SHELL='/usr/bin/sh'
+export SXHKD_SHELL='/usr/bin/env sh'
 SXHKD_COMMON_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-common"
 SXHKD_BSPWM_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-bspwm"
 run sxhkd -c $SXHKD_COMMON_CONFIG_PATH $SXHKD_BSPWM_CONFIG_PATH

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 name=`bluetoothctl info | grep "Name" | sed 's/^.*: //'`
 onoff=`bluetoothctl show | grep "Powered" | sed 's/^.*: //'`

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 emacs_server_is_running () {
     ps -ef | grep [e]macsserver > /dev/null
 }

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 IFACE=$(ip addr | grep ppp0: | awk '{print $2}')
 

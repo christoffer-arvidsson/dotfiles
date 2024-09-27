@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Set the source audio player here.
 # Players supporting the MPRIS spec are supported.

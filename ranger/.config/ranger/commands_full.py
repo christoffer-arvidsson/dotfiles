@@ -1103,7 +1103,7 @@ class bulkrename(Command):
         script_was_edited = (script_content != cmdfile.read())
 
         # Do the renaming
-        self.fm.run(['/bin/sh', cmdfile.name], flags='w')
+        self.fm.run(['/usr/bin/env sh', cmdfile.name], flags='w')
         cmdfile.close()
 
         # Retag the files, but only if the script wasn't changed during review,

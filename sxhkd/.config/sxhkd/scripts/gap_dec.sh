@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env sh
 declare -i gap
 declare -i minus
 

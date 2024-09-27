@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 id="${1?}" \
 instance="$3" \
