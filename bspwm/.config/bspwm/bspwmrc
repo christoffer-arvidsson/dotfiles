@@ -23,7 +23,7 @@ function run {
 }
 
 # Make sxhkd fast by not using fish
-export SXHKD_SHELL='/usr/bin/env sh'
+export SXHKD_SHELL='/bin/sh'
 SXHKD_COMMON_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-common"
 SXHKD_BSPWM_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-bspwm"
 run sxhkd -c $SXHKD_COMMON_CONFIG_PATH $SXHKD_BSPWM_CONFIG_PATH
