@@ -45,9 +45,14 @@ else if command -v exa >/dev/null 2>&1
 end
 if command -v bat >/dev/null 2>&1
     alias cat="bat"
-    # use bat for man
+end
+
+if command -v nvim >/dev/null 2>&1
     export MANROFFOPT="-c"
-    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANPAGER="nvim +Man!"
+else if command -v vim >/dev/null 2>&1
+    export MANROFFOPT="-c"
+    export MANPAGER="sh -c 'col -bx | vim -'"
 end
 
 if command -v tmux >/dev/null 2>&1
