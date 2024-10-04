@@ -386,7 +386,7 @@ label-font = 1
 type = internal/date
 interval = 100
 
-date = " %a %e %b"
+date = " W%W %a %e %b"
 date-alt = " %Y-%m-%d"
 
 format-prefix-foreground = ${colors.top-foreground}
