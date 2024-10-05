@@ -13,7 +13,7 @@ function get_color {
 }
 
 color_soft_highlight=$(get_color "soft-highlight")
-color_base00=$(get_clor "base00")
+color_base00=$(get_color "base00")
 
 function run {
     if ! pgrep $1 ;
