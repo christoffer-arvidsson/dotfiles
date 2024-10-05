@@ -3,4 +3,6 @@ tag="p e1 e2"
 prim="msg music"
 p_offset="+0+0"
 per_ext=("web code opt3 opt4" "opt1 opt2 opt5 opt6")
-offsets=("+1920+0" "+3840+0")
+offsets=("+3840+0" "+5760+0")
+p_scale="0.5x0.5"
+scale=("1.0x1.0" "1.0x1.0")

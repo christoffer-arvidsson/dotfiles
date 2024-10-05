@@ -7,6 +7,8 @@
 
 # TODO: Consider that e1 might have to be right of e2 sometimes
 
+set -x
+
 function get_num_monitors {
     xrandr | grep ' connected' | wc -l
 }
@@ -61,6 +63,17 @@ function assemble_nvidia_command() {
     echo $cmd
 }
 
+function set_display_scales() {
+    echo "$p_scale $p_offset ${offsets[@]} ${scales[@]}"
+    cmd="xrandr --output $PRIMARY_MONITOR --scale $p_scale --filter nearest "
+    for i in ${!EXTERNAL_MONITORS[@]}; do
+        echo ${EXTERNAL_MONITORS[@]}
+        cmd="$cmd --output ${EXTERNAL_MONITORS[$i]} --scale ${scales[$i]} --filter nearest"
+    done
+
+    eval $cmd
+}
+
 function dock() {
     # Load layout from selected file
     n_monitors=$(get_num_monitors)
@@ -70,10 +83,15 @@ function dock() {
 
     cmd=$(assemble_nvidia_command)
     eval $cmd
+
+    set_display_scales
 }
 
 function undock() {
     echo "Undocking"
+    layout=$1
+    source ~/.config/bspwm/monitors/undocked.layout
+
     for i in ${!EXTERNAL_MONITORS[@]}; do
         monitor_remove ${EXTERNAL_MONITORS[$i]}
     done
@@ -82,6 +100,9 @@ function undock() {
     cmd="$cmd$(nvidia_command $PRIMARY_MONITOR '+0+0')"
     cmd="$cmd\""
     eval $cmd
+
+    xrandr --output $PRIMARY_MONITOR --scale $p_scale --filter nearest
+
 }
 
 function main() {
@@ -109,7 +130,8 @@ function main() {
             echo "Selected $selected"
 
             case $selected in
-                "undocked.layout") undock ;;
+                "undocked.layout")
+                    undock ;;
                 "")
                     echo "cancelled"
                     exit 0
@@ -126,9 +148,8 @@ function main() {
     esac
 
     sleep 1
-
-    feh --bg-scale $WALLPAPER --stretch
     ~/.config/polybar/scripts/launch.sh
+    feh --bg-scale $WALLPAPER --stretch
 }
 
 main $1

@@ -5,7 +5,7 @@
 # Wait until the processes have been shut down
 while pgrep -u $(id -u) -x polybar >/dev/null
 do
-    killall polybar
+    killall -s SIGKILL polybar
     sleep 0.1
 done
 

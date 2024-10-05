@@ -4,5 +4,7 @@ prim="opt2 opt3 opt4 opt5 opt6 music"
 per_ext=("msg web code")
 p_offset="+320+1080"
 offsets=("+0+0")
+p_scale="0.5x0.5"
+scale=("1.0x1.0")
 
 
