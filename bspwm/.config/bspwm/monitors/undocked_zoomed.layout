@@ -1,8 +1,8 @@
-description="work layout"
-tag="(p)"
+description="undocked, but with a zoomed in primary screen"
+    tag="(p)"
 prim="web code opt1 opt2 opt3 opt4 opt5 opt6 msg music"
 per_ext=()
 p_offset="0x0"
 offsets=()
-p_scale="0.60x0.60"
+p_scale="0.6x0.6"
 scales=()
