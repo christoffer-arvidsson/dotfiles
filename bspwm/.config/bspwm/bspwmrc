@@ -98,10 +98,10 @@ elif [ "$(hostname)" = "shuttle" ]; then
     # run mullvad-vpn &
     run discord-canary &
     ~/.config/bspwm/mons.sh startup
-elif [ "$(hostname)" = "ucnd1387l61" ]; then
-    export WALLPAPER="$HOME/.wallpaper.png"
+elif [ "$(hostname)" = "u5cg4373yhk" ]; then
+    export WALLPAPER="$HOME/dotfiles/.img/space.jpg"
     ~/.config/bspwm/mons.sh 0
-    run compton &
+    run picom &
     run dropbox start &
     run slack &
     run teams-for-linux &
