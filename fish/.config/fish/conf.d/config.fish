@@ -23,6 +23,8 @@ bind -s -M insert \cn down-or-search
 bind -M normal \cf "~/.config/scripts/tmux_sessionizer.sh"
 bind -M insert \cf "~/.config/scripts/tmux_sessionizer.sh"
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # Ssh-agent
 if test -z (pgrep ssh-agent | string collect)
     eval (ssh-agent -c)
