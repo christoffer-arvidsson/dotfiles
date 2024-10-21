@@ -8,10 +8,10 @@ padding.y = 0
 dynamic_padding = true
 
 [font]
-normal.family = "Iosevka"
-bold.family = "Iosevka"
-italic.family = "Iosevka"
-bold_italic.family = "Iosevka"
+normal.family = "Iosevka Nerd Font Mono"
+bold.family = "Iosevka Nerd Font Mono"
+italic.family = "Iosevka Nerd Font Mono"
+bold_italic.family = "Iosevka Nerd Font Mono"
 size = 9
 
 [scrolling]
