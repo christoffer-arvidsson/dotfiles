@@ -99,6 +99,9 @@ elif [ "$(hostname)" = "shuttle" ]; then
     ~/.config/bspwm/mons.sh startup
 elif [ "$(hostname)" = "u5cg4373yhk" ]; then
     export WALLPAPER="$HOME/dotfiles/.img/space.jpg"
+    xrandr --output DP-0 --off --output DP-1 --off \
+           --output DP-2 --off --output HDMI-0 --off \
+           --output DP-3 --primary --mode 3840x2400 --pos 0x0 --rotate normal
     ~/.config/bspwm/mons.sh 0
     run picom &
     run dropbox start &
