@@ -79,18 +79,17 @@ run spotify --force-device-scale-factor=0.75 &
 
 if [ "$(hostname)" = "station" ]; then
     export WALLPAPER="$HOME/.dotfiles/.img/space.jpg "
+    ~/.config/bspwm/mons_xrandr.sh startup
+    ~/.config/bspwm/mons_xrandr.sh 2_hor.layout
     # run picom --config ~/.config/picom/picom.conf &
     run redshift &
     run easyeffects --gapplication-service &
-
     # run steam-native &
     run dropbox &
     # run mullvad-vpn &
     # run cinny &
     run zotero --headless &
     run discord-canary &
-    ~/.config/bspwm/mons.sh startup
-    ~/.config/bspwm/mons.sh 2_hor.layout
 elif [ "$(hostname)" = "shuttle" ]; then
     export WALLPAPER="/$HOME/.dotfiles/.img/space.jpg "
     run picom --config ~/.config/picom/picom.conf &
