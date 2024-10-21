@@ -58,6 +58,9 @@ if command -v tmux >/dev/null 2>&1
     alias ts="~/.config/scripts/tmux_sessionizer.sh"
 end
 
+# feh
+alias feh="feh --draw-filename -B 'black' --scale-down -R 5" 
+
 # pyenv
 if command -v pyenv > /dev/null 2>&1
     status --is-interactive; and pyenv init - | source
