@@ -70,7 +70,7 @@ font-2 = Material\ Icons:size=10
 
 modules-left = tray spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
 modules-center = bspwm-new
-modules-right = do-not-disturb volume backlight filesystem temperature lsv-status vpn-openvpn-status wlan battery date time powermenu
+modules-right = do-not-disturb volume backlight filesystem temperature vpn-openvpn-status wlan-work battery date time powermenu
 
 wm-restack = bspwm
 
@@ -332,6 +332,31 @@ format-prefix = " "
 format-prefix-foreground = ${colors.top-Foreground}
 label = %percentage_used%%
 
+[module/wlan-work]
+type = internal/network
+interface = wlp0s20f3
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-prefix = 1
+label-connected = %essid%
+label-connected-foreground = ${colors.top-foreground}
+
+;format-disconnected-prefix = " "
+;format-disconnected-prefix-font = 3
+;format-disconnected = no network
+format-disconnected = <label-disconnected>
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.top-foreground}
+
+label-disconnected = 
+label-disconnected-font = 3
+label-disconnected-foreground = ${colors.top-foreground}
+
+ramp-signal-0 = 
+ramp-signal-font = 3
+ramp-signal-foreground = ${colors.top-foreground}
+
 [module/wlan]
 type = internal/network
 interface = wlo1
@@ -544,12 +569,6 @@ type = custom/script
 interval = 10
 label-font = 1
 exec = ~/.config/polybar/scripts/mail/num_unread.sh
-
-[module/lsv-status]
-type = custom/script
-interval = 1
-label-font = 1
-exec = ~/.config/polybar/scripts/lsv/lsv_status.sh
 
 [module/emacs-pomodoro]
 type = custom/script
