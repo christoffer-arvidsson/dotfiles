@@ -49,10 +49,7 @@ if command -v bat >/dev/null 2>&1
     alias cat="bat"
 end
 
-if command -v nvim >/dev/null 2>&1
-    export MANROFFOPT="-c"
-    export MANPAGER="nvim +Man!"
-else if command -v vim >/dev/null 2>&1
+if command -v vim >/dev/null 2>&1
     export MANROFFOPT="-c"
     export MANPAGER="sh -c 'col -bx | vim -'"
 end
