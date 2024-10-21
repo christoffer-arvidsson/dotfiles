@@ -1,8 +1,8 @@
 description="Horizontal layout (p e1 e2)"
 tag="p e1 e2"
 prim="msg music"
-p_offset="+0+0"
+p_offset="0x0"
 per_ext=("web code opt3 opt4" "opt1 opt2 opt5 opt6")
-offsets=("+3840+0" "+5760+0")
+offsets=("3840x0" "5760x0")
 p_scale="0.5x0.5"
-scale=("1.0x1.0" "1.0x1.0")
+scales=("1.0x1.0" "1.0x1.0")
