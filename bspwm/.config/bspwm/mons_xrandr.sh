@@ -52,13 +52,13 @@ function set_xrandr() {
         monitor="${EXTERNAL_MONITORS[$i]}"
         res=$(get_monitor_resolution "$monitor")
 
-        # if [ $i -lt ${#offsets[@]} ] && [ $i -lt ${#scales[@]} ]; then
+        if [ $i -lt ${#offsets[@]} ] && [ $i -lt ${#scales[@]} ]; then
             # Valid index, set the external monitor with resolution, offsets, and scales
             cmd="$cmd --output "$monitor" --mode "${res}" --pos ${offsets[$i]} --scale ${scales[$i]} --filter nearest"
-        # else
+        else
         #     # Out of bounds, turn off the monitor
-        #     cmd="$cmd --output "$monitor" --off"
-        # fi
+            cmd="$cmd --output "$monitor" --off --scale 1.0x1.0"
+        fi
     done
 
     eval $cmd
@@ -130,7 +130,7 @@ function main() {
 
     sleep 1
     ~/.config/polybar/scripts/launch.sh
-    feh --bg-scale "$HOME/.dotfiles/.img/space.jpg"  --stretch
+    feh --bg-scale "$HOME/dotfiles/.img/space.jpg"  --stretch
 }
 
 main $1
