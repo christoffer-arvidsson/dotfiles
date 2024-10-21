@@ -11,7 +11,15 @@ ACTIVE=`nmcli con show --active | grep "$VPN"`
 
 if [ -z "$ACTIVE" ]
 then
-    nmcli con up id "$VPN"
+    password=$(zenity --password --title="Enter VPN password")
+    # If the user cancels or enters an empty password, exit
+    if [ -z "$password" ]
+    then
+        exit 1
+    fi
+
+    echo $password | nmcli con up id "$VPN" --ask
+
 else
     nmcli con down id "$VPN"
 fi

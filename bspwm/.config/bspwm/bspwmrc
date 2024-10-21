@@ -61,6 +61,7 @@ bspc rule -a Sioyek state=tiled
 bspc rule -a termite state=tiled
 bspc rule -a Steam desktop=7 follow=off
 bspc rule -a mupen64plus state=floating
+bspc rule -a zenity state=floating
 bspc rule -a org-fenix-llanfair-Llanfair state=floating
 bspc rule -a matplotlib state=floating
 bspc rule -a teams desktop=8
