@@ -8,7 +8,7 @@ c.qt.highdpi = True
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = "never"
 c.content.blocking.method = "both"
-c.content.webgl = False
+c.content.webgl = True
 c.content.autoplay = False
 c.content.javascript.clipboard = "access"
 
