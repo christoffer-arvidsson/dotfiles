@@ -59,10 +59,10 @@ if command -v tmux >/dev/null 2>&1
 end
 
 # feh
-alias feh="feh --draw-filename -B 'black' --scale-down -R 5" 
+alias feh="feh --draw-filename -B 'black' --scale-down -R 5"
 
 # pyenv
-if command -v pyenv > /dev/null 2>&1
-    status --is-interactive; and pyenv init - | source
-    status --is-interactive; and pyenv virtualenv-init - | source
-end
+# if command -v pyenv > /dev/null 2>&1
+#     status --is-interactive; and pyenv init - | source
+#     status --is-interactive; and pyenv virtualenv-init - | source
+# end
