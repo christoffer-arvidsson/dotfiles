@@ -27,13 +27,13 @@
     width = 400
 
     # The maximum height of a single notification, excluding the frame.
-    height = 400
+    height = (0, 400)
 
     # Position the notification in the top right corner
     origin = top-right
 
     # Offset from the origin
-    offset = 20x50
+    offset = (20, 50)
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -474,4 +474,3 @@
 #    set_stack_tag = "volume"
 #
 # vim: ft=cfg
-
