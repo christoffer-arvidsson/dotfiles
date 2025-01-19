@@ -68,7 +68,7 @@ font-0 = iosevka:size=10
 font-1 = FontAwesome:size=10
 font-2 = Material\ Icons:size=10
 
-modules-left = tray spotify spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
+modules-left = tray spotify-prev spotify-play-pause spotify-next bluetooth-menu bluetooth bspwm-windows bspwm-modes
 modules-center = bspwm-new
 modules-right = do-not-disturb volume backlight filesystem temperature vpn-openvpn-status wlan-work battery date time powermenu
 
