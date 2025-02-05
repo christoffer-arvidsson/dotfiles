@@ -58,6 +58,8 @@ if command -v tmux >/dev/null 2>&1
     alias ts="~/.config/scripts/tmux_sessionizer.sh"
 end
 
+alias em="TERM=xterm-direct emacsclient -s null -nw ./"
+
 # feh
 alias feh="feh --draw-filename -B 'black' --scale-down -R 5"
 
