@@ -149,7 +149,7 @@ function main() {
 
     sleep 1
     ~/.config/polybar/scripts/launch.sh
-    feh --bg-scale $WALLPAPER --stretch
+    feh --bg-scale $HOME/.img/space.jpg --stretch
 }
 
 main $1

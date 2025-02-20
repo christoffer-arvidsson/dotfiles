@@ -4,7 +4,7 @@ Hello! This is the ever changing mess that are my dotfiles.
 #+CAPTION: The (oldish) look
 #+attr_org: :width 720px
 #+NAME:   fig:current
-[[./.img/current.png]]
+[[./wallpaper/.img/current.png]]
 
 | *WM*                  | bspwm             |
 | *OS*                  | arch linux        |

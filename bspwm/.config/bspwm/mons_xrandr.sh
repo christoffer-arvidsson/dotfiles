@@ -130,7 +130,7 @@ function main() {
 
     sleep 1
     ~/.config/polybar/scripts/launch.sh
-    feh --bg-scale "$HOME/dotfiles/.img/space.jpg"  --stretch
+    feh --bg-scale "$HOME/.img/space.jpg"  --stretch
 }
 
 main $1
