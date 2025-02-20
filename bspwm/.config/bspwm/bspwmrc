@@ -78,7 +78,6 @@ run dunst &
 run spotify --force-device-scale-factor=0.75 &
 
 if [ "$(hostname)" = "station" ]; then
-    export WALLPAPER="$HOME/.dotfiles/.img/space.jpg "
     ~/.config/bspwm/mons_xrandr.sh startup
     ~/.config/bspwm/mons_xrandr.sh 2_hor.layout
     # run picom --config ~/.config/picom/picom.conf &
@@ -91,14 +90,12 @@ if [ "$(hostname)" = "station" ]; then
     run zotero --headless &
     run discord-canary &
 elif [ "$(hostname)" = "shuttle" ]; then
-    export WALLPAPER="/$HOME/.dotfiles/.img/space.jpg "
     run picom --config ~/.config/picom/picom.conf &
     run dropbox start &
     # run mullvad-vpn &
     run discord-canary &
     ~/.config/bspwm/mons.sh startup
 elif [ "$(hostname)" = "u5cg4373yhk" ]; then
-    export WALLPAPER="$HOME/dotfiles/.img/space.jpg"
     xrandr --output DP-0 --off --output DP-1 --off \
            --output DP-2 --off --output HDMI-0 --off \
            --output DP-3 --primary --mode 3840x2400 --pos 0x0 --rotate normal
