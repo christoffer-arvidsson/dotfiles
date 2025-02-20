@@ -1,0 +1,30 @@
+* {
+    border: none;
+    font-size: 14px;
+    font-family: "Iosevka Nerd Font Mono";
+    min-height: 14px;
+}
+
+window#waybar {
+    background: transparent;
+    margin: 5px;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    color: #ffffff;
+    background: transparent;
+}
+
+#tags button.occupied {
+    color: #fff9e8;
+}
+
+#tags button.focused {
+    color: #e1986d;
+}
+
+#tags button.urgent {
+    color: #E75D5D;
+}
