@@ -1,26 +1,26 @@
 Xft.dpi: 90
 
 ! Base16
-#define base00 #1c1e26
-#define base01 #1c1e26
-#define base02 #292a49
-#define base03 #7b7c80
-#define base04 #30323a
-#define base05 #dbdbdb
-#define base06 #dbcbba
-#define base07 #dbdbdb
-#define base08 #e1986d
-#define base09 #b5973f
-#define base0A #cba253
-#define base0B #8eaf88
-#define base0C #9aa9af
-#define base0D #aaa0d7
-#define base0E #d495bf
-#define base0F #b78342
+#define base00 #232025  /* Background */
+#define base01 #322f34  /* Darker background */
+#define base02 #3b393e  /* Selection background */
+#define base03 #8f8886  /* Comments, secondary text */
+#define base04 #b0a0cf  /* Dark foreground */
+#define base05 #efd5c5  /* Default foreground */
+#define base06 #f3c09a  /* Light background */
+#define base07 #ffffff  /* Lightest background */
+#define base08 #ff7a5f  /* Red (warmer) */
+#define base09 #d09950  /* Orange/Yellow (warmer) */
+#define base0A #d09950  /* Yellow (warmer) */
+#define base0B #a9c99f  /* Green (warmer) */
+#define base0C #8fcfd0  /* Cyan (warmer) */
+#define base0D #80aadf  /* Blue (warmer) */
+#define base0E #f498c0  /* Magenta (warmer) */
+#define base0F #ff7a5f  /* Brown/Extra (warmer red) */
 
 ! Other colors
 alert: #E75D5D
-highlight: base08
+highlight: base09
 highlight2: base0B
 soft-highlight: #ad8c79
 positive: base0B
