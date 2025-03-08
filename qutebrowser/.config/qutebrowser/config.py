@@ -1,5 +1,8 @@
 config.load_autoconfig()
-config.source("horizon-dark.py")
+
+# Load theme
+config.source("ef-dream.py")
+
 c.url.start_pages = ["qute://start/"]
 c.fonts.web.size.default = 14
 c.fonts.default_family = "iosevka"
