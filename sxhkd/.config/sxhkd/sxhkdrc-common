@@ -74,6 +74,10 @@ super + o; c ; T
 super + {_, shift} + Print
   flameshot gui {-s -c, -c}
 
+# Zoom utility
+super + o ; z
+  zooc
+
 # Audio
 XF86Audio{Play,Stop,Next,Prev}
   playerctl {play-pause,stop,next,previous} -p spotify
