@@ -64,7 +64,7 @@ alias em="TERM=xterm-direct emacsclient -s null -nw ./"
 alias feh="feh --draw-filename -B 'black' --scale-down -R 5"
 
 # pyenv
-# if command -v pyenv > /dev/null 2>&1
-#     status --is-interactive; and pyenv init - | source
-#     status --is-interactive; and pyenv virtualenv-init - | source
-# end
+if command -v pyenv > /dev/null 2>&1
+    status --is-interactive; and pyenv init - | source
+    status --is-interactive; and pyenv virtualenv-init - | source
+end
