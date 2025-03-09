@@ -2,7 +2,7 @@
 
 IFACE=$(ip addr | grep ppp0: | awk '{print $2}')
 
-function get_color {
+get_color () {
     xrdb -query | grep "^$1" | awk '{print $2}'
 }
 
