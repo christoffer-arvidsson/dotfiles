@@ -35,7 +35,7 @@ super + o ; v
 
 ## firefox
 super + o ; b ; f
-  if command -v firefox-nightly > /dev/null; then firefox-nightly; else firefox; fi
+  if command -v firefox-beta > /dev/null; then firefox-beta; else firefox; fi
 ## brave
 super + o ; b ; b
   brave-dev --disable-frame-rate-limit
