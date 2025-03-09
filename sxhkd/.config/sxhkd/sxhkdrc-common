@@ -11,10 +11,10 @@ super + Escape
 super + o ; Return
   alacritty
 ## tmux existing sessions
-super + o ; t
+super + o ; T
   ~/.config/sxhkd/scripts/rofi_tmux.sh
 ## rofi new session
-super + o ; T
+super + o ; t
   ~/.config/sxhkd/scripts/rofi_tmux_sessionizer.sh
 
 ## programs
