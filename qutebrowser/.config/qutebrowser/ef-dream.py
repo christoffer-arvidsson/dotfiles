@@ -1,5 +1,6 @@
 # ef-dream qutebrowser theme
-active = "#5b595e"
+active = "#3b393e"
+inactive = "#1a191c"
 # base colors from ef-dream theme
 base00 = "#232025"  # background
 base01 = "#322f34"  # dark background (selection, tabs)
@@ -246,13 +247,13 @@ c.colors.tabs.indicator.error = base08
 c.colors.tabs.odd.fg = base05
 
 # Background color of unselected odd tabs.
-c.colors.tabs.odd.bg = base01
+c.colors.tabs.odd.bg = inactive
 
 # Foreground color of unselected even tabs.
 c.colors.tabs.even.fg = base05
 
 # Background color of unselected even tabs.
-c.colors.tabs.even.bg = base00
+c.colors.tabs.even.bg = inactive
 
 # Background color of pinned unselected even tabs.
 c.colors.tabs.pinned.even.bg = base0C
