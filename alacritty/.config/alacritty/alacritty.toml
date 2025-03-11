@@ -12,7 +12,7 @@ normal.family = "Iosevka Nerd Font Mono"
 bold.family = "Iosevka Nerd Font Mono"
 italic.family = "Iosevka Nerd Font Mono"
 bold_italic.family = "Iosevka Nerd Font Mono"
-size = 9
+size = 12
 
 [scrolling]
 history = 2000
