@@ -1,0 +1,8 @@
+description="horizontal layout"
+tag="p e"
+prim="web code opt1 opt2 opt3"
+per_ext=("opt4 opt5 opt6 msg music")
+p_offset="0x0"
+offsets=("2304x0")
+p_scale="0.6x0.6"
+scales=("1.0x1.0")
