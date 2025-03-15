@@ -39,7 +39,6 @@ zoxide init fish | source
 starship init fish | source
 
 # alias
-
 if command -v eza >/dev/null 2>&1
     alias ls="eza -l"
 else if command -v exa >/dev/null 2>&1
@@ -67,4 +66,10 @@ alias feh="feh --draw-filename -B 'black' --scale-down -R 5"
 if command -v pyenv > /dev/null 2>&1
     status --is-interactive; and pyenv init - | source
     status --is-interactive; and pyenv virtualenv-init - | source
+end
+
+# Work config
+set work_config_file "$HOME/.config/fish_work/conf.d/work.fish"
+if test -f $work_config_file
+    source $work_config_file
 end
