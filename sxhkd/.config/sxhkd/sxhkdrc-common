@@ -49,6 +49,10 @@ super + o ; b ; Q
 super + o ; P
   ~/.config/sxhkd/scripts/rofi_zotero.py
 
+## Zite
+super + o ; Z
+  ~/.config/sxhkd/scripts/rofi_zite.py
+
 ## emulator games
 super + o ; g ; e
   ~/.config/emulation/rofi_roms.sh

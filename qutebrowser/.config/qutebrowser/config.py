@@ -63,3 +63,5 @@ c.aliases["zotero"] = "spawn --userscript qute-zotero.py"
 config.bind(",z", "zotero")
 c.aliases["Zotero"] = "hint links userscript qute-zotero.py"
 config.bind(",Z", "Zotero")
+c.aliases["zite"] = "spawn --userscript qute-zite.py"
+config.bind(",x", "zite")
