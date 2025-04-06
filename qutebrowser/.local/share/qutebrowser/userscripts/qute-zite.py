@@ -25,7 +25,7 @@ def main():
         exit(1)
     notify(f"Fetching {arxiv_id} and PDF...")
     cmd = [
-        "zite", "fetch", arxiv_id, "--pdf" "--bibtex"
+        "zite", "fetch", arxiv_id, "--pdf"
     ]
     result = subprocess.run(cmd)
     if result.returncode == 1:
