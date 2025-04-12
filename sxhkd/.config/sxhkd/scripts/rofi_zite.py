@@ -12,6 +12,8 @@ import sys
 import json
 import subprocess
 import shlex
+from typing import Any, Dict
+import datetime
 
 HOME = os.environ["HOME"]
 
@@ -61,28 +63,38 @@ def show_error(error_msg, rofi_args=None):
     subprocess.run(["rofi", "-e", error_msg] + rofi_args)
 
 
+def format_entry(entry: Dict[str, Any]) -> str:
+    title = entry["title"]
+    year = datetime.datetime.fromisoformat(entry["date"]).year
+    authors = ", ".join(entry["authors"])
+    return f"""\
+<b>{title}</b>
+<span foreground=\"lightgreen\">({year})</span> <span foreground=\"gray\"><i>{authors}</i></span>
+    """
+
 def main():
     with open(ZITE_INDEX, "r") as f:
         index = json.load(f)
 
-    item_list = [item["pdf_path"].split("/")[-1] for item in index.values()]
-    items_input = "\n".join(item_list)
+    item_list = [format_entry(item) for item in index.values()]
+    items_input = "|".join(item_list)
 
-    rofi_command = ["rofi", "-dmenu", "-format", "i", "-p", "Open Zite PDF:"]
+    rofi_command = ["rofi", "-markup-rows", "-dmenu", "-i", "-format", "i", "-sep", '|', "-eh", "2", "-p", "Open Zite PDF:"]
     rofi = subprocess.run(
         rofi_command, capture_output=True, text=True, input=items_input
     )
     selected_index = rofi.stdout.strip()
-    if not selected_index:
-        return
 
-    file_to_open = list(index.values())[int(selected_index)]["pdf_path"]
+    metadata_path = os.path.join(ZITE_DIR, list(index.values())[int(selected_index)]["metadata_path"])
+    with open(metadata_path, "r") as f:
+        metadata = json.load(f)
+    pdf_path = os.path.join(ZITE_DIR, metadata["pdf_path"])
 
-    if os.path.isfile(file_to_open):
+    if os.path.isfile(pdf_path):
         try:
-            open_file(VIEWER, file_to_open)
+            open_file(VIEWER, pdf_path)
         except FileNotFoundError:
-            viewer_command = open_file(VIEWER, file_to_open, only_return_command=True)
+            viewer_command = open_file(VIEWER, pdf_path, only_return_command=True)
             viewer_command = [str(cmd_part) for cmd_part in viewer_command]
             viewer_command = " ".join(viewer_command)
             show_error(
