@@ -38,6 +38,10 @@ FORMAT_ITEM_WITHOUT_YEAR = "{author} - {title}"
 FORMAT_ITEM_WITHOUT_AUTHOR = "Unknown ({year}) - {title}"
 FORMAT_ITEM_WITHOUT_AUTHOR_AND_YEAR = "Unknown - {title}"
 
+FORMAT_AUTHORS_SINGLE = "{author1}"
+FORMAT_AUTHORS_TWO = "{author1} and {author2}"
+FORMAT_AUTHORS_MULTIPLE = "{author1} et al."
+
 FORMAT_PATH_MAXLEN = 80
 FORMAT_PATH_FULLPATH = False
 FORMAT_PATH_ENDING_FRACTION = 0.5
@@ -139,7 +143,16 @@ def format_authors(author_list):
         String of formatted author list.
 
     """
-    return ", ".join(author_list)
+    if len(author_list) == 1:
+        author_string = FORMAT_AUTHORS_SINGLE.format(author1=author_list[0])
+    elif len(author_list) == 2:
+        author_string = FORMAT_AUTHORS_TWO.format(
+            author1=author_list[0], author2=author_list[1]
+        )
+    else:
+        author_string = FORMAT_AUTHORS_MULTIPLE.format(author1=author_list[0])
+
+    return author_string
 
 
 def format_path(path, maxlen=80, fullpath=False, ending_fraction=0.5):
@@ -197,27 +210,16 @@ def format_item(title, author=None, year=None):
         String representation of time.
 
     """
-    # if author and year:
-    #     item_string = FORMAT_ITEM.format(title=title, author=author, year=year)
-    # elif author:
-    #     item_string = FORMAT_ITEM_WITHOUT_YEAR.format(title=title, author=author)
-    # elif year:
-    #     item_string = FORMAT_ITEM_WITHOUT_AUTHOR.format(title=title, year=year)
-    # else:
-    #     item_string = FORMAT_ITEM_WITHOUT_AUTHOR_AND_YEAR.format(title=title)
+    if author and year:
+        item_string = FORMAT_ITEM.format(title=title, author=author, year=year)
+    elif author:
+        item_string = FORMAT_ITEM_WITHOUT_YEAR.format(title=title, author=author)
+    elif year:
+        item_string = FORMAT_ITEM_WITHOUT_AUTHOR.format(title=title, year=year)
+    else:
+        item_string = FORMAT_ITEM_WITHOUT_AUTHOR_AND_YEAR.format(title=title)
 
-    # return item_string
-
-    if author is None:
-        author = "Unknown"
-
-    if year is None:
-        year = "unkn"
-
-    return f"""\
-<b>{title}</b>
-<span foreground=\"lightgreen\">({year})</span> <span foreground=\"gray\"><i>{author}</i></span>
-    """
+    return item_string
 
 
 def get_item_info(zotero_sqlite_file, query):
@@ -605,7 +607,7 @@ def main(
 
     item_list_with_ids.sort()
     item_list = [item for item, _ in item_list_with_ids]
-    items_input = "|".join(item_list)
+    items_input = "\n".join(item_list)
 
     if list:
         print(items_input)
@@ -613,22 +615,7 @@ def main(
 
     # NOTE: Rofi seems to prefer the first -p argument, so if -p is given in rofi_args,
     # the latter -p argument should be ignored
-    rofi_command = (
-        [
-            "rofi",
-            "-markup-rows",
-            "-dmenu",
-            "-i",
-            "-format",
-            "i",
-            "-sep",
-            "|",
-            "-eh",
-            "2",
-        ]
-        + rofi_args
-        + ["-p", prompt_paper]
-    )
+    rofi_command = ["rofi", "-dmenu", "-format", "i"] + rofi_args + ["-p", prompt_paper]
     rofi = subprocess.run(
         rofi_command, capture_output=True, text=True, input=items_input
     )
