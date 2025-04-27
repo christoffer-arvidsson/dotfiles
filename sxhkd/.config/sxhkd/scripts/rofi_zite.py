@@ -65,7 +65,7 @@ def show_error(error_msg, rofi_args=None):
 
 def format_entry(entry: Dict[str, Any]) -> str:
     title = entry["title"]
-    year = datetime.datetime.fromisoformat(entry["date"]).year
+    year = datetime.datetime.fromisoformat(entry["published_date"]).year
     authors = ", ".join(entry["authors"])
     return f"""\
 <b>{title}</b>
@@ -79,7 +79,7 @@ def main():
     item_list = [format_entry(item) for item in index.values()]
     items_input = "|".join(item_list)
 
-    rofi_command = ["rofi", "-markup-rows", "-dmenu", "-i", "-format", "i", "-sep", '|', "-eh", "2", "-p", "Open Zite PDF:"]
+    rofi_command = ["rofi", "-markup-rows", "-dmenu", "-i", "-format", "i", "-sep", '|', "-eh", "2", "-p", "Open Zite PDF"]
     rofi = subprocess.run(
         rofi_command, capture_output=True, text=True, input=items_input
     )
@@ -88,7 +88,7 @@ def main():
     metadata_path = os.path.join(ZITE_DIR, list(index.values())[int(selected_index)]["metadata_path"])
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
-    pdf_path = os.path.join(ZITE_DIR, metadata["pdf_path"])
+    pdf_path = os.path.join(ZITE_DIR, metadata["pdf"])
 
     if os.path.isfile(pdf_path):
         try:

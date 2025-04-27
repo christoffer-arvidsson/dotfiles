@@ -29,7 +29,7 @@ def main():
 
     notify(f"[zite] Fetching {arxiv_id} and PDF...")
 
-    cmd = ["zite", "fetch", arxiv_id, "--pdf"]
+    cmd = ["zite", "fetch", arxiv_id]
     result = subprocess.run(cmd)
     if result.returncode == 1:
         notify_error(f"[zite] Failed to fetch: {result.stderr}")
