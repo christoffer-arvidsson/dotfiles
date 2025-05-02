@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+source $HOME/.config/sxhkd/scripts/tmux_dirs.sh
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
 
-    selected=$(find ~/.dotfiles ~/dotfiles ~/.config ~/projects ~/Dropbox/org ~/repos ~/repos/work ~/work -mindepth 0 -maxdepth 1 -type d | rofi -dmenu -p "Select directory for tmux session")
+    selected=$(find "${TMUX_DIRS[@]}" -mindepth 0 -maxdepth 1 -type d | rofi -dmenu -p "Select directory for tmux session")
 fi
 
 if [[ -z $selected ]]; then

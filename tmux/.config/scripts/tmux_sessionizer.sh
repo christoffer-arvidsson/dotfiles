@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+source $HOME/.config/sxhkd/scripts/tmux_dirs.txt
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/repos/work ~/dotfiles ~/.dotfiles ~/.config ~/projects ~/Dropbox/org ~/repos ~/work -mindepth 0 -maxdepth 1 -type d | fzf)
+    selected=$(find "${TMUX_DIRS[@]}" -mindepth 0 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

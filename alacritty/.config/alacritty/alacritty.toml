@@ -1,6 +1,5 @@
 general.import = ["ef-dream.toml"]
 general.live_config_reload = true
-terminal.shell = "/bin/fish"
 
 [window]
 padding.x = 10

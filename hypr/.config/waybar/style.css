@@ -1,0 +1,65 @@
+@define-color color-foreground #ceb3a9;
+@define-color color-alert #e75d5d;
+@define-color color-highlight #d09950;
+@define-color color-highlight2 #a9c99f;
+@define-color color-inactive #6d5f58;
+
+
+* {
+    border: none;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+.module {
+    padding: 0 1em;
+}
+
+.modules-left,
+.modules-right {
+    font-family: "Iosevka Nerd Font";
+    font-size: 1.3em;
+}
+
+.modules-center {
+    font-family: "Iosevka Nerd Font Mono";
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    color: @color-foreground;
+}
+
+#workspaces {
+    font-size: 2em;
+}
+
+#workspaces button {
+    color: @color-foreground;
+    padding: 0 0.2em;
+    margin: 0;
+}
+
+#workspaces button.active:not(.hosting-monitor) {
+    color: @color-highlight2;
+}
+
+#workspaces button.active.hosting-monitor {
+    color: @color-highlight;
+}
+
+#workspaces button.empty {
+    color: @color-inactive;
+}
+
+#workspaces button.visible {
+    color: @color-highlight2;
+}
+
+#workspaces button.urgent {
+    color: @color-alert;
+}
+
