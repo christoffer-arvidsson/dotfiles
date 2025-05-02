@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source $HOME/.config/sxhkd/scripts/tmux_dirs.txt
+source $XDG_CONFIG_HOME/sxhkd/scripts/tmux_dirs.sh
 
 if [[ $# -eq 1 ]]; then
     selected=$1
