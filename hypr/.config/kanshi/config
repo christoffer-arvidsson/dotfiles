@@ -1,0 +1,21 @@
+output "LG Electronics LG ULTRAGEAR 101NTEPQZ076" {
+    mode 2560x1440@59.95
+    scale 1.25
+    alias $HOME_1
+}
+
+output "Samsung Display Corp. 0xA029 Unknown" {
+    mode 2560x1440@60.00000
+    scale 2.0
+    alias $INTERNAL
+}
+
+profile undocked {
+    output $INTERNAL enable
+}
+
+profile home_docked {
+    output $INTERNAL enable position 375,1152
+    output $HOME_1 enable position 0,0
+}
+
