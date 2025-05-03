@@ -16,10 +16,10 @@
         // "idle_inhibitor",
         "pulseaudio",
         "network",
-        "power-profiles-daemon",
-        "cpu",
-        "memory",
-        "temperature",
+        // "power-profiles-daemon",
+        // "cpu",
+        // "memory",
+        // "temperature",
         "backlight",
         "keyboard-state",
         "battery",
@@ -30,14 +30,14 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "1":"",
+            "1":"",
             "2":"",
             "3":"",
             "4":"",
-            "5":"",
-            "6":"",
-            "7":"",
-            "8":"",
+            "5":"",
+            "6":"",
+            "7":"",
+            "8":"",
             "9":"",
             "10":""
         },
@@ -97,9 +97,10 @@
     },
     "clock": {
         "timezone": "Europe/Stockholm",
-        "format": "{:%d %b %Y W%V | %H:%M}",
+        "format": "  {:%a %b %d • %H:%M}",
         "tooltip-format": "<big>Calendar</big>\n<tt>{calendar}</tt>",
-        "format-alt": "{:%Y-%m-%d %H:%M}"
+        "format-alt": "  {:%Y-%m-%d W%V • %H:%M}"
+
     },
     "cpu": {
         "format": "{usage}% ",
@@ -117,8 +118,9 @@
         "format-icons": ["", "", ""]
     },
     "backlight": {
-        "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "scroll-step": 2
     },
     "battery": {
         "states": {
@@ -126,11 +128,10 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}",
-        "format-full": "{icon}",
-        "format-charging": "{icon}",
-        "format-plugged": "{icon}",
-        "format-alt": "{time} {icon}",
+        "format": "{icon} {capacity}%",
+        "format-full": "{icon} {capacity}%",
+        "format-charging": "{icon} {capacity}%",
+        "format-plugged": "{icon} {capacity}%",
         "format-icons": {
             "default": ["󰂎", "󱊡", "󱊢", "󱊣"],
             "charging": ["󰢟", "󱊤", "󱊥", "󱊦"],
@@ -150,21 +151,20 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "format-ethernet": "{ifname} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-wifi": "  {essid} ({signalStrength}%)",
+        "format-ethernet": "  {ipaddr}/{cidr}",
+        "format-ethernet": "  {ifname}",
+        "tooltip-format": "  {ifname} via {gwaddr}",
+        "format-linked": "  {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
+        "format": "{icon} {volume}% • {format_source}",
+        "format-bluetooth": "{icon} {volume}% • {format_source}",
+        "format-bluetooth-muted": "󰖁  • {format_source}",
+        "format-muted": "󰖁 • {format_source}",
+        "format-source": " {volume}%",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
@@ -175,7 +175,7 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "hyprctl dispatch togglespecialworkspace pulsemixer"
     },
     "custom/media": {
         "format": "{icon} {text}",
