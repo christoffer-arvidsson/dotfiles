@@ -1,6 +1,6 @@
 output "LG Electronics LG ULTRAGEAR 101NTEPQZ076" {
     mode 2560x1440@59.95
-    scale 1.25
+    scale 1.250000
     alias $HOME_1
 }
 
