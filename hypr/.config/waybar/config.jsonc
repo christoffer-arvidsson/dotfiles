@@ -4,7 +4,8 @@
     "reload_style_on_change": true,
     "modules-left": [
         "tray",
-        "bluetooth",
+        "mpris",
+        // "hyprland/window",
         "hyprland/submap"
         // "custom/media",
     ],
@@ -14,6 +15,7 @@
     "modules-right": [
         // "mpd",
         // "idle_inhibitor",
+        "bluetooth",
         "pulseaudio",
         "network",
         // "power-profiles-daemon",
@@ -21,7 +23,7 @@
         // "memory",
         // "temperature",
         "backlight",
-        "keyboard-state",
+        // "keyboard-state",
         "battery",
         "clock"
         // "custom/power"
@@ -34,19 +36,24 @@
             "2":"",
             "3":"",
             "4":"",
-            "5":"",
-            "6":"",
-            "7":"",
-            "8":"",
             "9":"",
-            "10":""
+            "10":"",
+            "scratch": "",
+            "ranger": "",
+            "htop": "󰈸",
+            "pulsemixer": "󰺢",
+            "empty": "",
+            "persistent": "",
+            "default": ""
         },
         "active-only": false,
         "all-outputs": true,
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "show-special": true,
+        "special-visible-only": true,
         "persistent-workspaces": {
-            "*": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            "*": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "scratch", "htop", "ranger", "pulsemixer"]
         }
     },
     "keyboard-state": {
@@ -92,7 +99,7 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
+        "icon-size": 10,
         "spacing": 10
     },
     "clock": {
@@ -115,12 +122,12 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": ["", "", ""],
     },
     "backlight": {
-        "format": "{icon} {percent}%",
+        "format": "{icon}  {percent}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""],
-        "scroll-step": 2
+        "scroll-step": 2,
     },
     "battery": {
         "states": {
@@ -160,9 +167,9 @@
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{icon} {volume}% • {format_source}",
-        "format-bluetooth": "{icon} {volume}% • {format_source}",
-        "format-bluetooth-muted": "󰖁  • {format_source}",
+        "format": "{icon}  {volume}% • {format_source}",
+        "format-bluetooth": "{icon}  {volume}% • {format_source}",
+        "format-bluetooth-muted": "󰖁   • {format_source}",
         "format-muted": "󰖁 • {format_source}",
         "format-source": " {volume}%",
         "format-source-muted": "",
@@ -214,6 +221,19 @@
         "format": "{}",
         "max-length": 8,
         "default-submap": "normal",
+    },
+    "mpris": {
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "player-icons": {
+            "default": "▶",
+            "mpv": "🎵",
+            "spotify": " "
+        },
+        "status-icons": {
+            "paused": "⏸"
+        },
+        // "ignored-players": ["firefox"]
     }
 }
 

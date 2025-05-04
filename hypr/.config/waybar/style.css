@@ -6,7 +6,7 @@
 
 
 * {
-    border: none;
+    all: unset;
 }
 
 window#waybar {
@@ -33,13 +33,17 @@ window#waybar {
     color: @color-foreground;
 }
 
+button:hover {
+    box-shadow: inset 0 -2px @color-highlight;
+}
+
 #workspaces {
     font-size: 2em;
 }
 
 #workspaces button {
     color: @color-foreground;
-    padding: 0 0.2em;
+    padding: 0 0.4em;
     margin: 0;
 }
 
@@ -62,4 +66,3 @@ window#waybar {
 #workspaces button.urgent {
     color: @color-alert;
 }
-
