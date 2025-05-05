@@ -125,7 +125,7 @@
         "format-icons": ["", "", ""],
     },
     "backlight": {
-        "format": "{icon}  {percent}%",
+        "format": "{icon} {percent}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""],
         "scroll-step": 2,
     },
