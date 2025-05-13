@@ -15,8 +15,10 @@
     "modules-right": [
         // "mpd",
         // "idle_inhibitor",
+        "custom/do-not-disturb",
         "bluetooth",
-        "pulseaudio",
+        "pulseaudio#sink",
+        "pulseaudio#source",
         "network",
         // "power-profiles-daemon",
         // "cpu",
@@ -157,32 +159,34 @@
       }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  {essid} ({signalStrength}%)",
-        "format-ethernet": "  {ipaddr}/{cidr}",
-        "format-ethernet": "  {ifname}",
-        "tooltip-format": "  {ifname} via {gwaddr}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "{icon}",
         "format-linked": "  {ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected",
-    },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{icon}  {volume}% • {format_source}",
-        "format-bluetooth": "{icon}  {volume}% • {format_source}",
-        "format-bluetooth-muted": "󰖁   • {format_source}",
-        "format-muted": "󰖁 • {format_source}",
-        "format-source": " {volume}%",
-        "format-source-muted": "",
+        "format-disconnected": "󰣽",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
+            "wifi": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
+            "ethernet": ["󰣾 ", "󰣴 ", "󰣶 ", "󰣸 ", "󰣺 "]
         },
-        "on-click": "hyprctl dispatch togglespecialworkspace pulsemixer"
+        "tooltip-format-ethernet": "{ifname} via {gwaddr}\nup: {bandwidthUpBytes}\ndown: {bandwidthDownBytes}",
+        "tooltip-format-wifi": "{essid}\nstrength: {signalStrength}%\nfreq: {frequency}"
+    },
+    "pulseaudio#sink": {
+        "format": "{icon}",
+        "format-muted": "󰖁 ",
+        "format-icons": {
+            "default": [" ", " ", " "]
+        },
+        "tooltip-format": "Volume {volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "hyprctl dispatch togglespecialworkspace pulsemixer"
+    },
+    "pulseaudio#source": {
+        "format": "{format_source}",
+        "format-source": " ",
+        "format-source-muted": " ",
+        "tooltip-format": "Volume {volume}%",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "on-click-right": "hyprctl dispatch togglespecialworkspace pulsemixer"
     },
     "custom/media": {
         "format": "{icon} {text}",
@@ -211,7 +215,8 @@
     "bluetooth": {
         // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
         "format": " {status}",
-        "format-disabled": "", // an empty format will hide the module
+        "format-no-controller": "",
+        "format-disabled": "",
         "format-connected": " {num_connections} connected",
         "tooltip-format": "{controller_alias}\t{controller_address}",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
@@ -223,17 +228,34 @@
         "default-submap": "normal",
     },
     "mpris": {
-        "format": "{player_icon} {dynamic}",
-        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "format": "{player_icon} {status_icon} <i>{dynamic}</i>",
+        "format-paused": "{player_icon} {status_icon} <i>{dynamic}</i>",
+        "dynamic-order": ["artist", "album", "title"],
         "player-icons": {
-            "default": "▶",
+            "default": "▶ ",
             "mpv": "🎵",
-            "spotify": " "
+            "spotify": " ",
+            "firefox": " ",
+            "chromium": " "
         },
         "status-icons": {
-            "paused": "⏸"
+            "playing": "▶ ",
+            "paused": "⏸ ",
+            "stopped": " "
         },
-        // "ignored-players": ["firefox"]
+        "ignored-players": []
+    },
+    "custom/do-not-disturb": {
+        "exec": "bash ~/.config/waybar/widgets/do_not_disturb/status.sh",
+        "interval": 60,
+        "signal": 10,
+        "format": "{icon}",
+        "format-icons": {
+            "on": "󰂛 ",
+            "off": "󰂚 "
+        },
+        "on-click": "bash ~/.config/waybar/widgets/do_not_disturb/toggle.sh",
+        "return-type": "json",
     }
 }
 

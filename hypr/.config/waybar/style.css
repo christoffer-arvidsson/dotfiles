@@ -3,6 +3,7 @@
 @define-color color-highlight #d09950;
 @define-color color-highlight2 #a9c99f;
 @define-color color-inactive #6d5f58;
+@define-color color-blue #80aadf;
 
 
 * {
@@ -14,7 +15,7 @@ window#waybar {
 }
 
 .module {
-    padding: 0 1em;
+    padding: 0 0.5em;
 }
 
 .modules-left,
@@ -33,6 +34,11 @@ window#waybar {
     color: @color-foreground;
 }
 
+#custom-do-not-disturb:hover,
+#pulseaudio:hover,
+#pulseaudio:hover,
+#mpris:hover,
+#clock:hover,
 button:hover {
     box-shadow: inset 0 -2px @color-highlight;
 }
@@ -64,5 +70,26 @@ button:hover {
 }
 
 #workspaces button.urgent {
+    color: @color-alert;
+}
+
+#network.disabled,
+#network.disconnected {
+    color: @color-alert;
+}
+
+#pulseaudio.bluetooth {
+    color: @color-blue;
+}
+
+#pulseaudio.source.source-muted {
+    color: @color-alert;
+}
+
+#pulseaudio.sink.sink-muted {
+    color: @color-alert;
+}
+
+#custom-do-not-disturb.on {
     color: @color-alert;
 }
