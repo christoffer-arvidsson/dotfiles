@@ -1,0 +1,261 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top", "position": "top",
+    "reload_style_on_change": true,
+    "modules-left": [
+        "tray",
+        "mpris",
+        // "hyprland/window",
+        "hyprland/submap"
+        // "custom/media",
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        // "mpd",
+        // "idle_inhibitor",
+        "custom/do-not-disturb",
+        "bluetooth",
+        "pulseaudio#sink",
+        "pulseaudio#source",
+        "network",
+        // "power-profiles-daemon",
+        // "cpu",
+        // "memory",
+        // "temperature",
+        "backlight",
+        // "keyboard-state",
+        "battery",
+        "clock"
+        // "custom/power"
+    ],
+    // Modules configuration
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1":"",
+            "2":"",
+            "3":"",
+            "4":"",
+            "9":"",
+            "10":"",
+            "scratch": "",
+            "ranger": "",
+            "htop": "󰈸",
+            "pulsemixer": "󰺢",
+            "empty": "",
+            "persistent": "",
+            "default": ""
+        },
+        "active-only": false,
+        "all-outputs": true,
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "show-special": true,
+        "special-visible-only": true,
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "scratch", "htop", "ranger", "pulsemixer"]
+        }
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 5,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 10,
+        "spacing": 10
+    },
+    "clock": {
+        "timezone": "Europe/Stockholm",
+        "format": "  {:%a %b %d • %H:%M}",
+        "tooltip-format": "<big>Calendar</big>\n<tt>{calendar}</tt>",
+        "format-alt": "  {:%Y-%m-%d W%V • %H:%M}"
+
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""],
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "scroll-step": 2,
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-full": "{icon} {capacity}%",
+        "format-charging": "{icon} {capacity}%",
+        "format-plugged": "{icon} {capacity}%",
+        "format-icons": {
+            "default": ["󰂎", "󱊡", "󱊢", "󱊣"],
+            "charging": ["󰢟", "󱊤", "󱊥", "󱊦"],
+            "plugged": ["󱟢"]
+        },
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+    "network": {
+        "format-wifi": "{icon}",
+        "format-ethernet": "{icon}",
+        "format-linked": "  {ifname} (No IP)",
+        "format-disconnected": "󰣽",
+        "format-icons": {
+            "wifi": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
+            "ethernet": ["󰣾 ", "󰣴 ", "󰣶 ", "󰣸 ", "󰣺 "]
+        },
+        "tooltip-format-ethernet": "{ifname} via {gwaddr}\nup: {bandwidthUpBytes}\ndown: {bandwidthDownBytes}",
+        "tooltip-format-wifi": "{essid}\nstrength: {signalStrength}%\nfreq: {frequency}"
+    },
+    "pulseaudio#sink": {
+        "format": "{icon}",
+        "format-muted": "󰖁 ",
+        "format-icons": {
+            "default": [" ", " ", " "]
+        },
+        "tooltip-format": "Volume {volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "hyprctl dispatch togglespecialworkspace pulsemixer"
+    },
+    "pulseaudio#source": {
+        "format": "{format_source}",
+        "format-source": "",
+        "format-source-muted": "",
+        "tooltip-format": "Volume {volume}%",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "on-click-right": "hyprctl dispatch togglespecialworkspace pulsemixer"
+    },
+    "custom/media": {
+        "format": "{icon} {text}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/power": {
+        "format" : "⏻ ",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+        "menu-actions": {
+            "shutdown": "shutdown",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate"
+        }
+    },
+    "bluetooth": {
+        // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
+        "format": " {status}",
+        "format-no-controller": "",
+        "format-disabled": "",
+        "format-connected": " {num_connections} connected",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+    },
+    "hypeland/submap": {
+        "format": "{}",
+        "max-length": 8,
+        "default-submap": "normal",
+    },
+    "mpris": {
+        "format": "{player_icon} {status_icon} <i>{dynamic}</i>",
+        "format-paused": "{player_icon} {status_icon} <i>{dynamic}</i>",
+        "dynamic-order": ["artist", "album", "title"],
+        "player-icons": {
+            "default": "▶ ",
+            "mpv": "🎵",
+            "spotify": " ",
+            "firefox": " ",
+            "chromium": " "
+        },
+        "status-icons": {
+            "playing": "▶ ",
+            "paused": "⏸ ",
+            "stopped": " "
+        },
+        "ignored-players": []
+    },
+    "custom/do-not-disturb": {
+        "exec": "bash ~/.config/waybar/widgets/do_not_disturb/status.sh",
+        "interval": 60,
+        "signal": 10,
+        "format": "{icon}",
+        "format-icons": {
+            "on": "󰂛 ",
+            "off": "󰂚 "
+        },
+        "on-click": "bash ~/.config/waybar/widgets/do_not_disturb/toggle.sh",
+        "return-type": "json",
+    }
+}
+

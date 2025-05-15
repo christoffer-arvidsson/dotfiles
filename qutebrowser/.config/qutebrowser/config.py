@@ -47,6 +47,10 @@ c.hints.chars = "arstgmneio"
 
 c.window.hide_decoration = True
 
+# Rebind numbered tab focus to not swap tabs if you select the current tab
+for i in range(1, 10):
+    config.bind(f"<Alt-{i}>", f"tab-focus --no-last {i}")
+
 config.unbind("d")
 config.bind("D", "tab-close")
 
