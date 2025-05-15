@@ -182,8 +182,8 @@
     },
     "pulseaudio#source": {
         "format": "{format_source}",
-        "format-source": " ",
-        "format-source-muted": " ",
+        "format-source": "",
+        "format-source-muted": "",
         "tooltip-format": "Volume {volume}%",
         "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
         "on-click-right": "hyprctl dispatch togglespecialworkspace pulsemixer"
