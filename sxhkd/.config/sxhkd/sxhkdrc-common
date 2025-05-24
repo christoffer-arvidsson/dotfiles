@@ -23,9 +23,9 @@ super + {_,shift} + p
 ## scratch terminal
 super + o ; s
   tdrop -m -h 33% -w 45% -x 1% -y 5% -n 1000 -a -f '-e tmux new-session -A -s scratch' alacritty
-## lf
+## ranger
 super + o ; r
-  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e tmux new-session -A -s lf "lf"' alacritty
+  tdrop -m -h 33% -w 45% -x 54% -y 5% -n 2000 -a -f '-e tmux new-session -A -s ranger "ranger"' alacritty
 ## htop
 super + o ; h
   tdrop -m -h 33% -w 45% -x 1% -y 66% -n 3000 -a -f '-e tmux new-session -A -s htop "htop"' alacritty
