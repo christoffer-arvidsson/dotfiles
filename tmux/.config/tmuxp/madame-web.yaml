@@ -1,9 +1,0 @@
-session_name: madame-web
-start_directory: $HOME/repos/madame-web
-windows:
-  - window_name: dev
-    focus: True
-    layout: tiled
-    panes:
-      - clear
-      - clear
