@@ -22,16 +22,16 @@ super + {_,shift} + p
   rofi -show {drun, window} -show-icons
 ## scratch terminal
 super + o ; s
-  tdrop -m -h 80% -w 80% -x 10% -y 10% -n 1000 -a -f '-e tmux new-session -A -s scratch' alacritty
+  ~/.config/sxhkd/scripts/scratch.sh terminal
 ## ranger
 super + o ; r
-  tdrop -m -h 80% -w 80% -x 10% -y 10% -n 2000 -a -f '-e tmux new-session -A -s ranger "ranger"' alacritty
+  ~/.config/sxhkd/scripts/scratch.sh ranger
 ## htop
 super + o ; h
-  tdrop -m -h 80% -w 80% -x 10% -y 10% -n 3000 -a -f '-e tmux new-session -A -s htop "htop"' alacritty
+  ~/.config/sxhkd/scripts/scratch.sh htop
 ## volume
 super + o ; v
-  tdrop -m -h 80% -w 80% -x 10% -y 10% -n 4000 -a -f '-e tmux new-session -A -s pulsemixer "pulsemixer"' alacritty
+  ~/.config/sxhkd/scripts/scratch.sh pulsemixer
 
 ## firefox
 super + o ; b ; f
