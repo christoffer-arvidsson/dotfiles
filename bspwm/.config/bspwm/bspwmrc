@@ -22,7 +22,7 @@ function run {
     fi
 }
 
-# Make sxhkd fast by not using fish
+# Make sxhkd fast by not using login shell
 export SXHKD_SHELL='/bin/sh'
 SXHKD_COMMON_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-common"
 SXHKD_BSPWM_CONFIG_PATH="/home/$USER/.config/sxhkd/sxhkdrc-bspwm"
