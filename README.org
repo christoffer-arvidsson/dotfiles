@@ -9,7 +9,7 @@ Hello! This is the ever changing mess that are my dotfiles.
 | *WM*                  | bspwm             |
 | *OS*                  | arch linux        |
 | *Bar*                 | polybar           |
-| *Shell*               | fish              |
+| *Shell*               | zsh               |
 | *Terminal*            | alacritty         |
 | *Editor*              | null emacs / nvim |
 | *File manager*        | ranger            |
